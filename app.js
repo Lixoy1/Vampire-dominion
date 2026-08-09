@@ -13,7 +13,7 @@ function freshState(){return {
  inspiration:[],wardens:[],otherWardens:[],
  ratingRows:[],ratingManuscripts:Object.fromEntries(ATTRS.map(a=>[a,''])),scrolls:{high:'',mid:'',simple:'',star:6},
  resource:{type:'Кровь',one:'',counts:Object.fromEntries(D.resourceMultipliers.map(([n])=>[n,'']))},
- books:Object.fromEntries(['Энциклопедия',...ATTRS].map(a=>[a,{V:'',IV:'',III:'',II:'',I:'',packI15:'',packIII15:''}])),
+ books:Object.fromEntries(['Энциклопедия',...ATTRS].map(a=>[a,{V:'',IV:'',III:'',II:'',I:'',packI15:'',packII15:'',packIII15:''}])),bookPackIIIEach:'',
  tasting:Object.fromEntries(Object.keys(D.tasting).map(n=>[n,''])),misc:{plasma:'',vito:'',trustTotal:'',heirsRB:'',heirsGP:'',heirsS:'',directOther:''},
  closeness:Object.fromEntries(Object.keys(D.closeness).map(n=>[n,''])),closenessGoal:'',
  attraction:Object.fromEntries(Object.keys(D.attraction).map(n=>[n,''])),attractionGoal:''
@@ -89,7 +89,23 @@ $('#addTalentRating').addEventListener('click',()=>{S.ratingRows.push({id:++rati
 function renderRatingManuscripts(){const box=$('#ratingManuscripts');box.innerHTML='';for(const a of ATTRS){const l=document.createElement('label');l.innerHTML=`${a}<input inputmode="numeric" placeholder="0" value="${esc(S.ratingManuscripts[a])}">`;l.querySelector('input').addEventListener('input',e=>{S.ratingManuscripts[a]=e.target.value;recalc()});box.append(l)}}
 
 function renderResourceTokens(){const box=$('#resourceTokenRows');box.innerHTML='';for(const [name,m] of D.resourceMultipliers){const el=document.createElement('div');el.className='counter-item';el.innerHTML=`<span>${esc(name)} · ×${m}</span><input inputmode="numeric" placeholder="0" value="${esc(S.resource.counts[name])}">`;el.querySelector('input').addEventListener('input',e=>{S.resource.counts[name]=e.target.value;recalc()});box.append(el)}}
-function renderBooks(){const tb=$('#bookRows');tb.innerHTML='';for(const a of ['Энциклопедия',...ATTRS]){const tr=document.createElement('tr');tr.innerHTML=`<td>${a}</td>${['V','IV','III','II','I'].map(k=>`<td><input inputmode="numeric" aria-label="${a} ${k}" data-k="${k}" value="${esc(S.books[a][k])}" placeholder="0"></td>`).join('')}`;tr.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',e=>{S.books[a][e.target.dataset.k]=e.target.value;recalc()}));tb.append(tr)}const packs=$('#bookPacks');packs.innerHTML='';for(const a of ['Энциклопедия',...ATTRS]){for(const k of ['packI15','packIII15']){const l=document.createElement('label');l.innerHTML=`${a} · ${k==='packI15'?'I ×15':'III ×15'}<input inputmode="numeric" value="${esc(S.books[a][k])}" placeholder="0">`;l.querySelector('input').addEventListener('input',e=>{S.books[a][k]=e.target.value;recalc()});packs.append(l)}}}
+function renderBooks(){
+ const tb=$('#bookRows');tb.innerHTML='';
+ for(const a of ['Энциклопедия',...ATTRS]){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td>${a}</td>${['V','IV','III','II','I'].map(k=>`<td><input inputmode="numeric" aria-label="${a} ${k}" data-k="${k}" value="${esc(S.books[a][k])}" placeholder="0"></td>`).join('')}`;
+  tr.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',e=>{S.books[a][e.target.dataset.k]=e.target.value;recalc()}));tb.append(tr)
+ }
+ const packValue=$('#packIIIEach');if(packValue){packValue.value=S.bookPackIIIEach;packValue.oninput=e=>{S.bookPackIIIEach=e.target.value;recalc()};}
+ const packs=$('#bookPacks');packs.innerHTML='';
+ for(const a of ['Энциклопедия',...ATTRS]){
+  const group=document.createElement('div');group.className='book-pack-row';
+  group.innerHTML=`<b>${a}</b>${[
+    ['packI15','I','100'],['packII15','II','1000'],['packIII15','III','?']
+   ].map(([k,label,val])=>`<label>Магия ${label}<small>${val==='?'?'15 смотр. · номинал выше':'15 × '+val}</small><input data-k="${k}" inputmode="numeric" value="${esc(S.books[a][k])}" placeholder="0"></label>`).join('')}`;
+  group.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',e=>{S.books[a][e.target.dataset.k]=e.target.value;recalc()}));packs.append(group)
+ }
+}
 function renderTasting(){const box=$('#tastingRows');box.innerHTML='';for(const [name,v] of Object.entries(D.tasting)){const el=document.createElement('div');el.className='counter-item';el.innerHTML=`<span>${name} · +${v}</span><input inputmode="numeric" placeholder="0" value="${esc(S.tasting[name])}">`;el.querySelector('input').addEventListener('input',e=>{S.tasting[name]=e.target.value;recalc()});box.append(el)}}
 function renderItems(type){const defs=D[type],state=S[type],box=$('#'+type+'Rows');box.innerHTML='';for(const [name,range] of Object.entries(defs)){const fixed=range[0]===range[1];const el=document.createElement('div');el.className='item-row';el.innerHTML=`<div><b>${name}</b><div class="meta">${fixed?'+'+range[0]:'+'+range[0]+'…'+range[1]} за предмет</div></div><input inputmode="numeric" placeholder="0" value="${esc(state[name])}">`;el.querySelector('input').addEventListener('input',e=>{state[name]=e.target.value;recalc()});box.append(el)}}
 
@@ -98,7 +114,9 @@ function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.
 
 function recalc(){
  const conc=getConclave();
- setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');const council=parseDefault(S.profile.council,1e6);setText('#conclaveStatus',!conc.councilComplete?`неизвестна стоимость ур. ${conc.missingCostLevels[0]}–${conc.missingCostLevels.at(-1)}`:conc.council===0?'—':council>=conc.council?'хватает':'не хватает');
+ setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
+ const council=parseDefault(S.profile.council,1e6);const councilEntered=String(S.profile.council||'').trim()!=='';const cst=E.requirementStatus(council,conc.council,conc.councilComplete,councilEntered);
+ const ccard=$('#conclaveStatusCard');if(ccard)ccard.className='status-card '+cst.state;setText('#conclaveStatus',cst.label);setText('#conclaveStatusHint',cst.hint);
  $$('#conclaveRows .seal-row').forEach((row,i)=>{const a=ATTRS[i],d=conc.details[a];row.querySelector('[data-out]').textContent=d?`+${fmt(d.direct+d.bookEffect)} · книги +${d.deltaBookPct.toLocaleString('ru-RU',{maximumFractionDigits:1})}%`:'+0'});
  const inspiration=recalcInspirationPills();
  let wGain=0,wBlood=0;
@@ -106,7 +124,8 @@ function recalc(){
  const other=E.otherWatcherGain(S.otherWardens,inspiration);wGain+=other.gain;
  const resource=E.resourceCalc(parseDefault(S.resource.one,1e6),S.resource.counts);setText('#resourceTotal',fmt(resource.total));
  const availBlood=parseDefault(S.profile.blood,1e9)+(S.resource.type==='Кровь'?resource.total:0);setText('#wardenBlood',fmt(wBlood));setText('#wardenGain',fmt(wGain));setText('#wardenBloodStatus',wBlood===0?'—':availBlood>=wBlood?`хватает · запас ${fmt(availBlood-wBlood)}`:`не хватает ${fmt(wBlood-availBlood)}`);
- const books=E.booksCalc(S.books,getBookBonusFinal(conc));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const books=E.booksCalc(S.books,getBookBonusFinal(conc),n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const magicIIIUsed=Object.values(S.books).some(row=>n(row.packIII15)>0);const bh=$('#booksHint');if(bh){bh.className='goal-status';if(magicIIIUsed&&!n(S.bookPackIIIEach)){bh.classList.add('warn');bh.textContent='Есть Магия III, но не указан её номинал. Перепиши число с карточки предмета — до этого Магия III в итог не входит.'}else if(magicIIIUsed){bh.classList.add('good');bh.textContent=`Магия III учтена: по ${intfmt(n(S.bookPackIIIEach))} каждому из 15 смотрителей.`}else{bh.textContent='Добавь только те книги и предметы «Магия», которые собираешься использовать.'}}
  const overallGain=conc.gain+wGain+books.gain+tasting.gain+misc.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
  const parts=[['Конклав',conc.gain],['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain]].filter(x=>x[1]>0);$('#domBreakdown').innerHTML=parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>';
  const tr=E.talentRatingCalc(S.ratingRows,S.ratingManuscripts,{...S.scrolls});setText('#talentWatcherScore',intfmt(tr.watcherScore));setText('#talentManScore',intfmt(tr.manuscriptScore));setText('#talentTotalScore',intfmt(tr.score));setText('#scrollPool',intfmt(tr.scrollPool));setText('#scrollScore',intfmt(tr.scrollScore));$('#talentDetails').innerHTML=tr.details.length?tr.details.map(r=>`<div class="break-row"><span>${esc(r.name||'Смотритель')} · ×${r.star} · EXP ${intfmt(r.exp)}</span><b>+${r.score} · до след. ${intfmt(r.missing)} EXP</b></div>`).join(''):'';
@@ -117,11 +136,14 @@ function goalStatus(id,goal,r){const el=$(id);el.className='goal-status';if(!goa
 
 $('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;renderAll();toast('Данные обнулены')});
 function renderAll(){
- ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;
+ ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;if($('#packIIIEach'))$('#packIIIEach').value=S.bookPackIIIEach;
  renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');recalc();
 }
 
 bindStatic();renderAll();
-const tests=E.selfTests(window.VD_SAMPLES);$('#engineLamp').classList.add(tests.ok?'ok':'bad');$('#engineText').textContent=tests.ok?'Проверка пройдена · расчётный движок готов':'Ошибка самопроверки · не используй расчёт';
+if('scrollRestoration' in history) history.scrollRestoration='manual';
+const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};
+window.addEventListener('load',()=>setTimeout(showHero,40));window.addEventListener('pageshow',e=>{if(e.persisted)setTimeout(showHero,30)});
+const tests=E.selfTests(window.VD_SAMPLES);$('#engineLamp').classList.add(tests.ok?'ok':'bad');$('#engineText').textContent=tests.ok?'Проверка пройдена · расчётный круг стабилен':'Ошибка самопроверки · расчёт временно недоступен';
 if(!tests.ok) console.error('Self tests failed',tests);
 })();

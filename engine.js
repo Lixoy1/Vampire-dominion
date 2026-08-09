@@ -157,11 +157,11 @@
     return {gain:total,details};
   }
 
-  function booksCalc(counts,finalBookBonusPct){
+  function booksCalc(counts,finalBookBonusPct,packIIIEach=0){
     const vals=DATA.books; let total=0; const details={};
     for(const attr of ['Энциклопедия',...ATTRS]){
       const c=(counts&&counts[attr])||{};
-      const raw=num(c.V)*vals.V+num(c.IV)*vals.IV+num(c.III)*vals.III+num(c.II)*vals.II+num(c.I)*vals.I+num(c.packI15)*vals.packI15+num(c.packIII15)*vals.packIII15;
+      const raw=num(c.V)*vals.V+num(c.IV)*vals.IV+num(c.III)*vals.III+num(c.II)*vals.II+num(c.I)*vals.I+num(c.packI15)*vals.packI15+num(c.packII15)*vals.packII15+num(c.packIII15)*Math.max(0,num(packIIIEach))*15;
       let bonus=0;
       if(attr==='Энциклопедия') bonus=ATTRS.reduce((s,a)=>s+num((finalBookBonusPct||{})[a]),0)/4;
       else bonus=num((finalBookBonusPct||{})[attr]);
@@ -200,6 +200,14 @@
     return {score:watcherScore+manuscriptScore+scrollScore,watcherScore,manuscriptScore,scrollScore,scrollPool:pool,scrollStar,details};
   }
   function scrollPool(high,mid,simple){return Math.max(0,num(high))*200+Math.max(0,num(mid))*100+Math.max(0,num(simple))*50;}
+  function requirementStatus(available,required,complete=true,entered=true){
+    available=Math.max(0,num(available)); required=Math.max(0,num(required));
+    if(!complete) return {state:'unknown',label:'нет данных',hint:'Для части выбранных уровней в исходной таблице не указана стоимость.'};
+    if(required===0) return {state:'idle',label:'—',hint:'Выбери повышение печатей.'};
+    if(!entered) return {state:'warn',label:'введи запас',hint:`Для плана нужно ${formatCompact(required)} баллов совета.`};
+    if(available>=required) return {state:'good',label:'хватает',hint:`После прокачки останется ${formatCompact(available-required)}.`};
+    return {state:'bad',label:`не хватает ${formatCompact(required-available)}`,hint:`Есть ${formatCompact(available)} из ${formatCompact(required)}.`};
+  }
 
   function approx(a,b,tol=1e-6){return Math.abs(a-b)<=tol*Math.max(1,Math.abs(b));}
   function selfTests(samples){
@@ -210,17 +218,19 @@
       const cl=closenessCalc(samples.closeness1.counts); tests.push({name:'Близость: заполненный пример',ok:cl.min===samples.closeness1.expected[0]&&cl.max===samples.closeness1.expected[1]&&cl.avg===samples.closeness1.expected[2],got:cl});
       const at=attractionCalc(samples.attraction1.counts); tests.push({name:'Влечение: заполненный пример',ok:at.min===samples.attraction1.expected[0]&&at.max===samples.attraction1.expected[1]&&at.avg===samples.attraction1.expected[2],got:at});
       const tr=talentRatingCalc(samples.talentRating2.rows,samples.talentRating2.manuscripts,samples.talentRating2.scrolls); tests.push({name:'Рейтинг талантов: исправленный пример',ok:tr.score===samples.talentRating2.expected,got:tr.score});
-      const bk=booksCalc(samples.booksFilled.counts,samples.booksFilled.finalBookBonusPct); tests.push({name:'Книги: исправленный заполненный пример',ok:approx(bk.gain,samples.booksFilled.expectedCorrected,1e-9),got:bk.gain});
+      const bk=booksCalc(samples.booksFilled.counts,samples.booksFilled.finalBookBonusPct,0); tests.push({name:'Книги: исправленный заполненный пример',ok:approx(bk.gain,samples.booksFilled.expectedCorrected,1e-9),got:bk.gain});
       const ts=tastingCalc(samples.tastingFilled.counts); tests.push({name:'Дегустация: заполненный пример',ok:ts.gain===samples.tastingFilled.expected,got:ts.gain});
       const ms=miscCalc(samples.miscFilled.input); tests.push({name:'Прочее: заполненный пример',ok:ms.gain===samples.miscFilled.expected,got:ms.gain});
       const missingCost=conclaveCalc({watcherCount:1,seals:{Сила:{current:10,target:11}},attrTotals:{}}); tests.push({name:'Конклав: неизвестная стоимость не считается нулём',ok:missingCost.councilComplete===false&&missingCost.missingCostLevels.includes(11),got:missingCost});
       const incomplete=wardenCalc({name:'Рудра',currentLevel:350,targetLevel:351,talents:[]}); tests.push({name:'Смотритель: без текущих талантов прирост не выдумывается',ok:incomplete.gainReady===false&&incomplete.gain===0&&incomplete.blood>0,got:{gainReady:incomplete.gainReady,gain:incomplete.gain,blood:incomplete.blood}});
       const rc=resourceCalc(1123.23e6,{'Жетон 1':2,'Жетон 3':1,'Карта сбора':1}); tests.push({name:'Сбор ресурсов: множители',ok:rc.total===1123.23e6*(0.2+1+1),got:rc.total});
+      const rs=requirementStatus(10e6,62.44e6,true,true); tests.push({name:'Баллы совета: точный дефицит',ok:rs.state==='bad'&&Math.abs((62.44e6-10e6)-52.44e6)<1,got:rs});
+      const b2=booksCalc({Сила:{packII15:2}},{},0); tests.push({name:'Магия II: 15 × 1000',ok:b2.gain===30000,got:b2.gain});
       tests.push({name:'K/M/B парсер',ok:parseCompact('5,25M')===5250000&&parseCompact('1.2B')===1200000000&&parseCompact('750K')===750000,got:[parseCompact('5,25M'),parseCompact('1.2B'),parseCompact('750K')]});
       const zero=conclaveCalc({watcherCount:0,seals:{},attrTotals:{}}); const zeroBooks=booksCalc({},{}); const zeroRange=closenessCalc({}); const zeroTal=talentRatingCalc([],{},{}); tests.push({name:'Нулевое состояние всех модулей',ok:zero.gain===0&&zero.council===0&&zeroBooks.gain===0&&zeroRange.min===0&&zeroRange.max===0&&zeroTal.score===0,got:{zero,zeroBooks,zeroRange,zeroTal}});
     }catch(e){tests.push({name:'Исключение тестов',ok:false,error:String(e&&e.stack||e)});}
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,parseCompact,formatCompact,conclaveCalc,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

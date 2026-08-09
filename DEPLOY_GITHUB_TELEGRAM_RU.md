@@ -68,7 +68,11 @@
 Telegram WebView может держать кэш. Тогда:
 - полностью закройте Mini App и Telegram;
 - откройте снова;
-- либо временно добавьте к URL `?v=101`, например `https://lixoy1.github.io/Vampire-dominion/?v=101` и сохраните URL в BotFather.
+- либо временно добавьте к URL `?v=14`, например `https://lixoy1.github.io/Vampire-dominion/?v=14` и сохраните URL в BotFather.
 
 ## 7. Безопасность
 Токен бота не нужен внутри этого статического Mini App. Не добавляйте токен BotFather в GitHub, `app.js`, HTML или публичные файлы.
+
+
+## После обновления
+Открой сайт с параметром `?v=14`, например `https://USERNAME.github.io/Vampire-dominion/?v=14`, чтобы браузер не использовал старый кэш.

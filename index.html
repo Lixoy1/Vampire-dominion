@@ -4,8 +4,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#090608">
-  <meta name="description" content="Vampire Dominion — неофициальный калькулятор господства для игроков Наследие Вампиров. Создатель: ОПТИМИСТ @optimist2408">
-  <title>Vampire Dominion by ОПТИМИСТ</title>
+  <meta name="description" content="Vampire Dominion — калькуляторы, ресурсы и гайды для игроков Наследие Вампиров. Создатель: ОПТИМИСТ @optimist2408">
+  <title>Vampire Dominion v1.0.1 by ОПТИМИСТ</title>
   <script src="https://telegram.org/js/telegram-web-app.js?63"></script>
   <script src="https://cdn.jsdelivr.net/npm/hyperformula@3.3.0/dist/hyperformula.full.min.js"></script>
   <link rel="stylesheet" href="styles.css">
@@ -27,7 +27,7 @@
         <div>
           <div class="game-kicker">НАСЛЕДИЕ ВАМПИРОВ</div>
           <h1>Vampire Dominion</h1>
-          <p>Калькулятор господства и планировщик прокачки</p>
+          <p>Универсальный калькулятор, ресурсы и гайды для игроков</p>
         </div>
       </div>
       <div class="creator-chip">
@@ -52,19 +52,56 @@
       </div>
       <div class="blood-line" aria-hidden="true"><span></span></div>
     </section>
+    <section class="breakdown-card" aria-label="Из чего складывается прирост">
+      <div class="breakdown-head"><strong>Из чего складывается прирост</strong><span>в M господства</span></div>
+      <div class="breakdown-grid">
+        <div><span>🌳 Конклав</span><strong id="bdConclave">—</strong></div>
+        <div><span>📚 Книги</span><strong id="bdBooks">—</strong></div>
+        <div><span>🍷 Дегустация</span><strong id="bdTasting">—</strong></div>
+        <div><span>💎 Прочее</span><strong id="bdOther">—</strong></div>
+        <div><span>🧛 Основные смотрители</span><strong id="bdKeepers">—</strong></div>
+        <div><span>👥 Остальные смотрители</span><strong id="bdOthers">—</strong></div>
+      </div>
+    </section>
 
     <nav class="tabs" aria-label="Разделы калькулятора">
-      <button class="tab active" data-tab="profile"><span>♛</span>Профиль</button>
+      <button class="tab active" data-tab="home"><span>⌂</span>Главная</button>
+      <button class="tab" data-tab="profile"><span>♛</span>Господство</button>
       <button class="tab" data-tab="keepers"><span>♟</span>Смотрители</button>
       <button class="tab" data-tab="resources"><span>◈</span>Ресурсы</button>
       <button class="tab" data-tab="others"><span>♜</span>Остальные</button>
+      <button class="tab" data-tab="tools"><span>✦</span>Инструменты</button>
+      <button class="tab" data-tab="guides"><span>?</span>Гайды</button>
       <button class="tab" data-tab="audit"><span>✓</span>Проверка</button>
     </nav>
 
     <main>
-      <section id="tab-profile" class="tab-panel active">
+      <section id="tab-home" class="tab-panel active">
+        <div class="section-head"><div class="section-number">00</div><div><h2>Что хочешь посчитать?</h2><p>Выбери задачу. Все расчёты начинаются с чистого профиля и используют только твои данные.</p></div></div>
+        <div class="home-actions">
+          <button class="task-card" data-go-tab="profile"><strong>👑 Полный прирост господства</strong><span>Конклав, смотрители, книги, кровь, таланты, события и итог.</span></button>
+          <button class="task-card" data-go-tab="keepers"><strong>🧛 Смотрители и таланты</strong><span>Уровни, кровь, Talent EXP, рукописи и прирост каждого смотрителя.</span></button>
+          <button class="task-card" data-go-tab="resources"><strong>🎒 Ресурсы</strong><span>Кровь, сборы, книги, дегустация, доверие и прочие источники.</span></button>
+          <button class="task-card" data-go-tab="tools"><strong>❤️ Близость / Влечение / Таланты</strong><span>Отдельные быстрые калькуляторы без полного расчёта господства.</span></button>
+          <button class="task-card" data-go-tab="guides"><strong>📖 Я новичок — объяснить</strong><span>Что дают атрибуты, где брать ресурсы и как не тратить их впустую.</span></button>
+        </div>
+        <div class="beginner-flow">
+          <h3>Быстрый старт для первого расчёта</h3>
+          <ol>
+            <li>Введи текущее господство, число смотрителей, кровь и баллы совета.</li>
+            <li>Укажи, что хочешь поднять в Конклаве.</li>
+            <li>Добавь только тех смотрителей, которых реально будешь качать.</li>
+            <li>Внеси имеющиеся книги, рукописи, Talent EXP и кровь.</li>
+            <li>Если используешь дополнительные источники — добавь их в «Ресурсы».</li>
+            <li>Проверь итог и блок «Хватает ли ресурсов».</li>
+          </ol>
+          <div class="notice"><strong>Важно:</strong> пустое поле означает «не использую». Никаких данных другого игрока в расчёт не подмешивается.</div>
+        </div>
+      </section>
+
+      <section id="tab-profile" class="tab-panel">
         <div class="section-head"><div class="section-number">01</div><div><h2>Профиль и господство</h2><p>Базовые значения аккаунта. Пустое поле = параметр не используется.</p></div></div>
-        <div class="grid two" id="profileFields"></div>
+        <div id="calcReadiness" class="notice"></div><div class="grid two" id="profileFields"></div>
 
         <div class="section-head"><div class="section-number">02</div><div><h2>Древо конклава</h2><p>Укажи текущий уровень и сколько планируешь повысить.</p></div></div>
         <div id="conclaveFields"></div>
@@ -79,12 +116,36 @@
       <section id="tab-keepers" class="tab-panel">
         <div class="section-head"><div class="section-number">04</div><div><h2>Прокачиваемые смотрители</h2><p>До пяти смотрителей. Неиспользуемый слот оставляй пустым — он не участвует в расчёте.</p></div></div>
         <div class="notice"><strong>Совет ОПТИМИСТА:</strong> сначала заполни смотрителя, затем уровень и только после этого таланты/рукописи.</div>
-        <div id="keeperCards" class="stack"></div>
+        <div id="keeperCards" class="stack"></div><button id="toggleExtraKeepers" class="secondary small-action" type="button">Показать ещё 3 слота смотрителей</button>
       </section>
 
       <section id="tab-resources" class="tab-panel">
-        <div class="section-head"><div class="section-number">05</div><div><h2>Ресурсы и события</h2><p>Вводи только то, что реально планируешь потратить.</p></div></div>
-        <details class="accordion" open><summary><span class="summary-icon">▣</span> Книги</summary><div id="booksFields"></div></details>
+        <div class="section-head"><div class="section-number">05</div><div><h2>Ресурсы и события</h2><p>Вводи только свои запасы и только то, что планируешь использовать.</p></div></div>
+        <details class="accordion" open>
+          <summary><span class="summary-icon">🩸</span> Кровь: запас, сборы и предметы</summary>
+          <div class="tool-content">
+            <p class="muted">«За 1 сбор» — сколько крови ты получаешь за один обычный сбор в замке. Карты и жетоны умножают это значение; флакон и бутыль дают фиксированный объём.</p>
+            <div id="bloodGatherFields" class="grid two"></div>
+            <div class="resource-audit">
+              <div><span>Есть сейчас</span><strong id="bloodNow">—</strong></div>
+              <div><span>Можно получить</span><strong id="bloodExtra">—</strong></div>
+              <div><span>Всего доступно</span><strong id="bloodTotal">—</strong></div>
+              <div><span>Нужно по плану</span><strong id="bloodNeed">—</strong></div>
+              <div><span>Остаток / нехватка</span><strong id="bloodBalance">—</strong></div>
+            </div>
+          </div>
+        </details>
+        <details class="accordion" open><summary><span class="summary-icon">▣</span> Книги</summary><div id="booksFields"></div>
+          <div class="status-card tool-status"><span>Прирост от всех книг</span><strong id="booksGain">—</strong><small>С учётом бонуса книг Конклава.</small></div>
+        </details>
+        <details class="accordion">
+          <summary><span class="summary-icon">⚖</span> Куда распределяются книги</summary>
+          <div class="tool-content">
+            <p class="muted">Этот блок нужен для точного расчёта дополнительного эффекта Конклава на книги. Для каждого атрибута укажи фактическую прибавку, которую получат до 5 смотрителей, и единицу K/M.</p>
+            <div id="bookAllocationFields"></div>
+            <div class="notice subtle"><strong>Совет:</strong> красные книги — Сила, фиолетовые — Харизма, зелёные — Интеллект, синие — Воля. Универсальные книги «?» удобно использовать для выравнивания перекоса.</div>
+          </div>
+        </details>
         <details class="accordion"><summary><span class="summary-icon">♨</span> Событие «Дегустация»</summary><div id="tastingFields" class="grid two"></div></details>
         <details class="accordion"><summary><span class="summary-icon">♥</span> Доверие партнёров</summary><div id="partnerFields" class="grid two"></div></details>
         <details class="accordion"><summary><span class="summary-icon">✦</span> Прочее</summary><div id="otherResourceFields" class="grid two"></div></details>
@@ -96,8 +157,112 @@
         <details class="accordion"><summary><span class="summary-icon">⚙</span> Расширенные поля исходной таблицы</summary><p class="muted">Полная совместимость с исходным калькулятором. Используй только если понимаешь назначение ячейки.</p><div id="advancedFields" class="grid two"></div></details>
       </section>
 
+
+      <section id="tab-tools" class="tab-panel">
+        <div class="section-head"><div class="section-number">07</div><div><h2>Дополнительные калькуляторы</h2><p>Перенесены из таблиц: таланты, близость/влечение и сбор ресурсов. Они работают независимо от расчёта господства.</p></div></div>
+
+        <details class="accordion tool-box" open>
+          <summary><span class="summary-icon">✦</span> Калькулятор талантов</summary>
+          <div class="tool-content">
+            <p class="muted">Логика Excel: очки смотрителя делятся на порог таланта, берётся только целое число срабатываний и умножается на коэффициент ×6…×1.</p>
+            <div class="grid three compact-grid">
+              <label class="field"><span>Высший свиток ×200</span><input id="talScrollHigh" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+              <label class="field"><span>Средний свиток ×100</span><input id="talScrollMid" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+              <label class="field"><span>Простой свиток ×50</span><input id="talScrollLow" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+            </div>
+            <div class="grid two">
+              <label class="field"><span>Куда направить случайные свитки</span><select id="talScrollMultiplier"><option value="6">Талант ×6 (порог 1200)</option><option value="5">×5 (1000)</option><option value="4">×4 (800)</option><option value="3">×3 (600)</option><option value="2">×2 (400)</option><option value="1">×1 (200)</option></select></label>
+              <div class="status-card tool-status"><span>Очков из свитков</span><strong id="talScrollPoints">0</strong><small id="talScrollGain">Прирост рейтинга: 0</small></div>
+            </div>
+            <h3 class="mini-title">Смотрители</h3>
+            <div id="talentKeeperRows" class="stack"></div>
+            <button id="addTalentKeeper" class="secondary small-action" type="button">+ Добавить смотрителя</button>
+            <h3 class="mini-title">Рукописи (100% вероятность)</h3>
+            <div class="grid four compact-grid">
+              <label class="field"><span>Сила</span><input id="manStrength" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+              <label class="field"><span>Харизма</span><input id="manCharisma" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+              <label class="field"><span>Интеллект</span><input id="manIntellect" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+              <label class="field"><span>Воля</span><input id="manWill" type="number" min="0" inputmode="numeric" placeholder="0"></label>
+            </div>
+            <div class="tool-result"><span>Итог рейтинга талантов</span><strong id="talentTotal">0</strong><small id="talentBreakdown">Смотрители 0 • свитки 0 • рукописи 0</small></div>
+            <div class="notice subtle"><strong>Важно:</strong> для талантов с вероятностью ниже 100% инструкция предлагает оценку по наблюдениям, а не точную формулу. В приложение как точный результат включён только режим 100%.</div>
+          </div>
+        </details>
+
+        <details class="accordion tool-box">
+          <summary><span class="summary-icon">♥</span> Близость и влечение</summary>
+          <div class="tool-content">
+            <div class="tool-switch"><button class="tool-mode active" data-affinity-mode="closeness" type="button">Близость</button><button class="tool-mode" data-affinity-mode="attraction" type="button">Влечение</button></div>
+            <div id="affinityInputs" class="grid two"></div>
+            <div class="audit-grid tool-metrics">
+              <div class="metric"><span>Минимум</span><strong id="affinityMin">0</strong></div>
+              <div class="metric"><span>Максимум</span><strong id="affinityMax">0</strong></div>
+              <div class="metric"><span>Среднее</span><strong id="affinityAvg">0</strong></div>
+            </div>
+          </div>
+        </details>
+
+        <details class="accordion tool-box">
+          <summary><span class="summary-icon">◈</span> Сбор ресурсов</summary>
+          <div class="tool-content">
+            <label class="field"><span>Количество за один сбор в замке</span><input id="gatherBase" type="number" min="0" step="any" inputmode="decimal" placeholder="например 1123.23"><small>Используй точку или запятую — приложение понимает оба варианта.</small></label>
+            <div id="gatherInputs" class="grid two"></div>
+            <div class="tool-result"><span>Итоговое количество ресурса</span><strong id="gatherTotal">0</strong><small>Σ количество предметов × один сбор × коэффициент</small></div>
+          </div>
+        </details>
+      </section>
+
+
+      <section id="tab-guides" class="tab-panel">
+        <div class="section-head"><div class="section-number">09</div><div><h2>Гайды и советы</h2><p>Коротко и человеческим языком. «Точная механика» отделена от игровых советов сообщества.</p></div></div>
+
+        <div class="guide-card">
+          <h3>🎨 Атрибуты смотрителей</h3>
+          <p><strong>Красный — Сила:</strong> боевая мощь и атака. <strong>Фиолетовый — Харизма:</strong> влияет на сбор крови в замке. <strong>Зелёный — Интеллект:</strong> связан со сбором нектара. <strong>Синий — Воля:</strong> связан со сбором мышей.</p>
+          <p class="guide-note">Мыши в замке собираются за расход нектара — поэтому интеллект и воля связаны с экономикой ресурсов.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>👑 Что поднимать на ивент «Господство»</h3>
+          <p>Дети и браки, кровные узы, книги, таланты, уровень смотрителей за кровь, вдохновение и древо печатей Конклава. Это один из самых ресурсоёмких ивентов, поэтому сначала делай расчёт, а потом трать запасы.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>⭐ Таланты: порядок прокачки</h3>
+          <p><strong>Точная механика:</strong> Talent EXP гарантированно идёт в выбранный талант. Рукописи имеют шанс успеха, зависящий от ×1…×6. В отдельном калькуляторе показано, сколько полных повышений получится и сколько очков не хватает до следующего.</p>
+          <p><strong>Совет сообщества:</strong> атаку и здоровье выгодно поднимать в первую очередь, потому что они растут медленнее; более быстрые параметры потом проще выровнять. Не сливай свитки так, чтобы оставался бесполезный хвост опыта перед порогом.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>📚 Команды под книги</h3>
+          <p>Практическая схема: отдельный сильный смотритель под Силу, универсальный под книги «?», отдельные под Харизму, Интеллект и Волю. Если универсал стал сильнее основного или возник перекос, универсальные книги можно направлять туда, где нужно выровнять атрибуты.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>❤️ Где брать Близость и Влечение</h3>
+          <p>Банкеты, Маскарад, Тёмный храм / магазин обмена, Проклятые руины, Дом Таро, Алхимия, Рынок за рубины, магазин войны, события и их магазины, Бутик ликов, гильдейские награды и ежедневные задания.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>📜 Где брать таланты</h3>
+          <p>Рукописи и свитки: банкеты, Маскарад, Катакомбы, торговец в Проклятых руинах, Алхимия после нужного прогресса карты, Рынок, магазин войны, магазин событий, награды событий и рейтингов. Talent EXP: тренировки, Нижний мир и Лига.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>🧭 Опыт лорда</h3>
+          <p>Карта, Лига смотрителей, ежедневные происшествия, шкатулки опыта лорда, ежедневные задания, Проклятые руины, Бегемот, межсерверные награды и Нижний мир. Карта выгодна ежедневным прохождением, но после высоких глав расход мышей заметно растёт.</p>
+        </div>
+
+        <div class="guide-card">
+          <h3>⚔ Арена — базовые правила</h3>
+          <p>Копи флаги мести/реванша/вызова/защиты, эликсиры навыка и медали заслуг. Не поднимай ненужных боевых смотрителей выше пороговых уровней без причины. Согильдийцев бей только спаррингом, заранее копи жёлтые флаги и следи за ростом стоимости повторного выхода одного и того же сильного смотрителя.</p>
+        </div>
+
+        <div class="notice"><strong>Пометка:</strong> советы выше — практические рекомендации игроков. Точные числовые расчёты в калькуляторах берутся из формул и справочников проекта; вероятностные советы не выдаются как гарантия.</div>
+      </section>
+
       <section id="tab-audit" class="tab-panel">
-        <div class="section-head"><div class="section-number">07</div><div><h2>Результат и проверка</h2><p>Контрольные значения берутся из тех же формул, что и исходная книга.</p></div></div>
+        <div class="section-head"><div class="section-number">08</div><div><h2>Результат и проверка</h2><p>Контрольные значения берутся из тех же формул, что и исходная книга.</p></div></div>
         <div class="audit-grid">
           <div class="metric"><span>Прирост</span><strong id="auditGain">—</strong><small>Контроль T72</small></div>
           <div class="metric"><span>Конечное</span><strong id="auditFinal">—</strong><small>Контроль T73</small></div>
@@ -132,7 +297,7 @@
     </section>
 
     <footer>
-      <div><strong>Vampire Dominion</strong> <span>v0.3 • OPTIMIST Edition</span></div>
+      <div><strong>Vampire Dominion</strong> <span>v0.4 • OPTIMIST Edition</span></div>
       <div>Неофициальный фан-инструмент. Не связан с разработчиком игры.</div>
       <div class="footer-tech">Расчётное ядро: HyperFormula GPLv3</div>
     </footer>

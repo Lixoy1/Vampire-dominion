@@ -113,6 +113,7 @@ function getConclave(){const seals={};for(const a of ATTRS)seals[a]={current:n(S
 function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.details[a]?.finalBookBonusPct||0]))}
 
 function recalc(){
+ scheduleLocalSave();
  const conc=getConclave();
  setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
  const council=parseDefault(S.profile.council,1e6);const councilEntered=String(S.profile.council||'').trim()!=='';const cst=E.requirementStatus(council,conc.council,conc.councilComplete,councilEntered);
@@ -134,12 +135,27 @@ function recalc(){
 }
 function goalStatus(id,goal,r){const el=$(id);el.className='goal-status';if(!goal){el.textContent='Укажи цель, если хочешь проверить, хватает ли предметов.';return}if(r.min>=goal){el.classList.add('good');el.textContent=`Гарантированно хватает. Даже минимум выше цели на ${intfmt(r.min-goal)}.`}else if(r.max<goal){el.classList.add('bad');el.textContent=`Не хватает даже при максимальном выпадении: ещё ${intfmt(goal-r.max)}.`}else{el.classList.add('warn');el.textContent=`Может хватить, но не гарантировано. До цели от ${intfmt(Math.max(0,goal-r.avg))} по средней оценке.`}}
 
-$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;renderAll();toast('Данные обнулены')});
+const STORAGE_KEY='vd_state_v220';
+let saveTimer=null;
+function serializableState(){return JSON.parse(JSON.stringify(S))}
+function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()))}catch(e){}}
+function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}
+function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});return true}catch(e){return false}}
+function downloadBackup(){const p={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`vampire-dominion-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Резервная копия сохранена')}
+function restoreBackup(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(String(r.result||''));localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state||p));location.reload()}catch(e){alert('Не удалось восстановить JSON-бэкап Vampire Dominion.')}};r.readAsText(file,'utf-8')}
+$('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEventListener('click',()=>$('#backupFile').click());$('#backupFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=''})
+
+$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
 function renderAll(){
  ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;if($('#packIIIEach'))$('#packIIIEach').value=S.bookPackIIIEach;
  renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');recalc();
 }
 
+loadLocalState();
+wardenSeq=Math.max(0,...S.wardens.map(x=>Number(x.id)||0));
+inspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));
+otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
+ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
 bindStatic();renderAll();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};
@@ -147,3 +163,5 @@ window.addEventListener('load',()=>setTimeout(showHero,40));window.addEventListe
 const tests=E.selfTests(window.VD_SAMPLES);$('#engineLamp').classList.add(tests.ok?'ok':'bad');$('#engineText').textContent=tests.ok?'Проверка пройдена · расчётный круг стабилен':'Ошибка самопроверки · расчёт временно недоступен';
 if(!tests.ok) console.error('Self tests failed',tests);
 })();
+
+window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);

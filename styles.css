@@ -37,3 +37,5 @@ html[data-theme="light"]{
 @keyframes heartPulse{0%,100%{transform:scale(1);filter:brightness(1)}50%{transform:scale(1.08);filter:brightness(1.25)}}
 .love-line span{display:inline-block;animation:heartPulse 2.4s ease-in-out infinite}.goal-status.warn{background:linear-gradient(135deg,rgba(113,70,10,.2),var(--card));color:var(--text)}
 @media(max-width:600px){.hero{min-height:300px}.hero__image{object-position:50% 38%}.hero__content{padding:155px 16px 20px}.hero__shade{background:linear-gradient(0deg,rgba(8,4,6,.96) 0%,rgba(8,4,6,.72) 34%,rgba(8,4,6,.08) 66%),linear-gradient(90deg,rgba(8,4,6,.02),rgba(8,4,6,.12))}.hero h1{font-size:1.85rem}.statusbar{font-size:.78rem}.reset-link{white-space:nowrap}}
+
+.local-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap}.local-actions .reset-link{white-space:nowrap}@media(max-width:700px){.statusbar{align-items:flex-start;flex-wrap:wrap}.local-actions{width:100%;margin-left:0;justify-content:flex-start}}

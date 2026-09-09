@@ -7,7 +7,15 @@
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
   <title>Vampire Dominion v2.1 — Blood Moon Edition</title>
   <link rel="stylesheet" href="styles.css?v=210" />
-</head>
+<!-- VAMPIRE-DOMINION-LOCAL-MODE -->
+          <link rel="manifest" href="manifest.webmanifest">
+          <meta name="theme-color" content="#5e1325">
+          <meta name="mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+          <link rel="apple-touch-icon" href="assets/crest.svg">
+          <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+          </head>
 <body>
   <header class="hero">
     <img class="hero__image" src="assets/optimist-vampire-clean.webp" alt="ОПТИМИСТ в вампирском стиле" />
@@ -23,7 +31,12 @@
 
   <div class="statusbar">
     <span id="engineLamp" class="lamp"></span><span id="engineText">Проверка расчётов…</span>
-    <button id="resetAll" class="reset-link">Обнулить всё</button>
+    <div class="local-actions">
+      <button id="saveBackup" class="reset-link" type="button">💾 Сохранить</button>
+      <button id="loadBackup" class="reset-link" type="button">↥ Восстановить</button>
+      <button id="resetAll" class="reset-link" type="button">Обнулить всё</button>
+      <input id="backupFile" type="file" accept=".json,application/json" hidden>
+    </div>
   </div>
 
   <nav class="tabs" aria-label="Разделы">

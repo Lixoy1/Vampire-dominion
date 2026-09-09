@@ -1,8 +1,8 @@
 name: Export source
 on:
-  push:
+  pull_request:
     branches:
-      - tmp-export-source
+      - main
 jobs:
   export:
     runs-on: ubuntu-latest
@@ -17,18 +17,9 @@ jobs:
           exts = {'.js', '.html', '.css', '.json', '.svg', '.mjs', '.cjs', '.ts', '.tsx', '.jsx', '.vue', '.py', '.sh', '.yml', '.yaml'}
           skip = {'.git', 'node_modules', '.github'}
           files = sorted(p for p in root.rglob('*') if p.is_file() and p.suffix.lower() in exts and not any(part in skip for part in p.parts))
-          out = []
-          out.append('VAMPIRE-DOMINION SOURCE EXPORT')
-          out.append('Repository: Lixoy1/Vampire-dominion')
-          out.append('Branch: tmp-export-source')
-          out.append('')
+          out = ['VAMPIRE-DOMINION SOURCE EXPORT', 'Repository: Lixoy1/Vampire-dominion', 'Branch: tmp-export-source', '']
           for p in files:
-              rel = p.as_posix()
-              out.append('=' * 100)
-              out.append(f'FILE: {rel}')
-              out.append('=' * 100)
-              out.append(p.read_text(encoding='utf-8'))
-              out.append('')
+              out += ['=' * 100, f'FILE: {p.as_posix()}', '=' * 100, p.read_text(encoding='utf-8'), '']
           Path('Vampire-dominion-all-source.txt').write_text('\n'.join(out), encoding='utf-8')
           print(f'Exported {len(files)} source files')
           PY

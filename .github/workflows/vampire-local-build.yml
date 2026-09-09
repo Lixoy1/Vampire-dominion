@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -56,7 +56,6 @@ jobs:
               s=s.replace(marker,code+'\n'+marker,1)
           if 'loadLocalState();' not in s:s=s.replace('bindStatic();renderAll();','loadLocalState();\nwardenSeq=Math.max(0,...S.wardens.map(x=>Number(x.id)||0));\ninspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));\notherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));\nratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));\nbindStatic();renderAll();',1)
           if "localStorage.removeItem(STORAGE_KEY)" not in s:s=s.replace("S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;renderAll();toast('Данные обнулены')","S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')",1)
-          # Ensure every normal input-triggered recalculation schedules a save.
           if 'scheduleLocalSave();' not in s:
               pos=s.find('function recalc(){')
               if pos>=0:
@@ -72,6 +71,19 @@ jobs:
           Path('manifest.webmanifest').write_text('{"name":"Vampire Dominion","short_name":"Vampire Dominion","description":"Калькулятор для игры «Наследие Вампиров».","start_url":"./","scope":"./","display":"standalone","background_color":"#0d0710","theme_color":"#5e1325","lang":"ru","icons":[{"src":"assets/crest.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}',encoding='utf-8')
           Path('sw.js').write_text("const C='vd-local-v220';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['./','./index.html','./styles.css','./data.js','./engine.js','./engine-data.js','./app.js','./manifest.webmanifest','./assets/crest.svg'])).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).then(r=>{const x=r.clone();caches.open(C).then(k=>k.put(e.request,x));return r}).catch(()=>c)))})",encoding='utf-8')
           PY
+
+      - name: Commit local mode to main
+        shell: bash
+        run: |
+          if git status --porcelain | grep -q .; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add index.html app.js styles.css manifest.webmanifest sw.js
+            git commit -m "Publish local-only mode"
+            git push origin HEAD:main
+          else
+            echo "No local-mode changes to commit"
+          fi
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v4

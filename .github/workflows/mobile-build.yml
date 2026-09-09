@@ -1,0 +1,67 @@
+name: Build Vampire Dominion Android APK
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [mobile-build-2026]
+    paths:
+      - 'index.html'
+      - 'app.js'
+      - 'data.js'
+      - 'engine.js'
+      - 'engine-data.js'
+      - 'styles.css'
+      - 'source-samples.js'
+      - 'assets/**'
+      - 'mobile/**'
+      - '.github/workflows/mobile-build.yml'
+
+permissions:
+  contents: read
+
+auto_cancel: true
+
+jobs:
+  android:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package.json
+
+      - name: Install Capacitor
+        working-directory: mobile
+        run: npm install
+
+      - name: Copy web app into Capacitor
+        shell: bash
+        run: |
+          rm -rf mobile/www
+          mkdir -p mobile/www
+          cp index.html app.js data.js engine.js engine-data.js source-samples.js styles.css mobile/www/
+          cp -R assets mobile/www/
+
+      - name: Add Android platform
+        working-directory: mobile
+        run: npx cap add android
+
+      - name: Sync Android
+        working-directory: mobile
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: vampire-dominion-android-debug
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

@@ -19,8 +19,6 @@ on:
 permissions:
   contents: read
 
-auto_cancel: true
-
 jobs:
   android:
     runs-on: ubuntu-latest
@@ -32,8 +30,6 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-          cache: npm
-          cache-dependency-path: mobile/package.json
 
       - name: Install Capacitor
         working-directory: mobile

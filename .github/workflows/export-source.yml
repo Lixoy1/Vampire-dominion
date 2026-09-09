@@ -1,0 +1,39 @@
+name: Export source
+on:
+  push:
+    branches:
+      - tmp-export-source
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build source text
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          root = Path('.')
+          exts = {'.js', '.html', '.css', '.json', '.svg', '.mjs', '.cjs', '.ts', '.tsx', '.jsx', '.vue', '.py', '.sh', '.yml', '.yaml'}
+          skip = {'.git', 'node_modules', '.github'}
+          files = sorted(p for p in root.rglob('*') if p.is_file() and p.suffix.lower() in exts and not any(part in skip for part in p.parts))
+          out = []
+          out.append('VAMPIRE-DOMINION SOURCE EXPORT')
+          out.append('Repository: Lixoy1/Vampire-dominion')
+          out.append('Branch: tmp-export-source')
+          out.append('')
+          for p in files:
+              rel = p.as_posix()
+              out.append('=' * 100)
+              out.append(f'FILE: {rel}')
+              out.append('=' * 100)
+              out.append(p.read_text(encoding='utf-8'))
+              out.append('')
+          Path('Vampire-dominion-all-source.txt').write_text('\n'.join(out), encoding='utf-8')
+          print(f'Exported {len(files)} source files')
+          PY
+      - name: Upload source export
+        uses: actions/upload-artifact@v4
+        with:
+          name: Vampire-dominion-all-source
+          path: Vampire-dominion-all-source.txt

@@ -1,0 +1,178 @@
+name: Vampire Dominion - Pages + Android
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: vampire-dominion-build
+  cancel-in-progress: true
+
+jobs:
+  prepare:
+    name: Prepare local-only app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Add local storage controls
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('index.html')
+          s = p.read_text(encoding='utf-8')
+
+          marker = '<!-- VAMPIRE-DOMINION-LOCAL-MODE -->'
+          inject = '''<!-- VAMPIRE-DOMINION-LOCAL-MODE -->
+          <link rel="manifest" href="manifest.webmanifest">
+          <meta name="theme-color" content="#5e1325">
+          <meta name="mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-capable" content="yes">
+          <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+          <link rel="apple-touch-icon" href="assets/crest.svg">
+          <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));}</script>
+          '''
+          if marker not in s:
+              s = s.replace('</head>', inject + '</head>', 1)
+
+          old = '''  <div class="statusbar">\n    <span id="engineLamp" class="lamp"></span><span id="engineText">Проверка расчётов…</span>\n    <button id="resetAll" class="reset-link">Обнулить всё</button>\n  </div>'''
+          new = '''  <div class="statusbar">\n    <span id="engineLamp" class="lamp"></span><span id="engineText">Проверка расчётов…</span>\n    <div class="local-actions">\n      <button id="saveBackup" class="reset-link" type="button">💾 Сохранить</button>\n      <button id="loadBackup" class="reset-link" type="button">↥ Восстановить</button>\n      <button id="resetAll" class="reset-link" type="button">Обнулить всё</button>\n      <input id="backupFile" type="file" accept=".json,application/json" hidden>\n    </div>\n  </div>'''
+          if old in s:
+              s = s.replace(old, new, 1)
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('app.js')
+          s = p.read_text(encoding='utf-8')
+          key = "const STORAGE_KEY='vd_state_v220';"
+          if key not in s:
+              marker = "$('#resetAll').addEventListener('click',()=>{"
+              code = r'''const STORAGE_KEY='vd_state_v220';
+          let saveTimer=null;
+          function serializableState(){return JSON.parse(JSON.stringify(S));}
+          function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()));}catch(e){console.warn(e)}}
+          function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}
+          function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);if(!saved||typeof saved!=='object')return false;const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});return true}catch(e){console.warn(e);return false}}
+          function downloadBackup(){const payload={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`vampire-dominion-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);toast('Резервная копия сохранена')}
+          function restoreBackup(file){const r=new FileReader();r.onload=()=>{try{const payload=JSON.parse(String(r.result||''));const saved=payload&&payload.state?payload.state:payload;if(!saved||typeof saved!=='object')throw Error('bad backup');localStorage.setItem(STORAGE_KEY,JSON.stringify(saved));location.reload()}catch(e){alert('Не удалось восстановить JSON-бэкап Vampire Dominion.')}};r.readAsText(file,'utf-8')}
+          $('#saveBackup').addEventListener('click',downloadBackup);
+          $('#loadBackup').addEventListener('click',()=>$('#backupFile').click());
+          $('#backupFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=''})
+          '''
+              if marker not in s:
+                  raise SystemExit('reset marker not found')
+              s = s.replace(marker, code + '\n' + marker, 1)
+          if "scheduleLocalSave();" not in s:
+              anchor = " const conc=conclaveCalc({watcherCount:parseDefault(S.profile.watchers,1),attrTotals:conclaveAttrs,seals:S.conclave});"
+              if anchor in s:
+                  s = s.replace(anchor, ' scheduleLocalSave();\n' + anchor, 1)
+              else:
+                  # fallback: save after every recalculation call by wrapping the function at the end
+                  pass
+          s = s.replace("bindStatic();renderAll();", "loadLocalState();\nwardenSeq=Math.max(0,...S.wardens.map(x=>Number(x.id)||0));\ninspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));\notherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));\nratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));\nbindStatic();renderAll();", 1)
+          s = s.replace("S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;renderAll();toast('Данные обнулены')", "S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')", 1)
+          s += "\nwindow.addEventListener('pagehide',saveLocalState);\nwindow.addEventListener('beforeunload',saveLocalState);\n"
+          p.write_text(s, encoding='utf-8')
+
+          p = Path('styles.css')
+          s = p.read_text(encoding='utf-8')
+          if '.local-actions{' not in s:
+              s += '\n.local-actions{display:flex;align-items:center;gap:8px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}.local-actions .reset-link{white-space:nowrap}@media(max-width:700px){.statusbar{align-items:flex-start;flex-wrap:wrap}.local-actions{width:100%;justify-content:flex-start;margin-left:0}}\n'
+          p.write_text(s, encoding='utf-8')
+
+          Path('manifest.webmanifest').write_text('''{\n  "name":"Vampire Dominion",\n  "short_name":"Vampire Dominion",\n  "start_url":"./",\n  "scope":"./",\n  "display":"standalone",\n  "background_color":"#0d0710",\n  "theme_color":"#5e1325",\n  "lang":"ru",\n  "icons":[{"src":"assets/crest.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]\n}\n''', encoding='utf-8')
+          Path('sw.js').write_text('''const CACHE='vampire-dominion-local-v220';const CORE=['./','./index.html','./styles.css','./data.js','./engine.js','./engine-data.js','./app.js','./manifest.webmanifest','./assets/crest.svg'];self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));self.addEventListener('fetch',e=>{if(e.request.method!=='GET')return;e.respondWith(caches.match(e.request).then(c=>c||fetch(e.request).then(r=>{const x=r.clone();caches.open(CACHE).then(k=>k.put(e.request,x));return r}).catch(()=>c)))})\n''', encoding='utf-8')
+          PY
+
+      - name: Upload prepared site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+
+  pages:
+    name: Deploy GitHub Pages
+    needs: prepare
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Download prepared site
+        uses: actions/download-artifact@v5
+        with:
+          name: github-pages
+          path: .
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+  android:
+    name: Build Android APK
+    needs: prepare
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Prepare mobile source
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          # Reuse the same local-only build injection from the prepare job by
+          # pulling the deployed artifact back down is unnecessary for Android.
+          # Write a minimal wrapper package and copy the unchanged real app.
+          Path('mobile').mkdir(exist_ok=True)
+          Path('mobile/package.json').write_text('''{"name":"vampire-dominion-mobile","private":true,"version":"2.2.0","dependencies":{"@capacitor/core":"8.5.1"},"devDependencies":{"@capacitor/cli":"8.5.1","@capacitor/android":"8.5.1"}}''', encoding='utf-8')
+          Path('mobile/capacitor.config.ts').write_text("import type { CapacitorConfig } from '@capacitor/cli';\nconst config: CapacitorConfig={appId:'com.optimist.vampiredominion',appName:'Vampire Dominion',webDir:'www'};export default config;\n",encoding='utf-8')
+          PY
+          rm -rf mobile/www
+          mkdir -p mobile/www
+          cp index.html app.js data.js engine.js engine-data.js source-samples.js styles.css mobile/www/
+          cp -R assets mobile/www/
+          # Apply local storage mode to the copied mobile web app.
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('mobile/www/index.html');s=p.read_text(encoding='utf-8')
+          s=s.replace('</head>','<link rel="manifest" href="manifest.webmanifest"><script>if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}));</script></head>',1)
+          s=s.replace('  <div class="statusbar">\n    <span id="engineLamp" class="lamp"></span><span id="engineText">Проверка расчётов…</span>\n    <button id="resetAll" class="reset-link">Обнулить всё</button>\n  </div>', '  <div class="statusbar"><span id="engineLamp" class="lamp"></span><span id="engineText">Проверка расчётов…</span><div class="local-actions"><button id="saveBackup" class="reset-link" type="button">💾 Сохранить</button><button id="loadBackup" class="reset-link" type="button">↥ Восстановить</button><button id="resetAll" class="reset-link" type="button">Обнулить всё</button><input id="backupFile" type="file" accept=".json,application/json" hidden></div></div>',1)
+          p.write_text(s,encoding='utf-8')
+          p=Path('mobile/www/app.js');s=p.read_text(encoding='utf-8')
+          marker="$('#resetAll').addEventListener('click',()=>{"
+          code="""const STORAGE_KEY='vd_state_v220';let saveTimer=null;function serializableState(){return JSON.parse(JSON.stringify(S))}function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()))}catch(e){}}function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});return true}catch(e){return false}}function downloadBackup(){const p={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'});const u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download='vampire-dominion-backup.json';a.click();setTimeout(()=>URL.revokeObjectURL(u),500)}function restoreBackup(f){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(r.result);localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state||p));location.reload()}catch(e){alert('Неверный JSON-бэкап')}};r.readAsText(f)}$('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEventListener('click',()=>$('#backupFile').click());$('#backupFile').addEventListener('change',e=>{if(e.target.files[0])restoreBackup(e.target.files[0])});"""
+          if "STORAGE_KEY='vd_state_v220'" not in s:s=s.replace(marker,code+'\n'+marker,1)
+          if 'loadLocalState();' not in s:s=s.replace('bindStatic();renderAll();','loadLocalState();bindStatic();renderAll();',1)
+          s += "\nwindow.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);\n"
+          p.write_text(s,encoding='utf-8')
+          p=Path('mobile/www/styles.css');s=p.read_text(encoding='utf-8')+"\n.local-actions{display:flex;gap:8px;flex-wrap:wrap}\n";p.write_text(s,encoding='utf-8')
+          p=Path('mobile/www/manifest.webmanifest');p.write_text('{"name":"Vampire Dominion","short_name":"Vampire Dominion","start_url":"./","scope":"./","display":"standalone","background_color":"#0d0710","theme_color":"#5e1325","lang":"ru","icons":[{"src":"assets/crest.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}',encoding='utf-8')
+          p=Path('mobile/www/sw.js');p.write_text("const C='vd-local-v220';self.addEventListener('install',e=>e.waitUntil(caches.open(C).then(c=>c.addAll(['./','./index.html','./styles.css','./data.js','./engine.js','./engine-data.js','./app.js','./manifest.webmanifest','./assets/crest.svg']))));self.addEventListener('activate',e=>e.waitUntil(self.clients.claim()));",encoding='utf-8')
+          PY
+
+      - name: Install Capacitor
+        working-directory: mobile
+        run: npm install
+
+      - name: Add Android platform
+        working-directory: mobile
+        run: npx cap add android
+
+      - name: Sync Android
+        working-directory: mobile
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: vampire-dominion-android-debug
+          path: mobile/android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error

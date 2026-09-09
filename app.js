@@ -165,3 +165,5 @@ if(!tests.ok) console.error('Self tests failed',tests);
 })();
 
 window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);
+
+window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);

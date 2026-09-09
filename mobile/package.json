@@ -1,0 +1,19 @@
+{
+  "name": "vampire-dominion-mobile",
+  "private": true,
+  "version": "2.1.0",
+  "description": "Vampire Dominion mobile wrapper",
+  "scripts": {
+    "cap:sync": "cap sync",
+    "cap:android": "cap open android",
+    "cap:ios": "cap open ios"
+  },
+  "dependencies": {
+    "@capacitor/core": "8.5.1"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "8.5.1",
+    "@capacitor/android": "8.5.1",
+    "@capacitor/ios": "8.5.1"
+  }
+}

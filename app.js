@@ -169,3 +169,5 @@ window.addEventListener('pagehide',saveLocalState);window.addEventListener('befo
 window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);
 
 window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);
+
+window.addEventListener('pagehide',saveLocalState);window.addEventListener('beforeunload',saveLocalState);

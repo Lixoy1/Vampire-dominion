@@ -95,10 +95,13 @@
     const chance=num(DATA.manuscriptChance[String(star)]);
     const fromMan=Math.floor(Math.max(0,num(manuscripts))*chance);
     const fromGuaranteed=Math.floor(Math.max(0,num(guaranteed)));
-    const fromExp=Math.floor(Math.max(0,num(exp))/(star*200));
-    return {levels:fromMan+fromGuaranteed+fromExp,fromMan,fromGuaranteed,fromExp,chance};
+    const threshold=star*200;
+    const expValue=Math.max(0,num(exp));
+    const fromExp=Math.floor(expValue/threshold);
+    const expRemainder=expValue-(fromExp*threshold);
+    const expToNext=threshold-expRemainder;
+    return {levels:fromMan+fromGuaranteed+fromExp,fromMan,fromGuaranteed,fromExp,chance,threshold,expValue,expRemainder,expToNext};
   }
-
   function wardenCalc(input){
     const name=input.name||'';
     const definition=DATA.watchers[name]||[];

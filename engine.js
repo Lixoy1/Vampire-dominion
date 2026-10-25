@@ -355,6 +355,18 @@
       tests.push({name:'K/M/B парсер',ok:parseCompact('5,25M')===5250000&&parseCompact('1.2B')===1200000000&&parseCompact('750K')===750000,got:[parseCompact('5,25M'),parseCompact('1.2B'),parseCompact('750K')]});
       const guild=guildExperienceCalc([{id:1,name:'Участник 1',counts:{goldBucket:2,silverBucket:3,bronzeBucket:4,woodenBucket:5,steelChest:6,simpleChest:7,contribution:8,largeContribution:9}}]);
       tests.push({name:'Опыт гильдии: все 8 коэффициентов из таблицы',ok:guild.total===15940&&guild.totalItems===44&&guild.contributors===1&&guild.itemTotals.goldBucket===2&&guild.itemTotals.largeContribution===9,got:guild});
+      const expectedGuildCoefficients=[['goldBucket',500],['silverBucket',100],['bronzeBucket',40],['woodenBucket',20],['steelChest',40],['simpleChest',20],['contribution',400],['largeContribution',1200]];
+      const actualGuildCoefficients=(DATA.guildExperienceItems||[]).map(item=>[item.key,item.experience]);
+      tests.push({name:'Опыт гильдии: все коэффициенты совпадают с переданной таблицей',ok:JSON.stringify(actualGuildCoefficients)===JSON.stringify(expectedGuildCoefficients),got:actualGuildCoefficients});
+      const expectedCloseness=[['Обычный подарок',1,1],['Большой подарок',2,2],['Роскошный подарок',5,5],['Чёртова монета',1,1],['Бронзовая чёртова монета',2,2],['Серебряная чёртова монета',5,5],['Золотая чёртова монета',25,25],['Сумочка близости',1,4],['Мешок близости',5,8],['Шкатулка близости',4,50]];
+      const actualCloseness=Object.entries(DATA.closeness).map(([name,range])=>[name,range[0],range[1]]);
+      tests.push({name:'Близость: значения совпадают с Excel',ok:JSON.stringify(actualCloseness)===JSON.stringify(expectedCloseness),got:actualCloseness});
+      const expectedAttraction=[['Алый букет',1,1],['Синий букет',2,2],['Лиловый букет',5,5],['Бирюзовая записка',1,1],['Индиговая записка',2,2],['Багровая записка',5,5],['Потальная записка',25,25],['Пиала влечения',1,4],['Бутыль влечения',5,8],['Шкатулка влечения',4,50]];
+      const actualAttraction=Object.entries(DATA.attraction).map(([name,range])=>[name,range[0],range[1]]);
+      tests.push({name:'Влечение: значения совпадают с Excel',ok:JSON.stringify(actualAttraction)===JSON.stringify(expectedAttraction),got:actualAttraction});
+      const expectedResources=[['Жетон 1',0.1],['Жетон 2',0.5],['Жетон 3',1],['Жетон 4',2],['Жетон 5',3],['Жетон 6',5],['Жетон 7',10],['Карта сбора',1]];
+      tests.push({name:'Сбор ресурсов: коэффициенты совпадают с Excel',ok:JSON.stringify(DATA.resourceMultipliers)===JSON.stringify(expectedResources),got:DATA.resourceMultipliers});
+
       const guildInvalid=guildExperienceCalc([{id:1,name:'Участник 1',counts:{goldBucket:-1,contribution:'1.5'}}]);
       tests.push({name:'Опыт гильдии: отрицательные и дробные количества не считаются',ok:guildInvalid.total===0&&guildInvalid.complete===false&&guildInvalid.invalidFields.length===2,got:guildInvalid});
       const guildZero=guildExperienceCalc([]);

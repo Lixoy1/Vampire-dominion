@@ -32,7 +32,7 @@
       "url": "https://play.google.com/store/apps/details?id=com.mechanist.vampire.aos",
       "kind": "store-listing",
       "purpose": "publisher contact and store update notes",
-      "status": "store update date differs from RuStore listing; treat rollout as potentially regional Separate English listing id 6469515429 is a different app and must not be used to infer the Russian client's version."
+      "status": "store update date differs from RuStore listing; treat rollout as potentially regional"
     },
     {
       "id": "dracula-chest-channel",
@@ -200,10 +200,18 @@
     {
       "id": "app-store-russian",
       "name": "App Store: Наследие Вампиров: Новолуние",
-      "url": "https://apps.apple.com/ru/app/нaследие-вампиров-новолуние/id6469098312",
+      "url": "https://apps.apple.com/ru/app/%D0%BD%D0%B0%D1%81%D0%BB%D0%B5%D0%B4%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BC%D0%BF%D0%B8%D1%80%D0%BE%D0%B2-%D0%BD%D0%BE%D0%B2%D0%BE%D0%BB%D1%83%D0%BD%D0%B8%D0%B5/id6469098312?platform=vision",
       "kind": "store-release-history",
       "purpose": "Russian-client version history and update notes",
       "status": "checked 2026-10-25; the page lists version 1.051.013 and displays its date relatively (about three days ago in the page snapshot); verify directly in the client before assigning a universal game version"
+    },
+    {
+      "id": "international-app-store",
+      "name": "App Store: Game of Vampires: Twilight Sun",
+      "url": "https://apps.apple.com/pk/app/game-of-vampires-twilight-sun/id6469515429",
+      "kind": "separate-international-app-listing",
+      "purpose": "disambiguation only",
+      "status": "different app listing/id from the Russian 'Наследие Вампиров: Новолуние' card; do not infer the Russian client's version from this page"
     }
   ],
   "rules": [

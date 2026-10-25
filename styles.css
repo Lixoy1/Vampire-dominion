@@ -196,3 +196,23 @@ button,input,select{font-family:var(--font-ui)}
  .guild-results{grid-template-columns:1fr 1fr!important}
  .guild-results>div:first-child{grid-column:1/-1}
 }
+
+
+/* v2.13 — make data quality visible without hiding provisional numbers */
+.break-row.provisional{
+  margin:8px 0;
+  padding:12px 14px;
+  border:1px solid color-mix(in srgb,#e9ab52 55%,var(--line));
+  border-left:4px solid #e9ab52;
+  border-radius:12px;
+  background:color-mix(in srgb,#8a5b18 13%,var(--card));
+  color:var(--text);
+}
+.break-row.provisional b{color:var(--gold)}
+#conclaveDataAudit,#booksConclaveAudit,#domSummaryTrust{line-height:1.55}
+#conclaveDataAudit::before{content:"ПРОВЕРКА ДАННЫХ";display:block;margin-bottom:5px;font-size:.7rem;font-weight:900;letter-spacing:.12em;color:var(--gold)}
+#booksConclaveAudit{margin-top:10px}
+@media(max-width:600px){
+  .break-row.provisional{align-items:flex-start;flex-direction:column;gap:5px}
+  #conclaveDataAudit,#booksConclaveAudit,#domSummaryTrust{font-size:.88rem}
+}

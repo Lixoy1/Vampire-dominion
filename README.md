@@ -1,4 +1,4 @@
-# Vampire Dominion v2.10 — Blood Moon Edition
+# Vampire Dominion v2.11 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -55,3 +55,12 @@
 - Added regression tests for Will-attribute normalization, incomplete profiles, and the structure of all 513 legacy talent rows.
 - Added an external-data audit with known discrepancies in community Scarlet Bonds, Garden and Conclave tables; no conflicting values were imported into the calculator.
 - Updated the guide's source list with official announcements and community reference links.
+
+
+## v2.11 — Guild experience and workbook audit
+- Added a guild-experience calculator for up to 29 participants, based on the formulas in the supplied `счет опыта ги.xlsx` workbook.
+- All eight coefficients are tagged as transcribed from a user-supplied workbook and still require independent in-game verification.
+- Added total experience, per-participant totals, item totals, validation for whole non-negative quantities, and source-by-source breakdown.
+- Audited `БлизостьВлечениеРесурсы.xlsx`: current item ranges and collection-token multipliers match the workbook formulas.
+- Added automated regression checks for every workbook-derived coefficient and retained all prior calculator tests.
+- Audit report: `docs/UPLOADED-SPREADSHEET-AUDIT.md`.

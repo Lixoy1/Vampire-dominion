@@ -41,714 +41,1019 @@
       "Dominique has no obvious local profile name",
       "Charlemagne ↔ Чарльз requires confirmation",
       "Lorenzo ↔ Лоуренс requires confirmation"
-    ]
+    ],
+    "bloodBondCandidatePairs": 43,
+    "bloodBondMappedLocalRosterProfiles": 43,
+    "bloodBondUnresolvedLocalization": [
+      "Аластар",
+      "Висент",
+      "Вотан",
+      "Дэмиен",
+      "Кендэс",
+      "Лоуренс",
+      "Чарльз"
+    ],
+    "bloodBondCandidateTableStatus": "candidate-only; no numeric formulas imported; not enabled for exact forecast",
+    "gardenCandidateTable": {
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+      "candidateRows": 291,
+      "candidateCostSumRows1To140": 18900,
+      "communityClaimedCostToMax": 18900,
+      "status": "numeric subtotal matches, but table continues to level 291 and semantics/version unresolved; not used in calculator"
+    },
+    "conclaveAggregateAudit": {
+      "localDirectAttributePerBranch": 610200,
+      "communityClaimedDirectAttributePerBranch": 987000,
+      "localBooksPercentPointsPerBranch": 1092,
+      "communityClaimedBooksBonusPercentPerBranch": 1056,
+      "levelCostsMissing": 50,
+      "status": "unresolved; exact forecast excluded until a complete current-game table is verified"
+    }
   },
   "wardens": [
     {
       "name": "Аластар",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-32"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Артемида",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-25"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Асра",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Аурелия",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-09"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Виктор",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-11"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Висент",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-18"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Вотан",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-24"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Вэнс",
       "legacyTalentSlots": 20,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-02"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Ганс",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-41"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Гильгамеш",
       "legacyTalentSlots": 7,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-12"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Грендель",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-26"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Джози",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-14"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Джон",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-38"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Джули",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-19"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Диана",
       "legacyTalentSlots": 24,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-01"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Дракула",
       "legacyTalentSlots": 12,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Друзилла",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Дьяволо",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Дэмиен",
       "legacyTalentSlots": 20,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-03"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Иван",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Кармилла",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-06"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Кендэс",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-17"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Клео",
       "legacyTalentSlots": 7,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-04"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Корнелиус",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-36"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Лоуренс",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-39"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Люциан",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Майк",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-15"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Макс",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Мара",
       "legacyTalentSlots": 24,
       "currentGameVerification": "profile-incomplete-needs-current-game-source",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
       "inspirationInLegacyCatalog": false,
       "talentProfileStatus": "incomplete",
-      "exactForecast": "blocked-until-complete-profile-verified"
+      "exactForecast": "blocked-until-complete-profile-verified",
+      "bloodBondCandidatePairs": [
+        "bb-30"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "blocked-incomplete-legacy-talent-profile"
     },
     {
       "name": "Мария",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Мориен",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-34"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Мортимер",
       "legacyTalentSlots": 4,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Наджа",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Никола",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Никс",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-28"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Нострадамус",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-40"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Паван",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-35"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Пайпер",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-37"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "По",
       "legacyTalentSlots": 12,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-07"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Роберт",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-21"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Ролло",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-43"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Рудра",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-22"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Сарасвати",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Сейбер",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Скарлет",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Сэм",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Танатос",
       "legacyTalentSlots": 24,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-29"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Темучжин",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-13"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Томас",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-10"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Торгрим",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Уильям",
       "legacyTalentSlots": 8,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-08"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Ульфред",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Финн",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-23"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Франко",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-42"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Фредерик",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-31"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Харкер",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-33"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Цезарь",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Чарльз",
       "legacyTalentSlots": 7,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-05"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-needs-localization-review",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Шут",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Эдвард",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Эдди",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [
+        "bb-27"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Элси",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-20"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Эрзебет",
       "legacyTalentSlots": 10,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": true,
+      "bloodBondCandidatePairs": [],
+      "bloodBondCandidateStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     },
     {
       "name": "Эрик",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
+      "bloodBonds": "unknown-no-complete-verified-level-table",
+      "gardenEligibility": "not-yet-verified-in-current-client",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
+      "inspirationInLegacyCatalog": false,
+      "bloodBondCandidatePairs": [
+        "bb-16"
+      ],
+      "bloodBondCandidateStatus": "candidate-pair-found-needs-game-verification",
+      "exactDominionForecastStatus": "legacy-model-exists; current roster and cross-system formulas need re-verification"
     }
   ],
   "communityRosterSource": {

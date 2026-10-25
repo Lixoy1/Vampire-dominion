@@ -1,4 +1,4 @@
-# Vampire Dominion v2.2 — Blood Moon Edition
+# Vampire Dominion v2.3 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -18,3 +18,9 @@
 - Planned ring shortages and unverified bonuses are highlighted.
 - Added a project roadmap and calculation-quality rules in `docs/GLOBAL-DEVELOPMENT-PLAN.md`.
 - Existing calculator and source-based regression samples are retained.
+
+## v2.3 — Global Dominion Expansion
+- Added a source-by-source fallback for confirmed gains from systems whose full formulas are not yet integrated (Blood Bonds, Garden, skins, familiars, and other sources).
+- Included these gains in the global forecast with per-source breakdown.
+- Invalid or incomplete values are flagged and not silently counted.
+- Added an automated regression check for the existing formulas and new modules.

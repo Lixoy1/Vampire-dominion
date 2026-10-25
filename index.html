@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.16 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.17 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=237" />
+  <link rel="stylesheet" href="styles.css?v=238" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -429,6 +429,24 @@
           <p>В открытой Wiki Сад соответствует Courtyard Boons в системе фамильяров и описан как источник бонусов атрибутов Смотрителей. Доступное описание подтверждает назначение системы, но не раскрывает полную числовую таблицу стоимости и эффекта каждого уровня.</p>
           <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Attributes" target="_blank" rel="noopener noreferrer">Wiki: связь Сада и атрибутов</a> · <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Category:Familiars" target="_blank" rel="noopener noreferrer">Wiki: Familiars и Courtyard</a></p>
           <p><a href="https://telemetr.io/en/channels/2158115409-draculachest/posts" target="_blank" rel="noopener noreferrer">Архив публикаций «Сундука Дракулы»</a></p>
+          <h4>Полное покрытие уровней Сада</h4>
+          <p class="garden-coverage-note">Ниже показаны все уровни заявленного диапазона 1–140. Наблюдения из игры отделены от отсутствующих данных. Сумма 18 900 очков хранится как непроверенный агрегат сообщества и не используется для расчёта цены отдельного улучшения.</p>
+          <div class="bond-coverage-toolbar garden-coverage-toolbar">
+            <label for="gardenCoverageSearch">Поиск по уровню, категории или атрибуту<input id="gardenCoverageSearch" type="search" placeholder="Например: 112, Воля, универсальные"></label>
+            <label for="gardenCoverageFilter">Показывать<select id="gardenCoverageFilter">
+              <option value="all">Все уровни</option>
+              <option value="observed">Только наблюдаемые</option>
+              <option value="missing">Только без данных</option>
+            </select></label>
+            <span id="gardenCoverageMeta" class="badge">Загружаем уровни Сада…</span>
+          </div>
+          <div class="bond-coverage-table-wrap garden-coverage-table-wrap">
+            <table class="bond-coverage-table garden-coverage-table">
+              <thead><tr><th>Уровень</th><th>Категория смотрителей</th><th>Отображённый эффект</th><th>Стоимость улучшения</th><th>Статус данных</th></tr></thead>
+              <tbody id="gardenCoverageRows"><tr><td colspan="5">Читаем записи Сада…</td></tr></tbody>
+            </table>
+          </div>
+          <div id="gardenCoverageStatus" class="goal-status warn">Таблица эффектов и цен пока неполная. Неподтверждённые строки не используются в прогнозе господства.</div>
         </div></details>
 
         <details class="guide-card"><summary>🔍 Публичные таблицы сообщества: сверка, не копирование</summary><div class="guide-body">
@@ -541,10 +559,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=237"></script>
-  <script src="source-samples.js?v=237"></script>
-  <script src="engine.js?v=237"></script>
-  <script src="app.js?v=237"></script>
-  <script src="illustrations.js?v=237"></script>
+  <script src="data.js?v=238"></script>
+  <script src="source-samples.js?v=238"></script>
+  <script src="engine.js?v=238"></script>
+  <script src="app.js?v=238"></script>
+  <script src="illustrations.js?v=238"></script>
 </body>
 </html>

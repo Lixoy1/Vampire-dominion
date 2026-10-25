@@ -6,10 +6,10 @@
   "legacyRosterSource": {
     "file": "data.js",
     "dataVersion": "v1.4-derived",
-    "wardenCount": 65
+    "wardenCount": 64
   },
   "coverageSummary": {
-    "legacyWardenRecords": 65,
+    "legacyWardenRecords": 64,
     "wardenBondSkillRecordsObserved": 6,
     "gardenLevelsObserved": [
       109,
@@ -21,229 +21,13 @@
       115
     ],
     "fullBloodBondTables": "not-yet-available",
-    "fullGardenTable": "not-yet-available"
+    "fullGardenTable": "not-yet-available",
+    "profileRowsInLegacyData": 513,
+    "profilesBlockedFromExactForecast": [
+      "Мара"
+    ]
   },
   "wardens": [
-    {
-      "name": "Эдвард",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Мортимер",
-      "legacyTalentSlots": 4,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Никола",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Ульфред",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Люциан",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Друзилла",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Сейбер",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Сарасвати",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Асра",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Ганс",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Пайпер",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Паван",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Элси",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Роберт",
-      "legacyTalentSlots": 8,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Корнелиус",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Джули",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Мориен",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Майк",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Нострадамус",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Лоуренс",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
     {
       "name": "Аластар",
       "legacyTalentSlots": 6,
@@ -256,29 +40,7 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Висент",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Франко",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Ролло",
+      "name": "Артемида",
       "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
@@ -286,131 +48,10 @@
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Джон",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Харкер",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Кармилла",
-      "legacyTalentSlots": 8,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Томас",
-      "legacyTalentSlots": 8,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Виктор",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Гильгамеш",
-      "legacyTalentSlots": 7,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Клео",
-      "legacyTalentSlots": 7,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Чарльз",
-      "legacyTalentSlots": 7,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Кендэс",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Эрик",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Джози",
-      "legacyTalentSlots": 6,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": false
-    },
-    {
-      "name": "Темучжин",
+      "name": "Асра",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
@@ -432,7 +73,7 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Фредерик",
+      "name": "Виктор",
       "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
@@ -443,15 +84,15 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Рудра",
-      "legacyTalentSlots": 5,
+      "name": "Висент",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": false
     },
     {
       "name": "Вотан",
@@ -465,59 +106,37 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Артемида",
-      "legacyTalentSlots": 5,
+      "name": "Вэнс",
+      "legacyTalentSlots": 20,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Финн",
-      "legacyTalentSlots": 5,
+      "name": "Ганс",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Дракула",
-      "legacyTalentSlots": 12,
+      "name": "Гильгамеш",
+      "legacyTalentSlots": 7,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Сэм",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Скарлет",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": false
     },
     {
       "name": "Грендель",
@@ -531,96 +150,8 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Эдди",
-      "legacyTalentSlots": 5,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Уильям",
-      "legacyTalentSlots": 8,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Иван",
-      "legacyTalentSlots": 10,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Эрзебет",
-      "legacyTalentSlots": 10,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Мария",
-      "legacyTalentSlots": 10,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Цезарь",
-      "legacyTalentSlots": 10,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Макс",
-      "legacyTalentSlots": 10,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "Никс",
-      "legacyTalentSlots": 8,
-      "currentGameVerification": "not-rechecked-against-current-client",
-      "bloodBonds": "unknown-no-complete-public-table",
-      "gardenEligibility": "not-yet-documented",
-      "sources": [
-        "data.js:legacy-calculator-v1.4"
-      ],
-      "inspirationInLegacyCatalog": true
-    },
-    {
-      "name": "По",
-      "legacyTalentSlots": 12,
+      "name": "Джози",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -630,8 +161,8 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Дэмиен",
-      "legacyTalentSlots": 20,
+      "name": "Джон",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -641,8 +172,8 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Вэнс",
-      "legacyTalentSlots": 20,
+      "name": "Джули",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -663,8 +194,8 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Торгрим",
-      "legacyTalentSlots": 10,
+      "name": "Дракула",
+      "legacyTalentSlots": 12,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -674,15 +205,15 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Наджа",
-      "legacyTalentSlots": 10,
+      "name": "Друзилла",
+      "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
       "sources": [
         "data.js:legacy-calculator-v1.4"
       ],
-      "inspirationInLegacyCatalog": true
+      "inspirationInLegacyCatalog": false
     },
     {
       "name": "Дьяволо",
@@ -696,8 +227,307 @@
       "inspirationInLegacyCatalog": true
     },
     {
-      "name": "Шут",
+      "name": "Дэмиен",
+      "legacyTalentSlots": 20,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Иван",
       "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Кармилла",
+      "legacyTalentSlots": 8,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Кендэс",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Клео",
+      "legacyTalentSlots": 7,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Корнелиус",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Лоуренс",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Люциан",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Майк",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Макс",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Мара",
+      "legacyTalentSlots": 24,
+      "currentGameVerification": "profile-incomplete-needs-current-game-source",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false,
+      "talentProfileStatus": "incomplete",
+      "exactForecast": "blocked-until-complete-profile-verified"
+    },
+    {
+      "name": "Мария",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Мориен",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Мортимер",
+      "legacyTalentSlots": 4,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Наджа",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Никола",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Никс",
+      "legacyTalentSlots": 8,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Нострадамус",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Паван",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Пайпер",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "По",
+      "legacyTalentSlots": 12,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Роберт",
+      "legacyTalentSlots": 8,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Ролло",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Рудра",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Сарасвати",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Сейбер",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Скарлет",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Сэм",
+      "legacyTalentSlots": 5,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -718,8 +548,8 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "Мара",
-      "legacyTalentSlots": 24,
+      "name": "Темучжин",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",
@@ -729,8 +559,173 @@
       "inspirationInLegacyCatalog": false
     },
     {
-      "name": "новый",
-      "legacyTalentSlots": 4,
+      "name": "Томас",
+      "legacyTalentSlots": 8,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Торгрим",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Уильям",
+      "legacyTalentSlots": 8,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Ульфред",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Финн",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Франко",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Фредерик",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Харкер",
+      "legacyTalentSlots": 6,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Цезарь",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Чарльз",
+      "legacyTalentSlots": 7,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Шут",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Эдвард",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Эдди",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Элси",
+      "legacyTalentSlots": 5,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": false
+    },
+    {
+      "name": "Эрзебет",
+      "legacyTalentSlots": 10,
+      "currentGameVerification": "not-rechecked-against-current-client",
+      "bloodBonds": "unknown-no-complete-public-table",
+      "gardenEligibility": "not-yet-documented",
+      "sources": [
+        "data.js:legacy-calculator-v1.4"
+      ],
+      "inspirationInLegacyCatalog": true
+    },
+    {
+      "name": "Эрик",
+      "legacyTalentSlots": 6,
       "currentGameVerification": "not-rechecked-against-current-client",
       "bloodBonds": "unknown-no-complete-public-table",
       "gardenEligibility": "not-yet-documented",

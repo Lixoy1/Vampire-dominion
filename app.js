@@ -200,7 +200,16 @@ function recalc(){
   if(items)items.textContent=intfmt(detail?detail.totalItems:0)+' предметов';
  });
  const conc=getConclave();
+ const conclaveAudit=E.conclaveDataAudit();
  setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
+ const auditBox=$('#conclaveDataAudit');
+ if(auditBox){
+  auditBox.className='goal-status';
+  if(conclaveAudit.fullyMatched){auditBox.classList.add('good');auditBox.textContent='Таблица Конклава совпадает с контрольными суммами по опубликованным агрегатам и имеет полные стоимости всех уровней.'}
+  else{auditBox.classList.add('warn');auditBox.textContent='ПРЕДВАРИТЕЛЬНО: историческая таблица не совпадает с контрольными итогами сообщества. Одна ветвь: '+fmt(conclaveAudit.directAttribute)+' против '+fmt(conclaveAudit.expectedDirectAttribute)+' атрибута; книги: '+conclaveAudit.bookBonusPct+'% против '+conclaveAudit.expectedBookBonusPct+'%; нет цены для '+conclaveAudit.missingCostLevels.length+' уровней. Прирост Конклава не включён в общий итог, пока таблица не будет восстановлена по уровням.'}
+ }
+ const summaryTrust=$('#domSummaryTrust');
+ if(summaryTrust){summaryTrust.className='goal-status';if(!conclaveAudit.fullyMatched){summaryTrust.classList.add('warn');summaryTrust.textContent='Общий прогноз пока не включает прирост Конклава и его бонус книг: контрольные суммы текущей таблицы расходятся с источником сообщества. Остальные модули показываются по своим статусам проверки.'}else{summaryTrust.classList.add('good');summaryTrust.textContent='Таблица Конклава прошла сверку контрольных сумм.'}}
  const council=parseDefault(S.profile.council,1e6);const councilEntered=String(S.profile.council||'').trim()!=='';const cst=E.requirementStatus(council,conc.council,conc.councilComplete,councilEntered);
  const ccard=$('#conclaveStatusCard');if(ccard)ccard.className='status-card '+cst.state;setText('#conclaveStatus',cst.label);setText('#conclaveStatusHint',cst.hint);
  $$('#conclaveRows .seal-row').forEach((row,i)=>{const a=ATTRS[i],d=conc.details[a];row.querySelector('[data-out]').textContent=d?`+${fmt(d.direct+d.bookEffect)} · книги +${d.deltaBookPct.toLocaleString('ru-RU',{maximumFractionDigits:1})}%`:'+0'});
@@ -210,7 +219,9 @@ function recalc(){
  const other=E.otherWatcherGain(S.otherWardens,inspiration);wGain+=other.gain;
  const resource=E.resourceCalc(parseDefault(S.resource.one,1e6),S.resource.counts);setText('#resourceTotal',fmt(resource.total));
  const availBlood=parseDefault(S.profile.blood,1e9)+(S.resource.type==='Кровь'?resource.total:0);setText('#wardenBlood',fmt(wBlood));setText('#wardenGain',fmt(wGain));setText('#wardenBloodStatus',wBlood===0?'—':availBlood>=wBlood?`хватает · запас ${fmt(availBlood-wBlood)}`:`не хватает ${fmt(wBlood-availBlood)}`);
- const books=E.booksCalc(S.books,getBookBonusFinal(conc),n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const bookBonusForCalc=conclaveAudit.fullyMatched?getBookBonusFinal(conc):Object.fromEntries(ATTRS.map(a=>[a,0]));
+ const books=E.booksCalc(S.books,bookBonusForCalc,n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const booksAudit=$('#booksConclaveAudit');if(booksAudit){booksAudit.className='goal-status';if(!conclaveAudit.fullyMatched){booksAudit.classList.add('warn');booksAudit.textContent='Бонус книг Конклава временно отключён в этом расчёте, потому что таблица бонусов не прошла сверку. Книги считаются без этого множителя.'}else{booksAudit.classList.add('good');booksAudit.textContent='Бонус книг Конклава включён по сверенной таблице.'}}
  const heirs=E.heirMarriageCalc({rings:S.heirs.rings});
  const manual=E.manualSourcesCalc(S.manualSources);
  setText('#manualSourcesGain',fmt(manual.gain));
@@ -232,8 +243,11 @@ function recalc(){
   else{heirsStatus.classList.add('good');heirsStatus.textContent='План рассчитан по введённым игровым значениям. Прогноз дополнительного господства: '+fmt(heirs.gain)+'.'}
  }
  const magicIIIUsed=Object.values(S.books).some(row=>n(row.packIII15)>0);const bh=$('#booksHint');if(bh){bh.className='goal-status';if(magicIIIUsed&&!n(S.bookPackIIIEach)){bh.classList.add('warn');bh.textContent='Есть Магия III, но не указан её номинал. Перепиши число с карточки предмета — до этого Магия III в итог не входит.'}else if(magicIIIUsed){bh.classList.add('good');bh.textContent=`Магия III учтена: по ${intfmt(n(S.bookPackIIIEach))} каждому из 15 смотрителей.`}else{bh.textContent='Добавь только те книги и предметы «Магия», которые собираешься использовать.'}}
- const overallGain=conc.gain+wGain+books.gain+tasting.gain+misc.gain+heirs.gain+manual.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
- const parts=[['Конклав',conc.gain],['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain],['Наследники и браки',heirs.gain],...Object.entries(manual.bySource)].filter(x=>x[1]>0);$('#domBreakdown').innerHTML=parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>';
+ const acceptedConclaveGain=conclaveAudit.fullyMatched?conc.gain:0;
+ const overallGain=acceptedConclaveGain+wGain+books.gain+tasting.gain+misc.gain+heirs.gain+manual.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
+ const parts=[...(conclaveAudit.fullyMatched?[['Конклав',conc.gain]]:[]),['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain],['Наследники и браки',heirs.gain],...Object.entries(manual.bySource)].filter(x=>x[1]>0);
+ const provisionalConclave=!conclaveAudit.fullyMatched&&conc.gain>0?`<div class="break-row provisional"><span>Конклав · предварительно, не включён в итог</span><b>+${fmt(conc.gain)}</b></div>`:'';
+ $('#domBreakdown').innerHTML=provisionalConclave+(parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>');
  const tr=E.talentRatingCalc(S.ratingRows,S.ratingManuscripts,{...S.scrolls});setText('#talentWatcherScore',intfmt(tr.watcherScore));setText('#talentManScore',intfmt(tr.manuscriptScore));setText('#talentTotalScore',intfmt(tr.score));setText('#scrollPool',intfmt(tr.scrollPool));setText('#scrollScore',intfmt(tr.scrollScore));$('#talentDetails').innerHTML=tr.details.length?tr.details.map(r=>{const expState=r.remainder===0?`до следующего ×${r.star}: ${intfmt(r.threshold)} EXP`:`остаток ${intfmt(r.remainder)} · до следующего: ${intfmt(r.missing)} EXP`;return `<div class="break-row"><span>${esc(r.name||'Смотритель')} · ×${r.star} · EXP ${intfmt(r.exp)}</span><b>+${r.score} · ${expState}</b></div>`}).join(''):'';
  const cl=E.closenessCalc(Object.fromEntries(Object.entries(S.closeness).map(([k,v])=>[k,n(v)])));setText('#closenessMin',intfmt(cl.min));setText('#closenessAvg',intfmt(cl.avg));setText('#closenessMax',intfmt(cl.max));goalStatus('#closenessStatus',n(S.closenessGoal),cl);
  const at=E.attractionCalc(Object.fromEntries(Object.entries(S.attraction).map(([k,v])=>[k,n(v)])));setText('#attractionMin',intfmt(at.min));setText('#attractionAvg',intfmt(at.avg));setText('#attractionMax',intfmt(at.max));goalStatus('#attractionStatus',n(S.attractionGoal),at);

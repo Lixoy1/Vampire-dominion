@@ -89,3 +89,5 @@
 - Linked the crosswalk from the source-led Guide section.
 - Updated service-worker cache version and asset query strings so the revised guide is not hidden by stale PWA cache.
 - Re-ran syntax, illustration, evidence-registry and calculator regression checks after the data registry changes.
+
+- Source audit clarification: the Russian App Store listing for «Наследие Вампиров: Новолуние» also lists version 1.051.013 at the latest check; the separate international «Game of Vampires: Twilight Sun» listing is not used to infer the Russian client's version.

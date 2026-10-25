@@ -6,7 +6,10 @@
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
   <title>Vampire Dominion v2.3 — Blood Moon Edition</title>
-  <link rel="stylesheet" href="styles.css?v=223" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=224" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -248,10 +251,38 @@
     </section>
 
     <section id="closeness" class="page">
-      <div class="page-head"><span class="eyebrow">05 · ПАРТНЁРЫ</span><h2>Близость</h2><p>Фиксированные предметы считаются точно, случайные — диапазоном.</p></div>
-      <article class="card"><div id="closenessRows" class="item-list"></div></article>
-      <article class="card"><label>Цель по близости <input id="closenessGoal" inputmode="numeric" placeholder="необязательно"></label></article>
-      <div class="result-hero compact"><div><span>Минимум</span><strong id="closenessMin">0</strong></div><div><span>Среднее</span><strong id="closenessAvg">0</strong></div><div><span>Максимум</span><strong id="closenessMax">0</strong></div></div>
+      <div class="page-head"><span class="eyebrow">05 · ПАРТНЁРЫ</span><h2>Близость</h2><p>Рассчитай очки близости, оцени диапазон случайных подарков и проверь, хватает ли запаса до цели.</p></div>
+
+      <article class="closeness-showcase">
+        <div class="closeness-showcase__copy">
+          <span class="eyebrow">СВЯЗЬ ДВУХ СЕРДЕЦ</span>
+          <h3>Каждый подарок приближает к цели</h3>
+          <p>Введи предметы из сумки и сразу увидишь гарантированный минимум, среднюю оценку и максимальный результат.</p>
+          <div class="closeness-pills"><span>♡ Точный подсчёт</span><span>✦ Диапазон наград</span></div>
+        </div>
+        <div class="closeness-showcase__art">
+          <img src="assets/closeness-couple.webp" alt="Влюблённая вампирская пара в красно-чёрном готическом стиле" loading="lazy" decoding="async">
+        </div>
+      </article>
+
+      <article class="card closeness-calculator-card">
+        <div class="card-title">
+          <div><h3>Предметы близости</h3><p>Количество каждого предмета из инвентаря. Случайные награды считаются диапазоном, а не гарантированным максимумом.</p></div>
+          <span class="badge">онлайн-расчёт</span>
+        </div>
+        <div id="closenessRows" class="item-list"></div>
+        <div class="closeness-goal">
+          <label>Цель по близости
+            <input id="closenessGoal" inputmode="numeric" placeholder="Например, 8 000">
+          </label>
+          <span class="closeness-goal__hint">Необязательно</span>
+        </div>
+      </article>
+      <div class="result-hero compact closeness-results">
+        <div><span>Гарантированный минимум</span><strong id="closenessMin">0</strong></div>
+        <div><span>Средняя оценка</span><strong id="closenessAvg">0</strong></div>
+        <div><span>Верхняя граница</span><strong id="closenessMax">0</strong></div>
+      </div>
       <div id="closenessStatus" class="goal-status">Укажи предметы — результат появится сразу.</div>
     </section>
 
@@ -345,12 +376,26 @@
     </section>
   </main>
 
-  <footer class="site-footer"><div>Vampire Dominion v2.3 · проект <b>ОПТИМИСТ</b> · @optimist2408</div><div class="love-line">Создано с любовью при поддержке <b>«Девочки моих фантазий»</b> <span>♥ ♥ ♥</span></div></footer>
+  <footer class="site-footer">
+    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.4 <span>·</span> проект <b>ОПТИМИСТ</b></div>
+    <div class="footer-love-card">
+      <div class="footer-love-card__art">
+        <img src="assets/optimist-love-couple.webp" alt="Влюблённая вампирская пара — иллюстрация проекта" loading="lazy" decoding="async">
+      </div>
+      <div class="footer-love-card__copy">
+        <span class="eyebrow">МАЛЕНЬКОЕ ПРИЗНАНИЕ</span>
+        <h2>Создано с любовью</h2>
+        <p>К девушке из моих фантазий.</p>
+        <div class="footer-love-card__signature">ОПТИМИСТ <span>♥</span></div>
+      </div>
+    </div>
+    <div class="site-footer__credit">Сделано с душой и каплей вампирской магии <span>✦</span></div>
+  </footer>
 
   <div id="toast" class="toast" role="status"></div>
   <script src="data.js?v=221"></script>
   <script src="source-samples.js?v=221"></script>
-  <script src="engine.js?v=223"></script>
-  <script src="app.js?v=223"></script>
+  <script src="engine.js?v=224"></script>
+  <script src="app.js?v=224"></script>
 </body>
 </html>

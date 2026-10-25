@@ -1,4 +1,4 @@
-# Vampire Dominion v2.14 — Blood Moon Edition
+# Vampire Dominion v2.15 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -91,3 +91,12 @@
 - Re-ran syntax, illustration, evidence-registry and calculator regression checks after the data registry changes.
 
 - Source audit clarification: the Russian App Store listing for «Наследие Вампиров: Новолуние» also lists version 1.051.013 at the latest check; the separate international «Game of Vampires: Twilight Sun» listing is not used to infer the Russian client's version.
+
+
+## v2.15 — Blood Bonds candidate coverage
+- Added a searchable list of 43 Partner → Warden candidate links drawn from an older public community index.
+- The page labels every entry as unverified; local-name candidates and bond classes are not treated as confirmed gameplay facts.
+- Numerical values from that source are not imported into the calculation engine.
+- Added the candidate crosswalk to the offline cache.
+- Kept the Conclave safeguards in place: its aggregate totals still disagree with the legacy row table, so its preview and book bonus remain excluded from the exact global forecast.
+- Existing regression and evidence-registry tests remain the release gate.

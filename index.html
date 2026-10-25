@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.15 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.16 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=236" />
+  <link rel="stylesheet" href="styles.css?v=237" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -398,6 +398,17 @@
               <tbody id="bloodBondCoverageRows"><tr><td colspan="6">Читаем открытый реестр кандидатов…</td></tr></tbody>
             </table>
           </div>
+          <h4>Покрытие по каждому Смотрителю из локального каталога</h4>
+          <p class="bond-roster-note">Эта таблица включает все локальные профили, а не только найденные в сторонней выборке связки. «Не найдено» означает отсутствие пары в данном публичном наборе — это не доказательство отсутствия Кровных уз в игре.</p>
+          <div class="bond-coverage-toolbar bond-roster-toolbar">
+            <span id="bloodBondRosterCoverageMeta" class="badge">Готовим покрытие всех героев…</span>
+          </div>
+          <div class="bond-coverage-table-wrap">
+            <table class="bond-coverage-table bond-roster-table">
+              <thead><tr><th>Локальный Смотритель</th><th>Кандидатные пары из источника</th><th>Статус проверки</th><th>Использование в расчёте</th></tr></thead>
+              <tbody id="bloodBondRosterCoverageRows"><tr><td colspan="4">Загружаем каталог всех Смотрителей…</td></tr></tbody>
+            </table>
+          </div>
           <div id="bloodBondCoverageStatus" class="goal-status warn">Значения связи и цены уровней из стороннего источника не используются в расчёте. Каждую связь и её уровни необходимо отдельно сверить с игрой.</div>
           <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">Открыть наш реестр и происхождение кандидатов</a> · <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Первоисточник списка сообщества</a></p>
         </div></details>
@@ -530,10 +541,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=236"></script>
-  <script src="source-samples.js?v=236"></script>
-  <script src="engine.js?v=236"></script>
-  <script src="app.js?v=236"></script>
-  <script src="illustrations.js?v=236"></script>
+  <script src="data.js?v=237"></script>
+  <script src="source-samples.js?v=237"></script>
+  <script src="engine.js?v=237"></script>
+  <script src="app.js?v=237"></script>
+  <script src="illustrations.js?v=237"></script>
 </body>
 </html>

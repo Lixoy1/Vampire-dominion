@@ -2,58 +2,57 @@
   'use strict';
 
   const assets = [
-    {
-      id: 'loveIllustration',
-      parts: [
-        'assets/dominion-love-small-00.b64',
-        'assets/dominion-love-small-02.b64',
-        'assets/dominion-love-small-03.b64',
-        'assets/dominion-love-small-04.b64'
-      ]
-    },
-    {
-      id: 'closenessIllustration',
-      parts: [
-        'assets/dominion-closeness-small-01.b64',
-        'assets/dominion-closeness-small-02.b64',
-        'assets/dominion-closeness-small-03.b64',
-        'assets/dominion-closeness-small-04.b64'
-      ]
-    }
+    { id: 'loveIllustration', path: 'assets/optimist-love-couple.webp.b64' },
+    { id: 'closenessIllustration', path: 'assets/closeness-couple.webp.b64' }
   ];
 
   async function hydrateImage(asset) {
     const image = document.getElementById(asset.id);
     if (!image) return;
 
+    let objectUrl = null;
     try {
-      const pieces = await Promise.all(asset.parts.map(async (path) => {
-        const response = await fetch(path, { cache: 'force-cache' });
-        if (!response.ok) throw new Error('Не удалось загрузить часть иллюстрации: ' + path);
-        return (await response.text()).trim();
-      }));
-      const encoded = pieces.join('');
-      if (!encoded.startsWith('UklGR')) throw new Error('Неверный заголовок WebP: ' + asset.id);
+      const response = await fetch(asset.path, { cache: 'force-cache' });
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      const encoded = (await response.text()).trim().replace(/\\s+/g, '');
+      if (!encoded.startsWith('UklGR') || encoded.length % 4 === 1) {
+        throw new Error('Некорректный Base64 WebP: ' + asset.id);
+      }
 
       const binary = window.atob(encoded);
+      if (binary.length < 12 ||
+          binary.slice(0, 4) !== 'RIFF' ||
+          binary.slice(8, 12) !== 'WEBP') {
+        throw new Error('Повреждённый заголовок WebP: ' + asset.id);
+      }
+      const riffSize = binary.charCodeAt(4) |
+        (binary.charCodeAt(5) << 8) |
+        (binary.charCodeAt(6) << 16) |
+        (binary.charCodeAt(7) << 24);
+      if (riffSize !== binary.length - 8) {
+        throw new Error('Неполные данные WebP: ' + asset.id);
+      }
+
       const bytes = new Uint8Array(binary.length);
       for (let i = 0; i < binary.length; i += 1) bytes[i] = binary.charCodeAt(i);
-      const blob = new Blob([bytes], { type: 'image/webp' });
-      const objectUrl = URL.createObjectURL(blob);
+      objectUrl = URL.createObjectURL(new Blob([bytes], { type: 'image/webp' }));
 
       image.addEventListener('load', () => {
         image.dataset.loaded = 'true';
-        URL.revokeObjectURL(objectUrl);
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
       }, { once: true });
       image.addEventListener('error', () => {
-        URL.revokeObjectURL(objectUrl);
+        if (objectUrl) URL.revokeObjectURL(objectUrl);
         image.hidden = true;
-        image.closest('.footer-love-card__art, .closeness-showcase__art')?.classList.add('illustration-unavailable');
+        image.closest('.footer-love-card__art, .closeness-showcase__art')
+          ?.classList.add('illustration-unavailable');
       }, { once: true });
       image.src = objectUrl;
     } catch (error) {
+      if (objectUrl) URL.revokeObjectURL(objectUrl);
       image.hidden = true;
-      image.closest('.footer-love-card__art, .closeness-showcase__art')?.classList.add('illustration-unavailable');
+      image.closest('.footer-love-card__art, .closeness-showcase__art')
+        ?.classList.add('illustration-unavailable');
       console.warn('[Vampire Dominion] Иллюстрация не загружена:', asset.id, error);
     }
   }

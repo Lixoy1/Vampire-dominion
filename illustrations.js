@@ -2,8 +2,8 @@
   'use strict';
 
   const assets = [
-    { id: 'loveIllustration', path: 'assets/optimist-love-couple.webp.b64' },
-    { id: 'closenessIllustration', path: 'assets/closeness-couple.webp.b64' }
+    { id: 'loveIllustration', path: 'assets/optimist-love-160.webp.b64' },
+    { id: 'closenessIllustration', path: 'assets/closeness-160.webp.b64' }
   ];
 
   async function hydrateImage(asset) {

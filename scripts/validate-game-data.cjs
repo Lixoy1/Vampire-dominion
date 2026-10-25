@@ -28,6 +28,21 @@ run('Coverage roster exactly matches current legacy data.js roster', () => {
   assert(JSON.stringify(actual) === JSON.stringify(expected), 'coverage roster differs from data.js');
   assert(coverage.legacyRosterSource.wardenCount === expected.length, 'wrong legacy roster count');
 });
+run('Legacy Warden profiles contain no placeholder and have normalized talent rows', () => {
+  assert(!Object.prototype.hasOwnProperty.call(data.watchers, 'новый'), 'temporary placeholder must not be selectable');
+  const allowed = new Set(['Сила', 'Харизма', 'Интеллект', 'Воля']);
+  const invalid = [];
+  for (const [name, rows] of Object.entries(data.watchers)) {
+    for (const row of rows) {
+      if (!allowed.has(row.attr) || !Number.isInteger(Number(row.star)) || Number(row.star) < 1 || Number(row.star) > 6) {
+        invalid.push({ name, attr: row.attr, star: row.star });
+      }
+    }
+  }
+  assert(invalid.length === 0, 'invalid talent rows: ' + JSON.stringify(invalid.slice(0, 10)));
+  assert(data.watcherDataStatus && data.watcherDataStatus['Мара'] && data.watcherDataStatus['Мара'].status === 'incomplete', 'Mara incomplete profile must be marked explicitly');
+  assert(coverage.coverageSummary.profilesBlockedFromExactForecast.includes('Мара'), 'coverage registry must block Mara exact forecast');
+});
 run('Blood Bonds observations are explicitly non-calculating', () => {
   assert(bonds.observations.length > 0, 'no observations registered');
   const seen = new Set();

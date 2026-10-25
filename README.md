@@ -41,8 +41,17 @@
 
 ## v2.9 — Source-backed game-data registry and guides
 - Replaced the in-app guide with source-aware material and clearly marked community claims.
-- Added a 65-entry coverage checklist based on the existing legacy Warden catalog; it is explicitly not declared complete/current.
+- Added a 64-profile coverage checklist and 513 talent records from the legacy catalog; one incomplete profile is blocked from exact forecasts. The list is not declared complete/current.
 - Added structured observations for six Blood Bonds level transitions and seven Garden levels transcribed from user-provided screenshots.
 - Community-reported Garden maximum level and total points are recorded as unverified and are not used in calculations.
 - Added a source manifest, data-quality rules, and CI checks for registry coverage and evidence status.
 - Existing calculator formulas remain unchanged.
+
+
+## v2.10 — Warden data validation and source audit
+- Corrected 16 lowercase Will talent attributes that the case-sensitive calculator was skipping.
+- Removed the `новый` placeholder profile from the selectable Warden roster.
+- Marked Mara's incomplete talent profile as not eligible for an exact forecast until the missing data is confirmed.
+- Added regression tests for Will-attribute normalization, incomplete profiles, and the structure of all 513 legacy talent rows.
+- Added an external-data audit with known discrepancies in community Scarlet Bonds, Garden and Conclave tables; no conflicting values were imported into the calculator.
+- Updated the guide's source list with official announcements and community reference links.

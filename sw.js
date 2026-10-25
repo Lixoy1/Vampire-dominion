@@ -1,4 +1,4 @@
-const C = 'vd-local-v229';
+const C = 'vd-local-v230';
 const PRECACHE = [
   './',
   './index.html',
@@ -11,17 +11,9 @@ const PRECACHE = [
   './illustrations.js',
   './manifest.webmanifest',
   './assets/crest.svg',
-  './assets/love-hq-00.b64',
-  './assets/love-hq-01.b64',
-  './assets/love-hq-02.b64',
-  './assets/love-hq-03.b64',
-  './assets/love-hq-04.b64',
-  './assets/love-hq-05.b64',
-  './assets/closeness-hq-00.b64',
-  './assets/closeness-hq-01.b64',
-  './assets/closeness-hq-02.b64',
-  './assets/closeness-hq-03.b64',
-  './assets/closeness-hq-04.b64'
+  './assets/optimist-love.webp',
+  './assets/closeness.webp',
+  './assets/optimist-vampire-clean.webp'
 ];
 
 self.addEventListener('install', (event) => {

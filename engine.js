@@ -210,6 +210,13 @@
     {key:'ruby',name:'Рубиновое кольцо',rank:'Gold / Platinum'},
     {key:'blackPearl',name:'Чёрная жемчужина',rank:'Ruby / Diamond'}
   ];
+  const MANUAL_DOMINION_SOURCES=[
+    {key:'bloodBonds',name:'Кровные узы'},
+    {key:'garden',name:'Сад'},
+    {key:'skins',name:'Скины'},
+    {key:'familiars',name:'Фамильяры'},
+    {key:'other',name:'Другой источник'}
+  ];
   function heirMarriageCalc(input){
     const rings=(input&&input.rings)||{};
     let gain=0,planned=0,shortage=0;
@@ -232,6 +239,31 @@
         gainPerMarriage:perMarriageGain,gainKnown,gain:rowGain,remaining:stock-marriages,shortage:rowShortage};
     }
     return {gain,planned,shortage,complete:unknownTypes.length===0,unknownTypes,details};
+  }
+
+  // Bridge for systems whose full in-game formula is not yet verified.
+  // Players enter only a confirmed incremental gain not calculated by another module.
+  function manualSourcesCalc(rows){
+    let gain=0;
+    const bySource={};
+    const details=[];
+    const missingRows=[];
+    const invalidRows=[];
+    const allowed=new Set(MANUAL_DOMINION_SOURCES.map(x=>x.name));
+    const validPattern=/^\\+?(?:\\d+(?:[.,]\\d*)?|[.,]\\d+)\\s*[KMBT]?$/i;
+    for(const row of (rows||[])){
+      const source=String((row&&row.source)||'').trim();
+      const raw=String((row&&row.gain)||'').trim();
+      if(!source&&!raw) continue;
+      if(!source||!raw){missingRows.push(row&&row.id);continue;}
+      if(!allowed.has(source)||!validPattern.test(raw)){invalidRows.push(row&&row.id);continue;}
+      const value=parseCompact(raw);
+      if(!Number.isFinite(value)||value<0){invalidRows.push(row&&row.id);continue;}
+      gain+=value;
+      bySource[source]=(bySource[source]||0)+value;
+      details.push({id:row.id,source,gain:value,note:String(row.note||'')});
+    }
+    return {gain,bySource,details,missingRows,invalidRows,complete:missingRows.length===0&&invalidRows.length===0};
   }
 
   function requirementStatus(available,required,complete=true,entered=true){
@@ -264,11 +296,13 @@
       tests.push({name:'Наследники: подтверждённый прирост и неизвестная формула',ok:heirs.gain===1250000&&heirs.shortage===2&&heirs.complete===false&&heirs.unknownTypes.includes('ruby'),got:heirs});
       const noHeirs=heirMarriageCalc({rings:{}});
       tests.push({name:'Наследники: пустой план не добавляет господство',ok:noHeirs.gain===0&&noHeirs.planned===0&&noHeirs.shortage===0&&noHeirs.complete===true,got:noHeirs});
+      const manual=manualSourcesCalc([{id:1,source:'Сад',gain:'2,5M'},{id:2,source:'Кровные узы',gain:'???'},{id:3,source:'Скины',gain:''}]);
+      tests.push({name:'Дополнительные источники: только подтверждённые приросты',ok:manual.gain===2500000&&manual.bySource['Сад']===2500000&&manual.invalidRows.length===1&&manual.missingRows.length===1,got:manual});
       tests.push({name:'K/M/B парсер',ok:parseCompact('5,25M')===5250000&&parseCompact('1.2B')===1200000000&&parseCompact('750K')===750000,got:[parseCompact('5,25M'),parseCompact('1.2B'),parseCompact('750K')]});
       const zero=conclaveCalc({watcherCount:0,seals:{},attrTotals:{}}); const zeroBooks=booksCalc({},{}); const zeroRange=closenessCalc({}); const zeroTal=talentRatingCalc([],{},{}); tests.push({name:'Нулевое состояние всех модулей',ok:zero.gain===0&&zero.council===0&&zeroBooks.gain===0&&zeroRange.min===0&&zeroRange.max===0&&zeroTal.score===0,got:{zero,zeroBooks,zeroRange,zeroTal}});
     }catch(e){tests.push({name:'Исключение тестов',ok:false,error:String(e&&e.stack||e)});}
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,HEIR_RING_TYPES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

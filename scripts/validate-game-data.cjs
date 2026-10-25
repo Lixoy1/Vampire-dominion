@@ -162,6 +162,20 @@ run('Blood Bond candidate crosswalk covers the external 43 pair records without 
   assert(bondCandidates.counts.byBondClass.Single === 19, 'unexpected Single candidate link count');
   assert(bondCandidates.localRosterCoverage.length === Object.keys(data.watchers).length, 'crosswalk roster differs from current legacy roster');
   assert(bondCandidates.localRosterCoverage.every(x => x.exactCalculationEnabled === false), 'candidate mapping must not enable exact calculations');
+  const byLocalName = new Map(bondCandidates.localRosterCoverage.map(x => [x.localWardenName, x]));
+  const coverageByName = new Map(coverage.wardens.map(x => [x.name, x]));
+  assert(byLocalName.size === coverage.wardens.length, 'crosswalk must have exactly one row for every legacy Warden');
+  for (const wardenName of Object.keys(data.watchers)) {
+    const crosswalk = byLocalName.get(wardenName);
+    const row = coverageByName.get(wardenName);
+    assert(Boolean(crosswalk && row), 'missing crosswalk/coverage record for ' + wardenName);
+    assert(JSON.stringify(row.bloodBondCandidatePairs || []) === JSON.stringify(crosswalk.publicCandidateBondPairs), 'candidate-pair IDs differ for ' + wardenName);
+    assert(row.bloodBondCandidateStatus === crosswalk.coverageStatus, 'candidate-pair status differs for ' + wardenName);
+  }
+  assert(coverage.coverageSummary.bloodBondCandidatePairs === 43, 'coverage summary count mismatch');
+  assert(coverage.coverageSummary.bloodBondMappedLocalRosterProfiles === 43, 'coverage summary mapped profile count mismatch');
+  assert(coverage.coverageSummary.bloodBondUnresolvedLocalization.slice().sort().join('|') === ['Лоуренс','Чарльз'].sort().join('|'), 'explicit unresolved local aliases changed');
+  assert(coverage.coverageSummary.bloodBondProbableLocalization.length === 5, 'probable localization list should remain separate from unresolved aliases');
   assert(bondCandidates.candidatePairs.every(x => x.numericTableImported === false && x.verificationStatus === 'community-candidate-unverified'), 'candidate rows must remain unverified and non-numeric');
   const unresolved = bondCandidates.candidatePairs.filter(x => x.localizationStatus === 'unresolved-localization');
   assert(unresolved.some(x => x.publicWardenName === 'Charlemagne'), 'Charlemagne localization conflict missing');

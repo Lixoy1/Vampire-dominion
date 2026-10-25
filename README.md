@@ -1,4 +1,4 @@
-# Vampire Dominion v2.9 — Blood Moon Edition
+# Vampire Dominion v2.10 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 

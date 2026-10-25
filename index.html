@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.1 — Blood Moon Edition</title>
-  <link rel="stylesheet" href="styles.css?v=221" />
+  <title>Vampire Dominion v2.2 — Blood Moon Edition</title>
+  <link rel="stylesheet" href="styles.css?v=222" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -45,6 +45,7 @@
     <button class="tab" data-tab="wardens">♟<span>Смотрители</span></button>
     <button class="tab" data-tab="talents">★<span>Таланты</span></button>
     <button class="tab" data-tab="resources">◇<span>Ресурсы</span></button>
+    <button class="tab" data-tab="heirs">♧<span>Наследники</span></button>
     <button class="tab" data-tab="closeness">♡<span>Близость</span></button>
     <button class="tab" data-tab="attraction">✦<span>Влечение</span></button>
     <button class="tab" data-tab="guides">?<span>Гайды</span></button>
@@ -208,6 +209,35 @@
       </article>
     </section>
 
+    <section id="heirs" class="page">
+      <div class="page-head"><span class="eyebrow">05 · СЕМЬЯ</span><h2>Наследники и кольца</h2><p>Веди запас брачных колец и планируй браки. Господство учитывается только по введённому подтверждённому значению из игры, без догадок о формуле.</p></div>
+
+      <article class="card">
+        <div class="card-title"><div><h3>Кольца и план браков</h3><p>Укажи запас колец, сколько браков планируешь и фактический прирост господства за один брак этого типа. Значение можно вводить как обычное число или сокращённо: 1,25M, 2B.</p></div><span class="badge">расчёт по данным игрока</span></div>
+        <div id="heirRingRows" class="heir-ring-list"></div>
+      </article>
+
+      <div class="result-hero compact">
+        <div><span>Плановый прирост</span><strong id="heirsGain">0</strong></div>
+        <div><span>План браков</span><strong id="heirsPlanned">0</strong></div>
+        <div><span>Не хватает колец</span><strong id="heirsShortage">0</strong></div>
+      </div>
+      <div id="heirsStatus" class="goal-status">Запас колец сам по себе не добавляет господство. Введи план браков и фактический бонус, показанный в игре.</div>
+
+      <article class="card">
+        <div class="card-title"><div><h3>Как считаем</h3></div></div>
+        <div class="guide-body">
+          <ul>
+            <li>Уже совершённые браки не прибавляются повторно: их результат должен входить в текущее господство аккаунта.</li>
+            <li>Кольцо в сумке учитывается как запас предмета, а не как полученное господство.</li>
+            <li>Если для запланированного типа кольца не указано подтверждённое значение прироста, эта строка не включается в прогноз и будет отмечена предупреждением.</li>
+            <li>Дефицит колец показывается отдельно. Он не меняет значение господства за брак.</li>
+          </ul>
+          <p class="guide-tip">Следующий шаг после проверки цифр на твоём аккаунте: перенесём подтверждённые игровые коэффициенты в справочник, чтобы значения не приходилось вводить вручную.</p>
+        </div>
+      </article>
+    </section>
+
     <section id="closeness" class="page">
       <div class="page-head"><span class="eyebrow">05 · ПАРТНЁРЫ</span><h2>Близость</h2><p>Фиксированные предметы считаются точно, случайные — диапазоном.</p></div>
       <article class="card"><div id="closenessRows" class="item-list"></div></article>
@@ -311,7 +341,7 @@
   <div id="toast" class="toast" role="status"></div>
   <script src="data.js?v=221"></script>
   <script src="source-samples.js?v=221"></script>
-  <script src="engine.js?v=221"></script>
-  <script src="app.js?v=221"></script>
+  <script src="engine.js?v=222"></script>
+  <script src="app.js?v=222"></script>
 </body>
 </html>

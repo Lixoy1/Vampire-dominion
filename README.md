@@ -1,4 +1,4 @@
-# Vampire Dominion v2.3 — Blood Moon Edition
+# Vampire Dominion v2.6 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -24,3 +24,9 @@
 - Included these gains in the global forecast with per-source breakdown.
 - Invalid or incomplete values are flagged and not silently counted.
 - Added an automated regression check for the existing formulas and new modules.
+
+## v2.6 — Couple illustrations and typography
+- Added two optimized WebP illustrations: the footer dedication and the closeness calculator feature panel.
+- Fonts: Cormorant Garamond for gothic/display headings and Manrope for clear interface text, with system fallbacks.
+- Added a validated image loader and offline cache entries for both illustration files.
+- Kept the illustrations separate from the calculator math; no existing calculations were changed.

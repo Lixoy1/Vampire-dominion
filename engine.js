@@ -220,7 +220,8 @@
       const stock=Math.max(0,Math.floor(num(row.stock)));
       const marriages=Math.max(0,Math.floor(num(row.planned)));
       const raw=String(row.gainPerMarriage??'').trim();
-      const parsed=raw===''?null:parseCompact(raw);
+      const validGain=/^\\+?(?:\\d+(?:[.,]\\d*)?|[.,]\\d+)\\s*[KMBT]?$/i.test(raw);
+      const parsed=raw===''||!validGain?null:parseCompact(raw);
       const gainKnown=parsed!==null&&Number.isFinite(parsed)&&parsed>=0;
       const perMarriageGain=gainKnown?parsed:null;
       const rowGain=gainKnown?marriages*perMarriageGain:0;

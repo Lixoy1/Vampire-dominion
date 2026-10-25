@@ -1,4 +1,4 @@
-# Vampire Dominion v2.13 — Blood Moon Edition
+# Vampire Dominion v2.14 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -80,3 +80,12 @@
 - Exact Conclave gain and Conclave book bonus are now excluded from the global forecast until a complete level table is verified. A separate provisional row remains visible for debugging.
 - Added visible status messages to distinguish calculated values from unverified estimates.
 - Existing legacy source files and regression fixtures are preserved.
+
+
+## v2.14 — Blood Bond coverage crosswalk
+- Added a source-attributed crosswalk of 43 candidate Partner → Warden links from an older community dataset to all 64 local legacy Warden profiles.
+- Kept numerical formulas out of the crosswalk because the public source has no declared licence, predates the 2026-09 update, and contains unresolved numeric discrepancies with in-game observations.
+- Marked the local-name candidates Charlemagne ↔ Чарльз and Lorenzo ↔ Лоуренс as unresolved; likely transliterations are also explicitly marked as provisional.
+- Linked the crosswalk from the source-led Guide section.
+- Updated service-worker cache version and asset query strings so the revised guide is not hidden by stale PWA cache.
+- Re-ran syntax, illustration, evidence-registry and calculator regression checks after the data registry changes.

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.14 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.15 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -386,6 +386,22 @@
           <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Lovers" target="_blank" rel="noopener noreferrer">Wiki: Lovers и Scarlet Bonds</a> · <a href="https://gameofvampires.com/en/lovers-overview/" target="_blank" rel="noopener noreferrer">Обзор Партнёров и Кровных уз</a></p>
         </div></details>
 
+        <details class="guide-card"><summary>🧭 Реестр 43 кандидатных связок Кровных уз</summary><div class="guide-body">
+          <p>Это индекс связок из стороннего проекта, нужен для поиска пропущенных соответствий между Партнёрами и Смотрителями. Он не содержит используемых сайтом числовых формул, не считается официальным и не подтверждает актуальную связь в текущей версии игры.</p>
+          <div class="bond-coverage-toolbar">
+            <label for="bloodBondCoverageSearch">Поиск по имени Партнёра или Смотрителя<input id="bloodBondCoverageSearch" type="search" placeholder="Например: Майк, Diana, April"></label>
+            <span id="bloodBondCoverageMeta" class="badge">Загружаем реестр…</span>
+          </div>
+          <div class="bond-coverage-table-wrap">
+            <table class="bond-coverage-table">
+              <thead><tr><th>ID</th><th>Партнёр (источник)</th><th>Смотритель (источник)</th><th>Возможное локальное имя</th><th>Тип связи</th><th>Статус сопоставления</th></tr></thead>
+              <tbody id="bloodBondCoverageRows"><tr><td colspan="6">Читаем открытый реестр кандидатов…</td></tr></tbody>
+            </table>
+          </div>
+          <div id="bloodBondCoverageStatus" class="goal-status warn">Значения связи и цены уровней из стороннего источника не используются в расчёте. Каждую связь и её уровни необходимо отдельно сверить с игрой.</div>
+          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">Открыть наш реестр и происхождение кандидатов</a> · <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Первоисточник списка сообщества</a></p>
+        </div></details>
+
         <details class="guide-card"><summary>🌌 Сад: наблюдаемые уровни и пробелы</summary><div class="guide-body">
           <ul>
             <li><b>109:</b> один сильный атрибут — Воля +11000.</li>
@@ -496,7 +512,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.14 <span>·</span> проект <b>ОПТИМИСТ</b></div>
+    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.15 <span>·</span> проект <b>ОПТИМИСТ</b></div>
     <div class="footer-love-card">
       <div class="footer-love-card__art">
         <img id="loveIllustration" alt="Влюблённая вампирская пара — иллюстрация проекта" loading="lazy" decoding="async">

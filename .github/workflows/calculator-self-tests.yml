@@ -28,5 +28,6 @@ jobs:
           node --check engine.js
           node --check app.js
           node --check scripts/self-test.cjs
+          node --check illustrations.js
       - name: Run calculator regression checks
         run: node scripts/self-test.cjs

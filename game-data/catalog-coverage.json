@@ -34,7 +34,14 @@
       "gardenRows": 291,
       "conclaveRows": 101
     },
-    "externalCandidateStatus": "community-unverified; last observed push 2026-06-11; contains unresolved conflicts"
+    "externalCandidateStatus": "community-unverified; last observed push 2026-06-11; contains unresolved conflicts",
+    "communityWardenRosterCandidateCount": 65,
+    "localRosterVsCommunityRoster": "64 local profiles; community wiki lists 65 Wardens; name mapping unresolved",
+    "possibleRosterMappingIssues": [
+      "Dominique has no obvious local profile name",
+      "Charlemagne ↔ Чарльз requires confirmation",
+      "Lorenzo ↔ Лоуренс requires confirmation"
+    ]
   },
   "wardens": [
     {
@@ -743,5 +750,12 @@
       ],
       "inspirationInLegacyCatalog": false
     }
-  ]
+  ],
+  "communityRosterSource": {
+    "file": "game-data/community-warden-roster-candidates.json",
+    "sourceUrl": "https://gameofvampirestwilightsun.fandom.com/wiki/Category:Warden",
+    "sourceClaimedCount": 65,
+    "localProfileCount": 64,
+    "status": "community-candidate-not-authoritative"
+  }
 }

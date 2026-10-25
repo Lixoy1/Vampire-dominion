@@ -4,7 +4,7 @@ const D=window.VD_DATA, E=window.VD_ENGINE;
 const ATTRS=E.ATTRS;
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const attrsShort={Сила:'Сила',Харизма:'Харизма',Интеллект:'Интеллект',Воля:'Воля'};
-let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0;
+let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0,manualSourceSeq=0;
 
 function freshState(){return {
  profile:{dominion:'',watchers:'',blood:'',council:''},
@@ -17,7 +17,8 @@ function freshState(){return {
  tasting:Object.fromEntries(Object.keys(D.tasting).map(n=>[n,''])),misc:{plasma:'',vito:'',trustTotal:'',heirsRB:'',heirsGP:'',heirsS:'',directOther:''},
  closeness:Object.fromEntries(Object.keys(D.closeness).map(n=>[n,''])),closenessGoal:'',
  attraction:Object.fromEntries(Object.keys(D.attraction).map(n=>[n,''])),attractionGoal:'',
- heirs:{rings:{amethyst:{stock:'',planned:'',gainPerMarriage:''},ruby:{stock:'',planned:'',gainPerMarriage:''},blackPearl:{stock:'',planned:'',gainPerMarriage:''}}}
+ heirs:{rings:{amethyst:{stock:'',planned:'',gainPerMarriage:''},ruby:{stock:'',planned:'',gainPerMarriage:''},blackPearl:{stock:'',planned:'',gainPerMarriage:''}}},
+ manualSources:[]
 };}
 let S=freshState();
 
@@ -110,6 +111,27 @@ function renderBooks(){
 function renderTasting(){const box=$('#tastingRows');box.innerHTML='';for(const [name,v] of Object.entries(D.tasting)){const el=document.createElement('div');el.className='counter-item';el.innerHTML=`<span>${name} · +${v}</span><input inputmode="numeric" placeholder="0" value="${esc(S.tasting[name])}">`;el.querySelector('input').addEventListener('input',e=>{S.tasting[name]=e.target.value;recalc()});box.append(el)}}
 function renderItems(type){const defs=D[type],state=S[type],box=$('#'+type+'Rows');box.innerHTML='';for(const [name,range] of Object.entries(defs)){const fixed=range[0]===range[1];const el=document.createElement('div');el.className='item-row';el.innerHTML=`<div><b>${name}</b><div class="meta">${fixed?'+'+range[0]:'+'+range[0]+'…'+range[1]} за предмет</div></div><input inputmode="numeric" placeholder="0" value="${esc(state[name])}">`;el.querySelector('input').addEventListener('input',e=>{state[name]=e.target.value;recalc()});box.append(el)}}
 
+function newManualSource(){return {id:++manualSourceSeq,source:'',gain:'',note:''}}
+function renderManualDominionSources(){
+ const box=$('#manualDominionRows');if(!box)return;box.innerHTML='';
+ const opts='<option value="">Выбери систему</option>'+E.MANUAL_DOMINION_SOURCES.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('');
+ for(const row of S.manualSources){
+  const el=document.createElement('div');el.className='manual-source-row';
+  el.innerHTML=`<label>Источник<select class="manual-source-select">${opts}</select></label>
+   <label>Подтверждённый прирост<input class="manual-source-gain" inputmode="decimal" value="${esc(row.gain)}" placeholder="например 1,25M"></label>
+   <label>Заметка / контрольный экран<input class="manual-source-note" value="${esc(row.note)}" placeholder="например, улучшение узла 112"></label>
+   <button class="remove-btn" type="button" aria-label="Удалить источник">×</button>`;
+  const select=el.querySelector('.manual-source-select');select.value=row.source||'';
+  select.addEventListener('change',e=>{row.source=e.target.value;recalc()});
+  el.querySelector('.manual-source-gain').addEventListener('input',e=>{row.gain=e.target.value;recalc()});
+  el.querySelector('.manual-source-note').addEventListener('input',e=>{row.note=e.target.value;scheduleLocalSave()});
+  el.querySelector('.remove-btn').addEventListener('click',()=>{S.manualSources=S.manualSources.filter(x=>x.id!==row.id);renderManualDominionSources();recalc()});
+  box.append(el);
+ }
+ setText('#manualSourceCount',String(S.manualSources.length));
+}
+$('#addManualDominionSource').addEventListener('click',()=>{S.manualSources.push(newManualSource());renderManualDominionSources();recalc()});
+
 function renderHeirRings(){
  const box=$('#heirRingRows');if(!box)return;box.innerHTML='';
  for(const type of E.HEIR_RING_TYPES){
@@ -141,6 +163,16 @@ function recalc(){
  const availBlood=parseDefault(S.profile.blood,1e9)+(S.resource.type==='Кровь'?resource.total:0);setText('#wardenBlood',fmt(wBlood));setText('#wardenGain',fmt(wGain));setText('#wardenBloodStatus',wBlood===0?'—':availBlood>=wBlood?`хватает · запас ${fmt(availBlood-wBlood)}`:`не хватает ${fmt(wBlood-availBlood)}`);
  const books=E.booksCalc(S.books,getBookBonusFinal(conc),n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
  const heirs=E.heirMarriageCalc({rings:S.heirs.rings});
+ const manual=E.manualSourcesCalc(S.manualSources);
+ setText('#manualSourcesGain',fmt(manual.gain));
+ const manualStatus=$('#manualSourcesStatus');
+ if(manualStatus){
+  manualStatus.className='goal-status';
+  if(manual.invalidRows.length){manualStatus.classList.add('warn');manualStatus.textContent='Есть '+manual.invalidRows.length+' строк(и) с неверным источником или форматом числа. Они не включены в прогноз.'}
+  else if(manual.missingRows.length){manualStatus.classList.add('warn');manualStatus.textContent='Заполни источник и подтверждённый прирост ещё в '+manual.missingRows.length+' строк(ах), либо удали пустые строки. Пустые строки не включены в расчёт.'}
+  else if(manual.details.length){manualStatus.textContent='В прогноз добавлены только введённые приросты: '+manual.details.length+'. Не дублируй здесь значения, уже учитываемые Конклавом, Смотрителями, книгами, Дегустацией, прочими формулами или кольцами.'}
+  else{manualStatus.textContent='Используй этот блок временно для подтверждённых приростов систем, для которых ещё нет проверенной автоматической формулы.'}
+ }
  setText('#heirsGain',fmt(heirs.gain));setText('#heirsPlanned',intfmt(heirs.planned));setText('#heirsShortage',intfmt(heirs.shortage));
  const heirsStatus=$('#heirsStatus');
  if(heirsStatus){
@@ -151,8 +183,8 @@ function recalc(){
   else{heirsStatus.classList.add('good');heirsStatus.textContent='План рассчитан по введённым игровым значениям. Прогноз дополнительного господства: '+fmt(heirs.gain)+'.'}
  }
  const magicIIIUsed=Object.values(S.books).some(row=>n(row.packIII15)>0);const bh=$('#booksHint');if(bh){bh.className='goal-status';if(magicIIIUsed&&!n(S.bookPackIIIEach)){bh.classList.add('warn');bh.textContent='Есть Магия III, но не указан её номинал. Перепиши число с карточки предмета — до этого Магия III в итог не входит.'}else if(magicIIIUsed){bh.classList.add('good');bh.textContent=`Магия III учтена: по ${intfmt(n(S.bookPackIIIEach))} каждому из 15 смотрителей.`}else{bh.textContent='Добавь только те книги и предметы «Магия», которые собираешься использовать.'}}
- const overallGain=conc.gain+wGain+books.gain+tasting.gain+misc.gain+heirs.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
- const parts=[['Конклав',conc.gain],['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain],['Наследники и браки',heirs.gain]].filter(x=>x[1]>0);$('#domBreakdown').innerHTML=parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>';
+ const overallGain=conc.gain+wGain+books.gain+tasting.gain+misc.gain+heirs.gain+manual.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
+ const parts=[['Конклав',conc.gain],['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain],['Наследники и браки',heirs.gain],...Object.entries(manual.bySource)].filter(x=>x[1]>0);$('#domBreakdown').innerHTML=parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>';
  const tr=E.talentRatingCalc(S.ratingRows,S.ratingManuscripts,{...S.scrolls});setText('#talentWatcherScore',intfmt(tr.watcherScore));setText('#talentManScore',intfmt(tr.manuscriptScore));setText('#talentTotalScore',intfmt(tr.score));setText('#scrollPool',intfmt(tr.scrollPool));setText('#scrollScore',intfmt(tr.scrollScore));$('#talentDetails').innerHTML=tr.details.length?tr.details.map(r=>{const expState=r.remainder===0?`до следующего ×${r.star}: ${intfmt(r.threshold)} EXP`:`остаток ${intfmt(r.remainder)} · до следующего: ${intfmt(r.missing)} EXP`;return `<div class="break-row"><span>${esc(r.name||'Смотритель')} · ×${r.star} · EXP ${intfmt(r.exp)}</span><b>+${r.score} · ${expState}</b></div>`}).join(''):'';
  const cl=E.closenessCalc(Object.fromEntries(Object.entries(S.closeness).map(([k,v])=>[k,n(v)])));setText('#closenessMin',intfmt(cl.min));setText('#closenessAvg',intfmt(cl.avg));setText('#closenessMax',intfmt(cl.max));goalStatus('#closenessStatus',n(S.closenessGoal),cl);
  const at=E.attractionCalc(Object.fromEntries(Object.entries(S.attraction).map(([k,v])=>[k,n(v)])));setText('#attractionMin',intfmt(at.min));setText('#attractionAvg',intfmt(at.avg));setText('#attractionMax',intfmt(at.max));goalStatus('#attractionStatus',n(S.attractionGoal),at);
@@ -164,7 +196,7 @@ let saveTimer=null;
 function serializableState(){return JSON.parse(JSON.stringify(S))}
 function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()))}catch(e){}}
 function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}
-function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})},heirs:{...base.heirs,...(saved.heirs||{}),rings:{...base.heirs.rings,...(((saved.heirs||{}).rings)||{})}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});Object.keys(base.heirs.rings).forEach(k=>S.heirs.rings[k]={...base.heirs.rings[k],...((S.heirs.rings&&S.heirs.rings[k])||{})});return true}catch(e){return false}}
+function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})},heirs:{...base.heirs,...(saved.heirs||{}),rings:{...base.heirs.rings,...(((saved.heirs||{}).rings)||{})}},manualSources:Array.isArray(saved.manualSources)?saved.manualSources:[];Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});Object.keys(base.heirs.rings).forEach(k=>S.heirs.rings[k]={...base.heirs.rings[k],...((S.heirs.rings&&S.heirs.rings[k])||{})});return true}catch(e){return false}}
 function downloadBackup(){const p={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`vampire-dominion-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Резервная копия сохранена')}
 function restoreBackup(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(String(r.result||''));localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state||p));location.reload()}catch(e){alert('Не удалось восстановить JSON-бэкап Vampire Dominion.')}};r.readAsText(file,'utf-8')}
 $('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEventListener('click',()=>$('#backupFile').click());$('#backupFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=''})
@@ -172,7 +204,7 @@ $('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEv
 $('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
 function renderAll(){
  ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;if($('#packIIIEach'))$('#packIIIEach').value=S.bookPackIIIEach;
- renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');renderHeirRings();recalc();
+ renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');renderHeirRings();renderManualDominionSources();recalc();
 }
 
 loadLocalState();
@@ -180,6 +212,7 @@ wardenSeq=Math.max(0,...S.wardens.map(x=>Number(x.id)||0));
 inspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));
 otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
 ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
+manualSourceSeq=Math.max(0,...S.manualSources.map(x=>Number(x.id)||0));
 bindStatic();renderAll();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};

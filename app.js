@@ -4,7 +4,7 @@ const D=window.VD_DATA, E=window.VD_ENGINE;
 const ATTRS=E.ATTRS;
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const attrsShort={Сила:'Сила',Харизма:'Харизма',Интеллект:'Интеллект',Воля:'Воля'};
-let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0,manualSourceSeq=0;
+let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0,manualSourceSeq=0,guildMemberSeq=1;
 
 function freshState(){return {
  profile:{dominion:'',watchers:'',blood:'',council:''},
@@ -18,7 +18,8 @@ function freshState(){return {
  closeness:Object.fromEntries(Object.keys(D.closeness).map(n=>[n,''])),closenessGoal:'',
  attraction:Object.fromEntries(Object.keys(D.attraction).map(n=>[n,''])),attractionGoal:'',
  heirs:{rings:{amethyst:{stock:'',planned:'',gainPerMarriage:''},ruby:{stock:'',planned:'',gainPerMarriage:''},blackPearl:{stock:'',planned:'',gainPerMarriage:''}}},
- manualSources:[]
+ manualSources:[],
+ guildExp:{members:[{id:1,name:'',counts:Object.fromEntries((D.guildExperienceItems||[]).map(item=>[item.key,'']))}]}
 };}
 let S=freshState();
 
@@ -132,6 +133,34 @@ function renderManualDominionSources(){
 }
 $('#addManualDominionSource').addEventListener('click',()=>{S.manualSources.push(newManualSource());renderManualDominionSources();recalc()});
 
+function newGuildMember(){
+ return {id:++guildMemberSeq,name:'',counts:Object.fromEntries((D.guildExperienceItems||[]).map(item=>[item.key,'']))};
+}
+function renderGuildMembers(){
+ const box=$('#guildMemberRows');if(!box)return;box.innerHTML='';
+ const defs=D.guildExperienceItems||[];
+ for(const member of S.guildExp.members){
+  member.counts=member.counts||{};
+  for(const item of defs) if(member.counts[item.key]===undefined)member.counts[item.key]='';
+  const el=document.createElement('article');el.className='guild-member-card';el.dataset.memberId=String(member.id);
+  el.innerHTML=`<div class="guild-member-head">
+    <label class="guild-member-name">Участник / ник<input class="guild-name" value="${esc(member.name)}" placeholder="Имя участника"></label>
+    <div class="guild-member-total"><span>Опыт участника</span><strong data-guild-member-total>0</strong><small data-guild-member-items>0 предметов</small></div>
+    <button class="remove-btn guild-remove" type="button" aria-label="Удалить участника">×</button>
+   </div>
+   <div class="guild-item-grid">${defs.map(item=>`<label><span>${esc(item.name)}<small>+ ${intfmt(item.experience)} опыта / шт.</small></span><input type="number" min="0" step="1" inputmode="numeric" data-item-key="${esc(item.key)}" value="${esc(member.counts[item.key])}" placeholder="0" aria-label="${esc(item.name)}"></label>`).join('')}</div>`;
+  el.querySelector('.guild-name').addEventListener('input',e=>{member.name=e.target.value;recalc()});
+  el.querySelectorAll('[data-item-key]').forEach(input=>input.addEventListener('input',e=>{member.counts[e.target.dataset.itemKey]=e.target.value;recalc()}));
+  el.querySelector('.guild-remove').addEventListener('click',()=>{S.guildExp.members=S.guildExp.members.filter(x=>x.id!==member.id);renderGuildMembers();recalc()});
+  box.append(el);
+ }
+ const add=$('#addGuildMember');if(add){add.disabled=S.guildExp.members.length>=29;add.innerHTML=S.guildExp.members.length>=29?'Лимит участников <span class="count-badge">29 / 29</span>':'+ Добавить участника <span class="count-badge">'+S.guildExp.members.length+' / 29</span>';}
+ setText('#guildMemberCount',String(S.guildExp.members.length));
+}
+$('#addGuildMember').addEventListener('click',()=>{
+ if(S.guildExp.members.length>=29)return;
+ S.guildExp.members.push(newGuildMember());renderGuildMembers();recalc();
+});
 function renderHeirRings(){
  const box=$('#heirRingRows');if(!box)return;box.innerHTML='';
  for(const type of E.HEIR_RING_TYPES){
@@ -150,6 +179,26 @@ function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.
 
 function recalc(){
  scheduleLocalSave();
+ const guild=E.guildExperienceCalc(S.guildExp.members);
+ setText('#guildExpTotal',intfmt(guild.total));
+ setText('#guildExpItemsTotal',intfmt(guild.totalItems));
+ setText('#guildExpContributors',intfmt(guild.contributors));
+ const guildBreakdown=$('#guildExpBreakdown');
+ if(guildBreakdown)guildBreakdown.innerHTML=(D.guildExperienceItems||[]).map(item=>`<div class="break-row"><span>${esc(item.name)} · ${intfmt(guild.itemTotals[item.key]||0)} шт.</span><b>+${intfmt((guild.itemTotals[item.key]||0)*item.experience)}</b></div>`).join('');
+ const guildStatus=$('#guildExpStatus');
+ if(guildStatus){
+  guildStatus.className='goal-status';
+  if(!guild.complete){guildStatus.classList.add('warn');guildStatus.textContent='Проверь количества: предметы должны быть целыми неотрицательными числами. Ошибочные ячейки временно не включены в расчёт.'}
+  else{guildStatus.textContent='Расчёт использует коэффициенты из файла «счет опыта ги.xlsx». Перед использованием как эталонного результата сверь их с актуальной игрой: источник пока не подтверждён отдельно в клиенте.'}
+ }
+ const guildDetails=new Map(guild.members.map(row=>[String(row.id),row]));
+ $('#guildMemberRows .guild-member-card').forEach(card=>{
+  const detail=guildDetails.get(card.dataset.memberId);
+  const total=card.querySelector('[data-guild-member-total]');
+  const items=card.querySelector('[data-guild-member-items]');
+  if(total)total.textContent=intfmt(detail?detail.total:0);
+  if(items)items.textContent=intfmt(detail?detail.totalItems:0)+' предметов';
+ });
  const conc=getConclave();
  setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
  const council=parseDefault(S.profile.council,1e6);const councilEntered=String(S.profile.council||'').trim()!=='';const cst=E.requirementStatus(council,conc.council,conc.councilComplete,councilEntered);
@@ -196,15 +245,15 @@ let saveTimer=null;
 function serializableState(){return JSON.parse(JSON.stringify(S))}
 function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()))}catch(e){}}
 function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}
-function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})},heirs:{...base.heirs,...(saved.heirs||{}),rings:{...base.heirs.rings,...(((saved.heirs||{}).rings)||{})}},manualSources:Array.isArray(saved.manualSources)?saved.manualSources:[]};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});Object.keys(base.heirs.rings).forEach(k=>S.heirs.rings[k]={...base.heirs.rings[k],...((S.heirs.rings&&S.heirs.rings[k])||{})});return true}catch(e){return false}}
+function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})},heirs:{...base.heirs,...(saved.heirs||{}),rings:{...base.heirs.rings,...(((saved.heirs||{}).rings)||{})}},manualSources:Array.isArray(saved.manualSources)?saved.manualSources:[],guildExp:{...base.guildExp,...(saved.guildExp||{}),members:Array.isArray((saved.guildExp||{}).members)?saved.guildExp.members:base.guildExp.members}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});Object.keys(base.heirs.rings).forEach(k=>S.heirs.rings[k]={...base.heirs.rings[k],...((S.heirs.rings&&S.heirs.rings[k])||{})});return true}catch(e){return false}}
 function downloadBackup(){const p={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`vampire-dominion-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Резервная копия сохранена')}
 function restoreBackup(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(String(r.result||''));localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state||p));location.reload()}catch(e){alert('Не удалось восстановить JSON-бэкап Vampire Dominion.')}};r.readAsText(file,'utf-8')}
 $('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEventListener('click',()=>$('#backupFile').click());$('#backupFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=''})
 
-$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
+$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=manualSourceSeq=0;guildMemberSeq=Math.max(1,...S.guildExp.members.map(x=>Number(x.id)||1));localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
 function renderAll(){
  ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;if($('#packIIIEach'))$('#packIIIEach').value=S.bookPackIIIEach;
- renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');renderHeirRings();renderManualDominionSources();recalc();
+ renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');renderGuildMembers();renderHeirRings();renderManualDominionSources();recalc();
 }
 
 loadLocalState();
@@ -213,6 +262,7 @@ inspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));
 otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
 ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
 manualSourceSeq=Math.max(0,...S.manualSources.map(x=>Number(x.id)||0));
+guildMemberSeq=Math.max(0,...S.guildExp.members.map(x=>Number(x.id)||0));
 bindStatic();renderAll();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};

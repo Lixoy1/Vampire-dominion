@@ -250,7 +250,7 @@
     const missingRows=[];
     const invalidRows=[];
     const allowed=new Set(MANUAL_DOMINION_SOURCES.map(x=>x.name));
-    const validPattern=/^\\+?(?:\\d+(?:[.,]\\d*)?|[.,]\\d+)\\s*[KMBT]?$/i;
+    const validPattern=/^\+?(?:\d+(?:[.,]\d*)?|[.,]\d+)\s*[KMBT]?$/i;
     for(const row of (rows||[])){
       const source=String((row&&row.source)||'').trim();
       const raw=String((row&&row.gain)||'').trim();

@@ -1,4 +1,4 @@
-const C = 'vd-local-v237';
+const C = 'vd-local-v238';
 const PRECACHE = [
   './',
   './index.html',
@@ -14,6 +14,7 @@ const PRECACHE = [
   './assets/optimist-love.webp',
   './assets/closeness.webp',
   './game-data/blood-bond-pairing-candidates.json',
+  './game-data/garden-observations.json',
   './assets/optimist-vampire-clean.webp'
 ];
 

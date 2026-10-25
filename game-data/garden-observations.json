@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 1,
+  "game": "Наследие Вампиров: Новолуние",
+  "datasetStatus": "partial-observations-not-calculation-ready",
+  "disclaimer": "Rows below transcribe only the user-provided Garden screen. They are not a complete level table and do not establish the formula by which Garden bonuses affect account Dominion.",
+  "observedAt": "2026-10-25",
+  "screenSource": "user-provided-in-game-screenshots",
+  "observations": [
+    {
+      "level": 109,
+      "category": "Смотрители с 1 сильным атрибутом",
+      "bonuses": [
+        {
+          "attribute": "Воля",
+          "displayed": "+11000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    },
+    {
+      "level": 110,
+      "category": "Смотрители с 2 сильными атрибутами",
+      "bonuses": [
+        {
+          "attribute": "Сила",
+          "displayed": "+11000"
+        },
+        {
+          "attribute": "Интеллект",
+          "displayed": "+11000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    },
+    {
+      "level": 111,
+      "category": "Смотрители с 2 сильными атрибутами",
+      "bonuses": [
+        {
+          "attribute": "Харизма",
+          "displayed": "+11000"
+        },
+        {
+          "attribute": "Воля",
+          "displayed": "+11000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    },
+    {
+      "level": 112,
+      "category": "Универсальные смотрители",
+      "bonuses": [
+        {
+          "attribute": "Все",
+          "displayed": "+22000"
+        }
+      ],
+      "rawCostDisplay": "4280/170",
+      "normalizedCost": null,
+      "dominanceGain": null,
+      "status": "raw-display-needs-interpretation"
+    },
+    {
+      "level": 113,
+      "category": "Смотрители с 1 сильным атрибутом",
+      "bonuses": [
+        {
+          "attribute": "Сила",
+          "displayed": "+12000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    },
+    {
+      "level": 114,
+      "category": "Смотрители с 1 сильным атрибутом",
+      "bonuses": [
+        {
+          "attribute": "Харизма",
+          "displayed": "+12000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    },
+    {
+      "level": 115,
+      "category": "Смотрители с 1 сильным атрибутом",
+      "bonuses": [
+        {
+          "attribute": "Интеллект",
+          "displayed": "+12000"
+        }
+      ],
+      "rawCostDisplay": null,
+      "cost": null,
+      "dominanceGain": null,
+      "status": "observation-only"
+    }
+  ],
+  "communityAggregate": {
+    "claimedMaxLevel": 140,
+    "claimedTotalPointsToMax": 18900,
+    "source": "https://telemetr.io/en/channels/2158115409-draculachest/posts",
+    "sourceExcerpt": "Сундук Дракулы сообщает: максимальный уровень эффектов сада — 140; полная прокачка требует 18900 очков.",
+    "publishedDate": "not-confirmed-in-public-archive",
+    "evidenceClass": "community-unverified",
+    "useInCalculator": false,
+    "notes": "Keep as a research lead only. Verify both values against a current in-game screenshot before adopting."
+  },
+  "missingRanges": [
+    "1-108",
+    "116-140"
+  ],
+  "requiredForCalculation": [
+    "Every Garden level's category and attribute bonus",
+    "Exact cost for each level and any prerequisites",
+    "Confirmed eligible Warden categories / applicability",
+    "Whether the bonus is reflected in Warden attributes or account Dominion separately",
+    "Before/after Dominion validation for a single Garden upgrade"
+  ]
+}

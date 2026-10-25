@@ -20,6 +20,7 @@ const coverage = readJson('game-data/catalog-coverage.json');
 const bonds = readJson('game-data/blood-bonds-observations.json');
 const garden = readJson('game-data/garden-observations.json');
 const sources = readJson('game-data/source-manifest.json');
+const conflicts = readJson('game-data/source-conflicts.json');
 
 run('Coverage roster exactly matches current legacy data.js roster', () => {
   const expected = Object.keys(data.watchers).sort();
@@ -72,6 +73,19 @@ run('Source manifest marks the requested unidentified channel as unresolved', ()
   assert(Boolean(source), 'missing Dampirlogiya tracking entry');
   assert(source.url === null, 'do not invent a source URL');
   assert(source.status.includes('not identified'), 'unidentified source status missing');
+});
+
+run('External dataset conflicts remain explicit and cannot become formula constants', () => {
+  assert(conflicts.sources.publicFanRepo.license === null, 'unknown license must stay explicit');
+  assert(conflicts.conflicts.length >= 4, 'expected cross-source conflict register');
+  for (const row of conflicts.conflicts) {
+    assert(row.id && row.system && row.status, 'conflict row missing identity/status');
+    assert(row.status.startsWith('unresolved') || row.status.includes('unresolved') || row.status.startsWith('known-dataset-disagreement') || row.status.startsWith('coverage-and-name-mapping'), 'conflict must remain explicitly unresolved: ' + row.id);
+  }
+  const repository = sources.sources.find(x => x.id === 'public-fan-calculator-repository');
+  assert(Boolean(repository), 'missing public fan repository in source manifest');
+  assert(repository.metadata && repository.metadata.license === null, 'public repository licence metadata must remain explicit');
+  assert(repository.metadata.lastObservedPushAt === '2026-06-11T03:05:42Z', 'unexpected candidate source date');
 });
 
 if (process.exitCode) process.exit(process.exitCode);

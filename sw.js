@@ -13,6 +13,7 @@ const PRECACHE = [
   './assets/crest.svg',
   './assets/optimist-love.webp',
   './assets/closeness.webp',
+  './game-data/blood-bond-pairing-candidates.json',
   './assets/optimist-vampire-clean.webp'
 ];
 

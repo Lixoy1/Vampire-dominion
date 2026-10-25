@@ -114,7 +114,9 @@
 
 ## 9. Источники сообщества и ограничения
 
-- Официальные объявления: https://t.me/gov_announcements\n- Официальная группа Telegram: https://t.me/gov_ruofficial\n- Сундук Дракулы: https://t.me/draculachest — сообщения об игре и боте-помощнике.
+- Официальные объявления: https://t.me/gov_announcements
+- Официальная группа Telegram: https://t.me/gov_ruofficial
+- Сундук Дракулы: https://t.me/draculachest — сообщения об игре и боте-помощнике.
 - Архив Сундука Дракулы: https://telemetr.io/en/channels/2158115409-draculachest/posts
 - Академия Вампиров: https://t.me/AcademyVam
 - Наследие Вампиров: Новости: https://t.me/GameOfVampiresFan

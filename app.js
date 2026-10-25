@@ -174,6 +174,52 @@ function renderHeirRings(){
   box.append(el);
  }
 }
+function initBloodBondCoverage(){
+ const search=$('#bloodBondCoverageSearch');
+ const rowsBox=$('#bloodBondCoverageRows');
+ const meta=$('#bloodBondCoverageMeta');
+ const status=$('#bloodBondCoverageStatus');
+ if(!rowsBox)return;
+ let candidates=[];
+ const typeLabels={All:'Все атрибуты',Dual:'Два атрибута',Single:'Один атрибут'};
+ const localizationLabels={
+  'matched-name':'Кандидат по имени · требует сверки',
+  'probable-localization':'Вероятная локализация · подтвердить',
+  'unresolved-localization':'Сопоставление не подтверждено'
+ };
+ function render(){
+  const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
+  const filtered=candidates.filter(row=>[
+   row.publicPartnerLabel,row.publicWardenName,row.possibleLocalWarden,row.candidateId,row.bondClass,row.localizationStatus
+  ].some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query)));
+  if(meta)meta.textContent=query?`${filtered.length} из ${candidates.length} связок`:`${candidates.length} кандидатных связок`;
+  rowsBox.innerHTML=filtered.length?filtered.map(row=>`<tr>
+   <td><code>${esc(row.candidateId)}</code></td>
+   <td>${esc(row.publicPartnerLabel)}</td>
+   <td>${esc(row.publicWardenName)}</td>
+   <td>${esc(row.possibleLocalWarden||'—')}</td>
+   <td>${esc(typeLabels[row.bondClass]||row.bondClass||'не указан')}</td>
+   <td><span class="coverage-status">${esc(localizationLabels[row.localizationStatus]||row.localizationStatus||'неизвестно')}</span></td>
+  </tr>`).join(''):`<tr><td colspan="6">${candidates.length?'По такому запросу связок не найдено.':'Реестр пока не загружен.'}</td></tr>`;
+ }
+ search?.addEventListener('input',render);
+ fetch('./game-data/blood-bond-pairing-candidates.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   candidates=Array.isArray(payload.candidatePairs)?payload.candidatePairs:[];
+   render();
+   if(status){
+    status.className='goal-status warn';
+    status.textContent=`Загружено ${candidates.length} кандидатных связок из стороннего справочника. В наборе нет числовых формул; совпадения имён, тип связи и актуальность необходимо подтвердить в игре. Этот список не влияет на расчёт господства.`;
+   }
+  })
+  .catch(()=>{
+   if(meta)meta.textContent='Реестр недоступен';
+   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр. Проверь подключение или открой JSON по ссылке ниже.</td></tr>';
+   if(status){status.className='goal-status warn';status.textContent='Реестр кандидатов недоступен. Расчёты калькулятора продолжают работать; список можно открыть напрямую в GitHub.'}
+  });
+}
+
 function getConclave(){const seals={};for(const a of ATTRS)seals[a]={current:n(S.conclave[a].current),target:n(S.conclave[a].target)};const totals=Object.fromEntries(ATTRS.map(a=>[a,parse(S.conclaveAttrTotals[a])]));return E.conclaveCalc({watcherCount:n(S.profile.watchers),seals,attrTotals:totals})}
 function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.details[a]?.finalBookBonusPct||0]))}
 
@@ -277,7 +323,7 @@ otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
 ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
 manualSourceSeq=Math.max(0,...S.manualSources.map(x=>Number(x.id)||0));
 guildMemberSeq=Math.max(0,...S.guildExp.members.map(x=>Number(x.id)||0));
-bindStatic();renderAll();
+bindStatic();renderAll();initBloodBondCoverage();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};
 window.addEventListener('load',()=>setTimeout(showHero,40));window.addEventListener('pageshow',e=>{if(e.persisted)setTimeout(showHero,30)});

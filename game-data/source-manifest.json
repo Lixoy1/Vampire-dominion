@@ -171,6 +171,14 @@
         "Public Garden rows extend to 291, while a community archive claims max Garden effect level 140 and 18900 points. The claims may refer to different definitions or outdated versions; neither is an approved constant.",
         "Public Conclave values differ from the local historical table at levels 1, 2, 10, 100 and 101. The old local regression examples remain authoritative for the existing engine until primary evidence resolves specific rows."
       ]
+    },
+    {
+      "id": "fandom-warden-category",
+      "name": "Game of Vampires: Twilight Sun Wiki — Category:Warden",
+      "url": "https://gameofvampirestwilightsun.fandom.com/wiki/Category:Warden",
+      "kind": "community-wiki-catalog",
+      "purpose": "independent Warden roster candidate and name reconciliation",
+      "status": "community wiki says All items (65); useful for roster comparison, not a publisher-controlled roster; apply CC-BY-SA attribution"
     }
   ],
   "rules": [

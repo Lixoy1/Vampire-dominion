@@ -11,6 +11,14 @@
       "status": "game listing links here"
     },
     {
+      "id": "official-announcements",
+      "name": "Наследие Вампиров Объявления",
+      "url": "https://t.me/gov_announcements",
+      "kind": "official-announcements",
+      "purpose": "official patch previews and announced gameplay changes",
+      "status": "primary announcement source; preview content can change before release and does not necessarily publish full calculator formulas"
+    },
+    {
       "id": "rustore-versions",
       "name": "RuStore version history",
       "url": "https://www.rustore.ru/catalog/app/com.mechanist.vampire.aos.rustore/versions",
@@ -96,10 +104,11 @@
     {
       "id": "competitor-calculator",
       "name": "Game of Vampires Calculator",
-      "url": "https://game-of-vampires-calculator.vercel.app/calculator/",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
       "kind": "fan-calculator",
       "purpose": "feature-surface comparison",
-      "status": "do not treat as authoritative or copy its unverified numbers"
+      "status": "public community reference; GitHub API shows no license metadata; table conflicts with some local historical rows; use only as hypothesis and verify each value in current game; do not copy code/assets",
+      "archiveUrl": "https://game-of-vampires-calculator.vercel.app/calculator/"
     },
     {
       "id": "dampirlogiya",

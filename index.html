@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.2 — Blood Moon Edition</title>
-  <link rel="stylesheet" href="styles.css?v=222" />
+  <title>Vampire Dominion v2.3 — Blood Moon Edition</title>
+  <link rel="stylesheet" href="styles.css?v=223" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -100,6 +100,15 @@
           <div><span>Нужно баллов совета</span><strong id="conclaveCouncil">0</strong></div>
           <div id="conclaveStatusCard" class="status-card"><span>Баллы совета</span><strong id="conclaveStatus">—</strong><small id="conclaveStatusHint"></small></div>
         </div>
+      </article>
+
+      <article class="card">
+        <div class="card-title"><div><h3>Другие источники господства</h3><p>Временный мост для систем, где мы ещё проверяем точные формулы. Добавляй только известный прирост от конкретного улучшения, не общее текущее господство.</p></div><span class="badge">без догадок</span></div>
+        <div class="note">Сейчас можно отдельно учитывать Кровные узы, Сад, скины, фамильяров и другие источники, которые ещё не считаются автоматическим модулем. Не дублируй здесь Конклав, Смотрителей, книги, Дегустацию, прочие уже рассчитанные бонусы или брачные кольца.</div>
+        <div id="manualDominionRows" class="stack"></div>
+        <button id="addManualDominionSource" type="button" class="add-card">＋ Добавить источник <span id="manualSourceCount" class="count-badge">0</span></button>
+        <div class="mini-results one"><div><span>Дополнительный прирост</span><strong id="manualSourcesGain">0</strong></div></div>
+        <div id="manualSourcesStatus" class="goal-status">Используй этот блок временно для подтверждённых приростов систем, для которых ещё нет проверенной автоматической формулы.</div>
       </article>
 
       <div class="result-hero">
@@ -336,12 +345,12 @@
     </section>
   </main>
 
-  <footer class="site-footer"><div>Vampire Dominion v2.2 · проект <b>ОПТИМИСТ</b> · @optimist2408</div><div class="love-line">Создано с любовью при поддержке <b>«Девочки моих фантазий»</b> <span>♥ ♥ ♥</span></div></footer>
+  <footer class="site-footer"><div>Vampire Dominion v2.3 · проект <b>ОПТИМИСТ</b> · @optimist2408</div><div class="love-line">Создано с любовью при поддержке <b>«Девочки моих фантазий»</b> <span>♥ ♥ ♥</span></div></footer>
 
   <div id="toast" class="toast" role="status"></div>
   <script src="data.js?v=221"></script>
   <script src="source-samples.js?v=221"></script>
-  <script src="engine.js?v=222"></script>
-  <script src="app.js?v=222"></script>
+  <script src="engine.js?v=223"></script>
+  <script src="app.js?v=223"></script>
 </body>
 </html>

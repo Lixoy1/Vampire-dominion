@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.12 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.13 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=232" />
+  <link rel="stylesheet" href="styles.css?v=233" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -105,6 +105,7 @@
           <div><span>Нужно баллов совета</span><strong id="conclaveCouncil">0</strong></div>
           <div id="conclaveStatusCard" class="status-card"><span>Баллы совета</span><strong id="conclaveStatus">—</strong><small id="conclaveStatusHint"></small></div>
         </div>
+        <div id="conclaveDataAudit" class="goal-status warn">Проверяем соответствие таблицы Конклава контрольным суммам сообщества. Пока она не совпала, точный прирост Конклава не входит в общий итог.</div>
       </article>
 
       <article class="card">
@@ -122,6 +123,7 @@
         <div><span>После прокачки</span><strong id="domFinal">—</strong></div>
       </div>
       <div id="domBreakdown" class="breakdown"></div>
+      <div id="domSummaryTrust" class="goal-status warn">Итог господства включает только те источники, чьи расчёты на данный момент разрешены системой проверок.</div>
     </section>
 
     <section id="wardens" class="page">
@@ -195,6 +197,7 @@
           </details>
           <div class="mini-results one"><div><span>Прирост от книг</span><strong id="booksGain">0</strong></div></div>
           <div id="booksHint" class="goal-status">Добавь только те книги и предметы «Магия», которые собираешься использовать.</div>
+          <div id="booksConclaveAudit" class="goal-status warn">Бонус книг Конклава будет включён только после сверки таблицы уровней.</div>
         </details>
       </article>
 
@@ -483,7 +486,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.12 <span>·</span> проект <b>ОПТИМИСТ</b></div>
+    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.13 <span>·</span> проект <b>ОПТИМИСТ</b></div>
     <div class="footer-love-card">
       <div class="footer-love-card__art">
         <img id="loveIllustration" alt="Влюблённая вампирская пара — иллюстрация проекта" loading="lazy" decoding="async">
@@ -499,10 +502,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=232"></script>
-  <script src="source-samples.js?v=232"></script>
-  <script src="engine.js?v=232"></script>
-  <script src="app.js?v=232"></script>
-  <script src="illustrations.js?v=232"></script>
+  <script src="data.js?v=233"></script>
+  <script src="source-samples.js?v=233"></script>
+  <script src="engine.js?v=233"></script>
+  <script src="app.js?v=233"></script>
+  <script src="illustrations.js?v=233"></script>
 </body>
 </html>

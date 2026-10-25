@@ -6,8 +6,8 @@ const path = require('node:path');
 const assert = require('node:assert/strict');
 
 const assets = [
-  { file: 'assets/optimist-love-couple.webp.b64', label: 'Footer love illustration' },
-  { file: 'assets/closeness-couple.webp.b64', label: 'Closeness illustration' }
+  { file: 'assets/optimist-love-160.webp.b64', label: 'Footer love illustration (160px)' },
+  { file: 'assets/closeness-160.webp.b64', label: 'Closeness illustration (160px)' }
 ];
 
 for (const asset of assets) {

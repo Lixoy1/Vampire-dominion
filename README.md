@@ -100,3 +100,5 @@
 - Added the candidate crosswalk to the offline cache.
 - Kept the Conclave safeguards in place: its aggregate totals still disagree with the legacy row table, so its preview and book bonus remain excluded from the exact global forecast.
 - Existing regression and evidence-registry tests remain the release gate.
+- Added a Russian App Store version-history source and explicitly separated its app id from the international Game of Vampires: Twilight Sun listing.
+- Garden candidate check: rows 1–140 in the public community table sum to 18,900 `cost`, matching the post, but the candidate table continues to level 291 and its level-112 `points` conflicts with the in-game screenshot; no public numeric rows are imported.

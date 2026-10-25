@@ -203,6 +203,36 @@
     return {score:watcherScore+manuscriptScore+scrollScore,watcherScore,manuscriptScore,scrollScore,scrollPool:pool,scrollStar,details};
   }
   function scrollPool(high,mid,simple){return Math.max(0,num(high))*200+Math.max(0,num(mid))*100+Math.max(0,num(simple))*50;}
+  // The game-specific Dominion gain per heir marriage has not been verified for every ring type.
+  // Keep it user-supplied until exact values are confirmed in-game; never silently guess.
+  const HEIR_RING_TYPES=[
+    {key:'amethyst',name:'Аметистовое кольцо',rank:'Iron / Bronze / Silver'},
+    {key:'ruby',name:'Рубиновое кольцо',rank:'Gold / Platinum'},
+    {key:'blackPearl',name:'Чёрная жемчужина',rank:'Ruby / Diamond'}
+  ];
+  function heirMarriageCalc(input){
+    const rings=(input&&input.rings)||{};
+    let gain=0,planned=0,shortage=0;
+    const unknownTypes=[];
+    const details={};
+    for(const type of HEIR_RING_TYPES){
+      const row=rings[type.key]||{};
+      const stock=Math.max(0,Math.floor(num(row.stock)));
+      const marriages=Math.max(0,Math.floor(num(row.planned)));
+      const raw=String(row.gainPerMarriage??'').trim();
+      const parsed=raw===''?null:parseCompact(raw);
+      const gainKnown=parsed!==null&&Number.isFinite(parsed)&&parsed>=0;
+      const perMarriageGain=gainKnown?parsed:null;
+      const rowGain=gainKnown?marriages*perMarriageGain:0;
+      if(marriages>0&&!gainKnown) unknownTypes.push(type.key);
+      const rowShortage=Math.max(0,marriages-stock);
+      gain+=rowGain; planned+=marriages; shortage+=rowShortage;
+      details[type.key]={key:type.key,name:type.name,rank:type.rank,stock,planned:marriages,
+        gainPerMarriage:perMarriageGain,gainKnown,gain:rowGain,remaining:stock-marriages,shortage:rowShortage};
+    }
+    return {gain,planned,shortage,complete:unknownTypes.length===0,unknownTypes,details};
+  }
+
   function requirementStatus(available,required,complete=true,entered=true){
     available=Math.max(0,num(available)); required=Math.max(0,num(required));
     if(!complete) return {state:'unknown',label:'нет данных',hint:'Для части выбранных уровней в исходной таблице не указана стоимость.'};
@@ -229,11 +259,15 @@
       const rc=resourceCalc(1123.23e6,{'Жетон 1':2,'Жетон 3':1,'Карта сбора':1}); tests.push({name:'Сбор ресурсов: множители',ok:rc.total===1123.23e6*(0.2+1+1),got:rc.total});
       const rs=requirementStatus(10e6,62.44e6,true,true); tests.push({name:'Баллы совета: точный дефицит',ok:rs.state==='bad'&&Math.abs((62.44e6-10e6)-52.44e6)<1,got:rs});
       const b2=booksCalc({Сила:{packII15:2}},{},0); tests.push({name:'Магия II: 15 × 1000',ok:b2.gain===30000,got:b2.gain});
+      const heirs=heirMarriageCalc({rings:{amethyst:{stock:2,planned:1,gainPerMarriage:'1,25M'},ruby:{stock:0,planned:2,gainPerMarriage:''},blackPearl:{stock:3,planned:0,gainPerMarriage:''}}});
+      tests.push({name:'Наследники: подтверждённый прирост и неизвестная формула',ok:heirs.gain===1250000&&heirs.shortage===2&&heirs.complete===false&&heirs.unknownTypes.includes('ruby'),got:heirs});
+      const noHeirs=heirMarriageCalc({rings:{}});
+      tests.push({name:'Наследники: пустой план не добавляет господство',ok:noHeirs.gain===0&&noHeirs.planned===0&&noHeirs.shortage===0&&noHeirs.complete===true,got:noHeirs});
       tests.push({name:'K/M/B парсер',ok:parseCompact('5,25M')===5250000&&parseCompact('1.2B')===1200000000&&parseCompact('750K')===750000,got:[parseCompact('5,25M'),parseCompact('1.2B'),parseCompact('750K')]});
       const zero=conclaveCalc({watcherCount:0,seals:{},attrTotals:{}}); const zeroBooks=booksCalc({},{}); const zeroRange=closenessCalc({}); const zeroTal=talentRatingCalc([],{},{}); tests.push({name:'Нулевое состояние всех модулей',ok:zero.gain===0&&zero.council===0&&zeroBooks.gain===0&&zeroRange.min===0&&zeroRange.max===0&&zeroTal.score===0,got:{zero,zeroBooks,zeroRange,zeroTal}});
     }catch(e){tests.push({name:'Исключение тестов',ok:false,error:String(e&&e.stack||e)});}
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

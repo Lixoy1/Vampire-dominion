@@ -88,4 +88,23 @@ run('External dataset conflicts remain explicit and cannot become formula consta
   assert(repository.metadata.lastObservedPushAt === '2026-06-11T03:05:42Z', 'unexpected candidate source date');
 });
 
+run('Conclave aggregate mismatch is registered and excluded from calculations', () => {
+  const row = conflicts.conflicts.find(x => x.id === 'conclave-full-branch-aggregate');
+  assert(Boolean(row), 'missing Conclave aggregate conflict');
+  assert(row.status === 'unresolved-aggregate-disagreement', 'Conclave aggregate must remain unresolved');
+  assert(row.useInCalculator === false, 'unresolved Conclave aggregate must not be used by the calculator');
+  assert(row.communityClaim.fullBranchDominionPerWarden === 987000, 'community Dominion claim changed unexpectedly');
+  assert(row.communityClaim.fullBranchBookBonusPercent === 1056, 'community book-bonus claim changed unexpectedly');
+  assert(row.communityClaim.fullBranchCouncilCost === 19233610455, 'community cost claim changed unexpectedly');
+  assert(row.localCandidate.cumulativeDominionPerBranch === 610200, 'legacy Conclave aggregate must be recalculated/reviewed');
+  assert(row.localCandidate.cumulativeBookBonusPercent === 1092, 'legacy book bonus aggregate must be recalculated/reviewed');
+  assert(row.localCandidate.costUnknownCount === 50, 'unknown Conclave cost coverage changed; review source data');
+});
+run('Garden 18,900 subtotal is stored as a cross-check only', () => {
+  const row = (conflicts.crossChecks || []).find(x => x.id === 'garden-cost-subtotal-1-140');
+  assert(Boolean(row), 'missing Garden subtotal cross-check');
+  assert(row.derivedFromPublicTable.sumCost === 18900, 'candidate Garden cost subtotal no longer matches cited figure');
+  assert(row.useInCalculator === false, 'cross-source arithmetic must not be treated as game verification');
+});
+
 if (process.exitCode) process.exit(process.exitCode);

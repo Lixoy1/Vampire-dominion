@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "game": "Наследие Вампиров: Новолуние",
+  "datasetStatus": "observation-only-not-calculation-ready",
+  "disclaimer": "Displayed values transcribed from user-provided screenshots. They do not prove a formula for Dominion gain. Do not interpolate levels or infer hidden stat type from icon color alone.",
+  "sources": [
+    {
+      "id": "user-screenshot-blood-bonds-2026-10-25",
+      "type": "user-provided-in-game-screenshot",
+      "observedAt": "2026-10-25",
+      "status": "primary-observation-for-shown-screen-only"
+    }
+  ],
+  "observations": [
+    {
+      "warden": "Майк",
+      "skillName": "Глаза голода",
+      "level": 131,
+      "nextLevel": 132,
+      "currentDisplayed": "+936.12K",
+      "nextDisplayed": "+960.52K",
+      "upgradeCostDisplayed": "50.83K",
+      "iconAppearance": "red",
+      "effectType": "unclassified",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    },
+    {
+      "warden": "Майк",
+      "skillName": "Сила путника",
+      "level": 120,
+      "nextLevel": 121,
+      "currentDisplayed": "+120.00% (+1.12M)",
+      "nextDisplayed": "+121.00%",
+      "upgradeCostDisplayed": "36.81K",
+      "iconAppearance": "red",
+      "effectType": "percentage-with-display-value",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    },
+    {
+      "warden": "Майк",
+      "skillName": "Волчьи клыки",
+      "level": 149,
+      "nextLevel": 150,
+      "currentDisplayed": "+1.47M",
+      "nextDisplayed": "+1.50M",
+      "upgradeCostDisplayed": "82.46K",
+      "iconAppearance": "green",
+      "effectType": "unclassified",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    },
+    {
+      "warden": "Кармилла",
+      "skillName": "Тайные страсти",
+      "level": 166,
+      "nextLevel": 167,
+      "currentDisplayed": "+1.64M",
+      "nextDisplayed": "+1.68M",
+      "upgradeCostDisplayed": "95.62K",
+      "iconAppearance": "red",
+      "effectType": "unclassified",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    },
+    {
+      "warden": "Кармилла",
+      "skillName": "Сила ночи",
+      "level": 157,
+      "nextLevel": 158,
+      "currentDisplayed": "+157.00% (+2.58M)",
+      "nextDisplayed": "+158.00%",
+      "upgradeCostDisplayed": "77.5K",
+      "iconAppearance": "red",
+      "effectType": "percentage-with-display-value",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    },
+    {
+      "warden": "Кармилла",
+      "skillName": "Вожделение",
+      "level": 136,
+      "nextLevel": 137,
+      "currentDisplayed": "+798.09K",
+      "nextDisplayed": "+818.64K",
+      "upgradeCostDisplayed": "45.15K",
+      "iconAppearance": "purple",
+      "effectType": "unclassified",
+      "dominionGain": null,
+      "sourceId": "user-screenshot-blood-bonds-2026-10-25",
+      "status": "observation-only"
+    }
+  ],
+  "requiredForCalculation": [
+    "Complete list of bond skills for every Warden in the current game",
+    "Level-by-level cost and effect values, not only one observed transition",
+    "Verified mapping between each displayed skill and its affected attribute/stat",
+    "Confirmed formula mapping displayed bond bonus to total account Dominion",
+    "Before/after example where unrelated account values are unchanged",
+    "Current version/server context where values may differ"
+  ]
+}

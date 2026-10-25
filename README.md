@@ -1,4 +1,4 @@
-# Vampire Dominion v2.11 — Blood Moon Edition
+# Vampire Dominion v2.12 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -64,3 +64,10 @@
 - Audited `БлизостьВлечениеРесурсы.xlsx`: current item ranges and collection-token multipliers match the workbook formulas.
 - Added automated regression checks for every workbook-derived coefficient and retained all prior calculator tests.
 - Audit report: `docs/UPLOADED-SPREADSHEET-AUDIT.md`.
+
+
+## v2.12 — Source-led guide update
+- Updated the guide with sourced context on Scarlet Bonds, Wardens' Attributes and Courtyard Boons.
+- Added the guild-experience workbook values and direct link to the audit report in the guide.
+- Clarified that public wiki pages explain system relationships but do not provide complete verified per-level numeric tables.
+- Corrected section numbering after adding the guild-experience page and refreshed asset/PWA cache versions.

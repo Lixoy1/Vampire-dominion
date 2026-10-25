@@ -241,3 +241,17 @@ button,input,select{font-family:var(--font-ui)}
 .bond-roster-table td:nth-child(2){min-width:220px;white-space:normal}
 .bond-roster-table td:nth-child(3){min-width:210px;white-space:normal}
 .bond-roster-table td:nth-child(4){min-width:210px;white-space:normal}
+
+
+/* v2.17 — searchable Garden level coverage ledger */
+.garden-coverage-note{color:var(--muted);font-size:.88rem;line-height:1.55}
+.garden-coverage-toolbar{grid-template-columns:minmax(0,1fr) minmax(150px,.45fr) auto;align-items:end}
+.garden-coverage-toolbar select{max-width:100%;width:100%;min-height:42px;padding:10px;border:1px solid var(--line);border-radius:10px;background:var(--input);color:var(--text)}
+.garden-coverage-table-wrap{max-height:520px}
+.garden-coverage-table{min-width:840px}
+.garden-coverage-table th:first-child,.garden-coverage-table td:first-child{width:75px}
+.garden-coverage-table td:nth-child(3){min-width:200px;white-space:normal}
+.garden-coverage-table td:nth-child(4){min-width:220px;white-space:normal}
+.garden-missing-row td{color:var(--muted)}
+.garden-observed-row td:first-child{color:var(--gold)}
+@media(max-width:760px){.garden-coverage-toolbar{grid-template-columns:1fr}.garden-coverage-toolbar .badge{justify-self:start}}

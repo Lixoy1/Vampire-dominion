@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.13 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.14 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=233" />
+  <link rel="stylesheet" href="styles.css?v=234" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -408,6 +408,7 @@
           </div>
           <p>Пример расхождения: сторонняя таблица указывает стоимость уровня 1 Конклава 5300, а наш исторический калькулятор использует 5130; для уровня 10 это 6480 против 7180. По Саду на уровне 112 сторонняя таблица содержит points=44000, а игровой скриншот показывает «Все +22000». Пока значение этих полей не сопоставлено однозначно, они не входят в формулу.</p>
           <p class="guide-tip">Мы не копируем код и изображения стороннего проекта. Значения берём в нашу базу только после установления источника, смысла поля и контрольной сверки с актуальной игрой.</p>
+          <p>Для проверки состава связок мы сделали отдельный <a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">перекрёстный список 43 кандидатных связок Партнёр → Смотритель</a> по всем локальным профилям. Он содержит только возможные соответствия имён, не числовые формулы. «Чарльз»/Charlemagne и «Лоуренс»/Lorenzo оставлены нерешёнными; отсутствие пары в сторонней таблице не означает, что у героя нет Кровных уз.</p>
           <div class="source-links">
             <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenCatalog.ts" target="_blank" rel="noopener noreferrer">Каталог Смотрителей</a>
             <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenTalentProfiles.ts" target="_blank" rel="noopener noreferrer">Профили талантов</a>
@@ -490,7 +491,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.13 <span>·</span> проект <b>ОПТИМИСТ</b></div>
+    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.14 <span>·</span> проект <b>ОПТИМИСТ</b></div>
     <div class="footer-love-card">
       <div class="footer-love-card__art">
         <img id="loveIllustration" alt="Влюблённая вампирская пара — иллюстрация проекта" loading="lazy" decoding="async">
@@ -506,10 +507,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=233"></script>
-  <script src="source-samples.js?v=233"></script>
-  <script src="engine.js?v=233"></script>
-  <script src="app.js?v=233"></script>
-  <script src="illustrations.js?v=233"></script>
+  <script src="data.js?v=234"></script>
+  <script src="source-samples.js?v=234"></script>
+  <script src="engine.js?v=234"></script>
+  <script src="app.js?v=234"></script>
+  <script src="illustrations.js?v=234"></script>
 </body>
 </html>

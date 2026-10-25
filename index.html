@@ -375,6 +375,8 @@
             <li><b>Кармилла · Вожделение:</b> ур. 136 → 137; +798.09K → +818.64K; цена 45.15K.</li>
           </ul>
           <p class="guide-tip">Полная база должна содержать каждый навык каждого Смотрителя и все переходы уровней. Эти шесть строк не экстраполируются и пока не используются для вычисления господства.</p>
+          <p>Открытая Wiki описывает общий принцип: Кровные узы растут за счёт близости/влечения и Affinity партнёра, а бонусы связаны с соответствующим Смотрителем. Но в доступном описании нет полной таблицы стоимости и прироста господства по всем уровням. Мы не переносим из этого описания выдуманные коэффициенты.</p>
+          <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Lovers" target="_blank" rel="noopener noreferrer">Wiki: Lovers и Scarlet Bonds</a> · <a href="https://gameofvampires.com/en/lovers-overview/" target="_blank" rel="noopener noreferrer">Обзор Партнёров и Кровных уз</a></p>
         </div></details>
 
         <details class="guide-card"><summary>🌌 Сад: наблюдаемые уровни и пробелы</summary><div class="guide-body">
@@ -388,6 +390,8 @@
             <li><b>115:</b> один сильный атрибут — Интеллект +12000.</li>
           </ul>
           <p>«Сундук Дракулы» сообщал о максимальном уровне эффектов Сада 140 и 18 900 очках на полную прокачку. Это агрегированная информация сообщества без подтверждённой даты публикации, поэтому она хранится как поисковая зацепка и не участвует в расчёте.</p>
+          <p>В открытой Wiki Сад соответствует Courtyard Boons в системе фамильяров и описан как источник бонусов атрибутов Смотрителей. Доступное описание подтверждает назначение системы, но не раскрывает полную числовую таблицу стоимости и эффекта каждого уровня.</p>
+          <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Attributes" target="_blank" rel="noopener noreferrer">Wiki: связь Сада и атрибутов</a> · <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Category:Familiars" target="_blank" rel="noopener noreferrer">Wiki: Familiars и Courtyard</a></p>
           <p><a href="https://telemetr.io/en/channels/2158115409-draculachest/posts" target="_blank" rel="noopener noreferrer">Архив публикаций «Сундука Дракулы»</a></p>
         </div></details>
 
@@ -425,7 +429,21 @@
         <details class="guide-card"><summary>♡ Близость и ✦ Влечение</summary><div class="guide-body">
           <p>Текущая версия калькулятора хранит фиксированные значения для обычных подарков, больших и роскошных подарков, монет, букетов и записок, а случайные предметы считает диапазоном. На выходе показываются минимум, средняя оценка и максимум.</p>
           <p>Используй минимум как гарантированную величину. Средняя оценка и максимум не являются гарантией конкретного результата из случайной шкатулки, сумочки, мешка, пиалы или бутыли.</p>
-          <p>Значения взяты из исторической базы проекта и должны периодически сравниваться с карточками предметов в актуальной версии игры.</p>
+          <p>Мы сверили эти значения с предоставленным файлом «БлизостьВлечениеРесурсы.xlsx»: фиксированные значения, диапазоны случайных предметов и формула среднего совпали с текущей базой кода. Это подтверждает совпадение с таблицей, но не доказывает, что игра не меняла предметы позже.</p>
+          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/docs/UPLOADED-SPREADSHEET-AUDIT.md" target="_blank" rel="noopener noreferrer">Посмотреть аудит формул Excel</a></p>
+          <p>Значения периодически проверяем по карточкам предметов в актуальной версии игры.</p>
+        </div></details>
+
+        <details class="guide-card"><summary>🏰 Опыт гильдии: коэффициенты из таблицы</summary><div class="guide-body">
+          <p>В калькулятор добавлен учёт до 29 участников и восьми типов предметов из файла «счет опыта ги.xlsx». По формулам исходной книги коэффициенты составляют:</p>
+          <ul>
+            <li>Золотое ведро — 500 опыта.</li>
+            <li>Серебряное ведро — 100; бронзовое ведро — 40; деревянное ведро — 20.</li>
+            <li>Стальной сундук — 40; простой сундук — 20.</li>
+            <li>Взнос — 400; большой взнос — 1200.</li>
+          </ul>
+          <p class="guide-tip">Это точная транскрипция формул пользовательского Excel, но пока не независимое подтверждение в клиенте игры. Не используем этот показатель в расчёте господства. Перед использованием как эталона сверь значения хотя бы по одному предмету и сумме нескольких предметов в игре.</p>
+          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/docs/UPLOADED-SPREADSHEET-AUDIT.md" target="_blank" rel="noopener noreferrer">Открыть формулы и контрольный пример</a></p>
         </div></details>
 
         <details class="guide-card"><summary>🕯 Наследники и кольца</summary><div class="guide-body">
@@ -443,6 +461,9 @@
           <div class="source-links">
             <a href="https://www.rustore.ru/catalog/app/com.mechanist.vampire.aos.rustore/versions" target="_blank" rel="noopener noreferrer">История версий RuStore</a>
             <a href="https://t.me/gov_announcements" target="_blank" rel="noopener noreferrer">Официальные объявления игры</a>
+            <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Dominance" target="_blank" rel="noopener noreferrer">Wiki: источники господства (сообщество)</a>
+            <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Attributes" target="_blank" rel="noopener noreferrer">Wiki: атрибуты и усиления (сообщество)</a>
+            <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Lovers" target="_blank" rel="noopener noreferrer">Wiki: Партнёры и Кровные узы (сообщество)</a>
             <a href="https://t.me/gov_ruofficial" target="_blank" rel="noopener noreferrer">Официальная группа Telegram</a>
             <a href="https://t.me/DampirHelperBot" target="_blank" rel="noopener noreferrer">Бот-помощник DampirHelperBot</a>
             <a href="https://t.me/DraculaHelper" target="_blank" rel="noopener noreferrer">Поддержка бота</a>

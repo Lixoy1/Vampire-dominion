@@ -21,6 +21,11 @@
 
   function num(v){ const n=Number(v); return Number.isFinite(n)?n:0; }
   function clamp(n,min,max){ return Math.min(max,Math.max(min,n)); }
+  const ATTR_LOOKUP=new Map(ATTRS.map(attr=>[attr.toLocaleLowerCase('ru-RU'),attr]));
+  function normalizeAttr(value){
+    const key=String(value??'').trim().toLocaleLowerCase('ru-RU');
+    return ATTR_LOOKUP.get(key)||null;
+  }
   function parseCompact(value){
     if(value===null||value===undefined||value==='') return 0;
     if(typeof value==='number') return Number.isFinite(value)?value:0;
@@ -109,6 +114,10 @@
     let targetLevel=Math.round(num(input.targetLevel));
     if(currentLevel>0 && targetLevel===0) targetLevel=currentLevel;
     if(!name||currentLevel<1||targetLevel<currentLevel||targetLevel>500) return {active:false,gain:0,blood:0,attrGain:{Сила:0,Харизма:0,Интеллект:0,Воля:0},talents:[]};
+    const profileStatus=DATA.watcherDataStatus&&DATA.watcherDataStatus[name];
+    if(profileStatus&&profileStatus.status==='incomplete'){
+      return {active:true,name,currentLevel,targetLevel,gain:0,rawGain:0,gainReady:false,talentsComplete:false,hasPlan:true,dataStatus:'incomplete',dataNote:profileStatus.note||'Профиль требует проверки.',blood:bloodNeeded(currentLevel,targetLevel),attrGain:{Сила:0,Харизма:0,Интеллект:0,Воля:0},currentWeighted:{Сила:0,Харизма:0,Интеллект:0,Воля:0},newWeighted:{Сила:0,Харизма:0,Интеллект:0,Воля:0},talents:[]};
+    }
     const currentWeighted={Сила:0,Харизма:0,Интеллект:0,Воля:0};
     const newWeighted={Сила:0,Харизма:0,Интеллект:0,Воля:0};
     const rows=[];
@@ -117,7 +126,7 @@
       const x=inputs[i]||{};
       const current=Math.max(0,Math.floor(num(x.current)));
       const inc=talentIncrease(def.star,x.manuscripts,x.guaranteed,x.exp);
-      const attr=ATTRS.includes(def.attr)?def.attr:null;
+      const attr=normalizeAttr(def.attr);
       if(attr){
         currentWeighted[attr]+=def.star*current;
         newWeighted[attr]+=def.star*(current+inc.levels);
@@ -152,7 +161,7 @@
     for(const r of (rows||[])){
       const level=Math.round(num(r.level)); const exp=Math.max(0,num(r.exp));
       if(level<1||level>500||exp<=0) continue;
-      const attr=ATTRS.includes(r.attr)?r.attr:'Сила';
+      const attr=normalizeAttr(r.attr)||'Сила';
       const plus=Math.floor(exp/200);
       const gain=plus*levelCoeffAt(level)*(1+num((inspiration||{})[attr]));
       total+=gain; details.push({level,exp,attr,plus,gain});
@@ -289,6 +298,16 @@
       const ms=miscCalc(samples.miscFilled.input); tests.push({name:'Прочее: заполненный пример',ok:ms.gain===samples.miscFilled.expected,got:ms.gain});
       const missingCost=conclaveCalc({watcherCount:1,seals:{Сила:{current:10,target:11}},attrTotals:{}}); tests.push({name:'Конклав: неизвестная стоимость не считается нулём',ok:missingCost.councilComplete===false&&missingCost.missingCostLevels.includes(11),got:missingCost});
       const incomplete=wardenCalc({name:'Рудра',currentLevel:350,targetLevel:351,talents:[]}); tests.push({name:'Смотритель: без текущих талантов прирост не выдумывается',ok:incomplete.gainReady===false&&incomplete.gain===0&&incomplete.blood>0,got:{gainReady:incomplete.gainReady,gain:incomplete.gain,blood:incomplete.blood}});
+      const dianaDefs=DATA.watchers['Диана']||[];
+      const diana=wardenCalc({name:'Диана',currentLevel:100,targetLevel:101,talents:dianaDefs.map(()=>({current:1}))});
+      tests.push({name:'Смотритель: атрибут «Воля» нормализуется без потери талантов',ok:diana.active&&diana.gainReady&&diana.attrGain['Воля']>0,got:{gain:diana.gain,willGain:diana.attrGain&&diana.attrGain['Воля']}});
+      const maraDefs=DATA.watchers['Мара']||[];
+      const mara=wardenCalc({name:'Мара',currentLevel:100,targetLevel:101,talents:maraDefs.map(()=>({current:1}))});
+      tests.push({name:'Смотритель: неполный профиль блокирует ложный точный прогноз',ok:mara.dataStatus==='incomplete'&&mara.gain===0&&mara.gainReady===false&&mara.blood>0,got:{dataStatus:mara.dataStatus,gain:mara.gain,gainReady:mara.gainReady,blood:mara.blood}});
+      const profileRows=Object.entries(DATA.watchers||{}).flatMap(([name,rows])=>rows.map(row=>({name,row})));
+      const badProfiles=profileRows.filter(({row})=>!normalizeAttr(row.attr)||!Number.isInteger(Number(row.star))||Number(row.star)<1||Number(row.star)>6);
+      tests.push({name:'База талантов: атрибуты и звёзды проходят структурную проверку',ok:badProfiles.length===0,got:badProfiles.slice(0,10)});
+
       const rc=resourceCalc(1123.23e6,{'Жетон 1':2,'Жетон 3':1,'Карта сбора':1}); tests.push({name:'Сбор ресурсов: множители',ok:rc.total===1123.23e6*(0.2+1+1),got:rc.total});
       const rs=requirementStatus(10e6,62.44e6,true,true); tests.push({name:'Баллы совета: точный дефицит',ok:rs.state==='bad'&&Math.abs((62.44e6-10e6)-52.44e6)<1,got:rs});
       const b2=booksCalc({Сила:{packII15:2}},{},0); tests.push({name:'Магия II: 15 × 1000',ok:b2.gain===30000,got:b2.gain});
@@ -304,5 +323,5 @@
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

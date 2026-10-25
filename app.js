@@ -250,6 +250,81 @@ function initBloodBondCoverage(){
   });
 }
 
+function initGardenCoverage(){
+ const search=$('#gardenCoverageSearch');
+ const filter=$('#gardenCoverageFilter');
+ const rowsBox=$('#gardenCoverageRows');
+ const meta=$('#gardenCoverageMeta');
+ const status=$('#gardenCoverageStatus');
+ if(!rowsBox)return;
+ let observations=[],maxLevel=140,claimedPoints=18900;
+ function render(){
+  const observedByLevel=new Map(observations.map(row=>[Number(row.level),row]));
+  const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
+  const mode=String(filter?.value||'all');
+  const rows=Array.from({length:maxLevel},(_,index)=>{
+   const level=index+1;
+   return {level,observation:observedByLevel.get(level)||null};
+  }).filter(row=>{
+   const isObserved=Boolean(row.observation);
+   if(mode==='observed'&&!isObserved)return false;
+   if(mode==='missing'&&isObserved)return false;
+   if(!query)return true;
+   const o=row.observation;
+   const searchable=[
+    row.level,
+    o?.category,
+    o?.rawCostDisplay,
+    ...(o?.bonuses||[]).flatMap(bonus=>[bonus.attribute,bonus.displayed]),
+    o?.status
+   ].map(value=>String(value??'').toLocaleLowerCase('ru-RU'));
+   return searchable.some(value=>value.includes(query));
+  });
+  const observedCount=observations.length;
+  if(meta)meta.textContent=query||mode!=='all'
+    ?`${rows.length} из ${maxLevel} уровней · ${observedCount} с наблюдениями`
+    :`${observedCount} из ${maxLevel} уровней с наблюдениями`;
+  rowsBox.innerHTML=rows.length?rows.map(({level,observation:o})=>{
+   const effect=o&&Array.isArray(o.bonuses)&&o.bonuses.length
+    ?o.bonuses.map(b=>`${b.attribute}: ${b.displayed}`).join('; ')
+    :'Нет подтверждённого эффекта';
+   let cost='Нет подтверждённой цены';
+   if(o?.cost!==null&&o?.cost!==undefined)cost=String(o.cost);
+   else if(o?.rawCostDisplay)cost=`Сырая строка «${o.rawCostDisplay}» · значение не интерпретировано`;
+   const rowStatus=o
+    ?(o.status==='raw-display-needs-interpretation'?'Есть наблюдение · требуется трактовка':'Только наблюдение из игрового экрана')
+    :'Нет подтверждённой записи';
+   return `<tr class="${o?'garden-observed-row':'garden-missing-row'}">
+    <td><b>${level}</b></td>
+    <td>${esc(o?.category||'—')}</td>
+    <td>${esc(effect)}</td>
+    <td>${esc(cost)}</td>
+    <td><span class="coverage-status">${esc(rowStatus)}</span></td>
+   </tr>`;
+  }).join(''):'<tr><td colspan="5">По заданному фильтру уровни не найдены.</td></tr>';
+ }
+ search?.addEventListener('input',render);
+ filter?.addEventListener('change',render);
+ fetch('./game-data/garden-observations.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   observations=Array.isArray(payload.observations)?payload.observations:[];
+   const aggregate=payload.communityAggregate||{};
+   maxLevel=Math.max(1,Math.min(500,Math.round(Number(aggregate.claimedMaxLevel)||140)));
+   claimedPoints=Number(aggregate.claimedTotalPointsToMax)||18900;
+   render();
+   if(status){
+    status.className='goal-status warn';
+    status.textContent=`В реестре есть ${observations.length} наблюдений на ${maxLevel} заявленных уровнях. Сумма ${intfmt(claimedPoints)} очков — неподтверждённая агрегированная цифра сообщества, а цена перехода и эффект господства не заполнены для большинства уровней. Реестр не добавляет господство к общему прогнозу.`;
+   }
+  })
+  .catch(()=>{
+   if(meta)meta.textContent='Реестр Сада недоступен';
+   rowsBox.innerHTML='<tr><td colspan="5">Не удалось загрузить реестр уровней Сада.</td></tr>';
+   if(status){status.className='goal-status warn';status.textContent='Данные Сада недоступны. Никакие неподтверждённые значения не включаются в прогноз.'}
+  });
+}
+
 function getConclave(){const seals={};for(const a of ATTRS)seals[a]={current:n(S.conclave[a].current),target:n(S.conclave[a].target)};const totals=Object.fromEntries(ATTRS.map(a=>[a,parse(S.conclaveAttrTotals[a])]));return E.conclaveCalc({watcherCount:n(S.profile.watchers),seals,attrTotals:totals})}
 function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.details[a]?.finalBookBonusPct||0]))}
 
@@ -353,7 +428,7 @@ otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
 ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
 manualSourceSeq=Math.max(0,...S.manualSources.map(x=>Number(x.id)||0));
 guildMemberSeq=Math.max(0,...S.guildExp.members.map(x=>Number(x.id)||0));
-bindStatic();renderAll();initBloodBondCoverage();
+bindStatic();renderAll();initBloodBondCoverage();initGardenCoverage();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};
 window.addEventListener('load',()=>setTimeout(showHero,40));window.addEventListener('pageshow',e=>{if(e.persisted)setTimeout(showHero,30)});

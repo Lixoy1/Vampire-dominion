@@ -179,6 +179,23 @@
       "kind": "community-wiki-catalog",
       "purpose": "independent Warden roster candidate and name reconciliation",
       "status": "community wiki says All items (65); useful for roster comparison, not a publisher-controlled roster; apply CC-BY-SA attribution"
+    },
+    {
+      "id": "duff-dominion-workbook",
+      "name": "Калькулятор господства_Дуфф.xlsx",
+      "url": null,
+      "archiveUrl": null,
+      "kind": "user-provided-workbook",
+      "observedAt": "2026-10-25",
+      "version": "unknown",
+      "purpose": "historical formula structure for Conclave, inspiration, Warden leveling/talents, books, tasting, partner trust, heirs and miscellaneous sources",
+      "status": "user-supplied workbook; its own instruction sheet states that many table values and screenshots do not match; use formulas as research leads and treat numeric data as stale/unverified",
+      "knownGaps": [
+        "No complete Blood Bonds table",
+        "No Garden level table",
+        "Many Conclave cost rows are blank",
+        "Roster coverage differs from the current local roster"
+      ]
     }
   ],
   "rules": [

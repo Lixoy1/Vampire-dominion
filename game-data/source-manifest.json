@@ -1,0 +1,119 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-25",
+  "sources": [
+    {
+      "id": "official-vk",
+      "name": "VK Наследие Вампиров",
+      "url": "https://vk.com/nasledie_vampirov",
+      "kind": "publisher-linked-community",
+      "purpose": "official notices and community support",
+      "status": "game listing links here"
+    },
+    {
+      "id": "rustore-versions",
+      "name": "RuStore version history",
+      "url": "https://www.rustore.ru/catalog/app/com.mechanist.vampire.aos.rustore/versions",
+      "kind": "store-release-history",
+      "purpose": "version and feature changes",
+      "status": "latest surfaced listing: 1.051.013 dated 2026-09-24"
+    },
+    {
+      "id": "google-play",
+      "name": "Google Play listing",
+      "url": "https://play.google.com/store/apps/details?id=com.mechanist.vampire.aos",
+      "kind": "store-listing",
+      "purpose": "publisher contact and store update notes",
+      "status": "store update date differs from RuStore listing; treat rollout as potentially regional"
+    },
+    {
+      "id": "dracula-chest-channel",
+      "name": "Сундук Дракулы: Наследие Вампиров",
+      "url": "https://t.me/draculachest",
+      "archiveUrl": "https://telemetr.io/en/channels/2158115409-draculachest/posts",
+      "kind": "community-channel",
+      "purpose": "game notes, leaks and calculator announcements",
+      "status": "community source; leaks/forecasts not verified"
+    },
+    {
+      "id": "dampir-helper",
+      "name": "DampirHelperBot",
+      "url": "https://t.me/DampirHelperBot",
+      "kind": "community-tool",
+      "purpose": "reference for feature surface",
+      "status": "public channel post said it calculates closeness, attraction, talents, dominance, combat power, guild EXP; does not disclose formulas"
+    },
+    {
+      "id": "dampir-helper-support",
+      "name": "DraculaHelper",
+      "url": "https://t.me/DraculaHelper",
+      "kind": "community-support",
+      "purpose": "support/contact for helper bot",
+      "status": "listed by channel"
+    },
+    {
+      "id": "vampire-news",
+      "name": "Наследие Вампиров: Новости",
+      "url": "https://t.me/GameOfVampiresFan",
+      "archiveUrl": "https://sticker-collection.com/channels/@GameOfVampiresFan",
+      "kind": "community-channel",
+      "purpose": "change summaries and visual guides",
+      "status": "community, verify current mechanics"
+    },
+    {
+      "id": "academy-vampires",
+      "name": "Академия Вампиров",
+      "url": "https://t.me/AcademyVam",
+      "archiveUrl": "https://sticker-collection.com/channels/@AcademyVam",
+      "kind": "community-channel",
+      "purpose": "community tips and announcements",
+      "status": "community, some posts contain predictions"
+    },
+    {
+      "id": "warden-guide",
+      "name": "Смотрители: обзор",
+      "url": "https://gameofvampires.com/ru/smotriteli-obzor/",
+      "kind": "secondary-guide",
+      "purpose": "attributes and warden mechanics",
+      "status": "secondary guide, not official formula specification"
+    },
+    {
+      "id": "partner-guide",
+      "name": "Гайд для новичков",
+      "url": "https://gameofvampires.com/ru/nasledie-vampirov-gajd-dlya-novichkov/",
+      "kind": "secondary-guide",
+      "purpose": "warden/partner development and Blood Bonds overview",
+      "status": "secondary guide, strategy not mandatory mechanics"
+    },
+    {
+      "id": "warden-strategy-guide",
+      "name": "Кого прокачивать новичку",
+      "url": "https://gameofvampires.com/ru/smotriteli-in-game-of-vampires-who-should-beginners-develop/",
+      "kind": "secondary-guide",
+      "purpose": "inspiration groups and role strategy",
+      "status": "secondary guide; version/date should be checked"
+    },
+    {
+      "id": "competitor-calculator",
+      "name": "Game of Vampires Calculator",
+      "url": "https://game-of-vampires-calculator.vercel.app/calculator/",
+      "kind": "fan-calculator",
+      "purpose": "feature-surface comparison",
+      "status": "do not treat as authoritative or copy its unverified numbers"
+    },
+    {
+      "id": "dampirlogiya",
+      "name": "Дампирология",
+      "url": null,
+      "kind": "community-channel-mentioned-by-owner",
+      "purpose": "candidate source to research",
+      "status": "exact public handle/link not identified from indexed public search; do not cite as evidence until identified"
+    }
+  ],
+  "rules": [
+    "In-game screenshots and repeated before/after tests are the strongest basis for numeric formulas.",
+    "Official release notes are the primary basis for version changes and feature scope.",
+    "Community posts are leads, not trusted formula constants, until independently validated.",
+    "Do not embed or copy community images into the site unless reuse permission/license is clear; link and attribute instead."
+  ]
+}

@@ -1,4 +1,4 @@
-const C = 'vd-local-v232';
+const C = 'vd-local-v233';
 const PRECACHE = [
   './',
   './index.html',

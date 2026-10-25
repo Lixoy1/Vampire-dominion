@@ -78,6 +78,59 @@
     return {gain:direct+bookEffect,direct,bookEffect,council,councilComplete:missingCostLevels.size===0,missingCostLevels:[...missingCostLevels].sort((a,b)=>a-b),details};
   }
 
+  // Compare the legacy per-level Conclave table with the source's published aggregate checkpoints.
+  // Aggregate claims are evidence for auditing, not a substitute for a complete per-level table.
+  function conclaveDataAudit(){
+    const ref=DATA.conclaveCommunityAggregate||{};
+    const maxLevel=Math.max(0,Math.round(num(ref.maxBranchLevel)));
+    const rows=(Array.isArray(DATA.conclaveLevels)?DATA.conclaveLevels:[])
+      .filter(row=>Number.isInteger(Number(row.level))&&Number(row.level)>=1&&Number(row.level)<=maxLevel);
+    const levelSet=new Set(rows.map(row=>Number(row.level)));
+    const missingTableLevels=[];
+    const missingCostLevels=[];
+    for(let level=1;level<=maxLevel;level++){
+      if(!levelSet.has(level)) missingTableLevels.push(level);
+      const row=rows.find(item=>Number(item.level)===level);
+      if(!row||row.cost===null||row.cost===undefined||!Number.isFinite(Number(row.cost))) missingCostLevels.push(level);
+    }
+    const directAttribute=rows.reduce((sum,row)=>sum+num(row.dom),0);
+    const bookBonusPct=rows.reduce((sum,row)=>sum+num(row.book),0);
+    const knownCouncilCost=rows.reduce((sum,row)=>sum+(row.cost===null||row.cost===undefined?0:num(row.cost)),0);
+    const directAttributeMatches=Number.isFinite(Number(ref.singleBranchAttributePerWarden))
+      && approx(directAttribute,Number(ref.singleBranchAttributePerWarden),1e-10);
+    const bookBonusMatches=Number.isFinite(Number(ref.singleBranchBookBonusPercent))
+      && approx(bookBonusPct,Number(ref.singleBranchBookBonusPercent),1e-10);
+    const councilCostComplete=missingTableLevels.length===0&&missingCostLevels.length===0;
+    const councilCostMatches=councilCostComplete
+      && Number.isFinite(Number(ref.singleBranchCouncilCost))
+      && approx(knownCouncilCost,Number(ref.singleBranchCouncilCost),1e-10);
+    const referenceArithmeticConsistent=
+      Number(ref.singleBranchCouncilCost)*4===Number(ref.allFourBranchesCouncilCost)
+      && Number(ref.singleBranchAttributePerWarden)*4===Number(ref.allFourBranchesAttributePerWarden)
+      && Number(ref.allFourBranchesAttributePerWarden)*40===Number(ref.allFourBranchesFor40Wardens);
+    return {
+      source:ref.source||null,
+      evidenceClass:ref.evidenceClass||'unknown',
+      maxLevel,
+      tableRows:rows.length,
+      missingTableLevels,
+      missingCostLevels,
+      knownCostLevelCount:rows.length-missingCostLevels.length,
+      directAttribute,
+      expectedDirectAttribute:Number(ref.singleBranchAttributePerWarden)||0,
+      directAttributeMatches,
+      bookBonusPct,
+      expectedBookBonusPct:Number(ref.singleBranchBookBonusPercent)||0,
+      bookBonusMatches,
+      knownCouncilCost,
+      expectedCouncilCost:Number(ref.singleBranchCouncilCost)||0,
+      councilCostComplete,
+      councilCostMatches,
+      referenceArithmeticConsistent,
+      fullyMatched:directAttributeMatches&&bookBonusMatches&&councilCostMatches&&referenceArithmeticConsistent
+    };
+  }
+
   function normalizeAffects(txt){
     const s=String(txt||'').toLowerCase().replace('нтелект','интеллект').replace('интелект','интеллект');
     if(s.includes('все')) return ATTRS.slice();
@@ -320,6 +373,7 @@
   }
 
   function approx(a,b,tol=1e-6){return Math.abs(a-b)<=tol*Math.max(1,Math.abs(b));}
+  function refOrZero(v){return v===null||v===undefined?0:v;}
   function selfTests(samples){
     const tests=[];
     try{
@@ -332,6 +386,10 @@
       const ts=tastingCalc(samples.tastingFilled.counts); tests.push({name:'Дегустация: заполненный пример',ok:ts.gain===samples.tastingFilled.expected,got:ts.gain});
       const ms=miscCalc(samples.miscFilled.input); tests.push({name:'Прочее: заполненный пример',ok:ms.gain===samples.miscFilled.expected,got:ms.gain});
       const missingCost=conclaveCalc({watcherCount:1,seals:{Сила:{current:10,target:11}},attrTotals:{}}); tests.push({name:'Конклав: неизвестная стоимость не считается нулём',ok:missingCost.councilComplete===false&&missingCost.missingCostLevels.includes(11),got:missingCost});
+      const conclaveAudit=conclaveDataAudit();
+      tests.push({name:'Конклав: несоответствие контрольным агрегатам явно обнаруживается',ok:conclaveAudit.fullyMatched===false&&conclaveAudit.directAttribute===610200&&conclaveAudit.expectedDirectAttribute===987000&&conclaveAudit.bookBonusPct===1092&&conclaveAudit.expectedBookBonusPct===1056&&conclaveAudit.missingCostLevels.length===50&&conclaveAudit.referenceArithmeticConsistent,got:conclaveAudit});
+      tests.push({name:'Конклав: агрегатные контрольные значения внутренне согласованы',ok:conclaveAudit.expectedCouncilCost*4===Number(refOrZero(DATA.conclaveCommunityAggregate&&DATA.conclaveCommunityAggregate.allFourBranchesCouncilCost))&&conclaveAudit.expectedDirectAttribute*4===Number(refOrZero(DATA.conclaveCommunityAggregate&&DATA.conclaveCommunityAggregate.allFourBranchesAttributePerWarden))&&Number(refOrZero(DATA.conclaveCommunityAggregate&&DATA.conclaveCommunityAggregate.allFourBranchesAttributePerWarden))*40===Number(refOrZero(DATA.conclaveCommunityAggregate&&DATA.conclaveCommunityAggregate.allFourBranchesFor40Wardens)),got:{referenceArithmeticConsistent:conclaveAudit.referenceArithmeticConsistent}});
+
       const incomplete=wardenCalc({name:'Рудра',currentLevel:350,targetLevel:351,talents:[]}); tests.push({name:'Смотритель: без текущих талантов прирост не выдумывается',ok:incomplete.gainReady===false&&incomplete.gain===0&&incomplete.blood>0,got:{gainReady:incomplete.gainReady,gain:incomplete.gain,blood:incomplete.blood}});
       const dianaDefs=DATA.watchers['Диана']||[];
       const diana=wardenCalc({name:'Диана',currentLevel:100,targetLevel:101,talents:dianaDefs.map(()=>({current:1}))});
@@ -376,5 +434,5 @@
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,guildExperienceCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,conclaveDataAudit,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,guildExperienceCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

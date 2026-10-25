@@ -107,4 +107,41 @@ run('Garden 18,900 subtotal is stored as a cross-check only', () => {
   assert(row.useInCalculator === false, 'cross-source arithmetic must not be treated as game verification');
 });
 
+
+run('Conclave aggregate reference is stored with explicit unverified status', () => {
+  const ref = data.conclaveCommunityAggregate;
+  assert(Boolean(ref), 'community aggregate reference missing from data.js');
+  assert(ref.evidenceClass === 'community-unverified-aggregate', 'aggregate must remain unverified');
+  assert(ref.useAsPerLevelFormula === false, 'aggregate must not be treated as a per-level formula');
+  assert(ref.maxBranchLevel === 180, 'unexpected claimed maximum branch level');
+  assert(ref.singleBranchCouncilCost === 19233610455, 'unexpected claimed single-branch cost');
+  assert(ref.allFourBranchesCouncilCost === 76934441820, 'unexpected claimed all-branches cost');
+  assert(ref.singleBranchAttributePerWarden === 987000, 'unexpected claimed single-branch attribute');
+  assert(ref.singleBranchBookBonusPercent === 1056, 'unexpected claimed book bonus');
+  assert(ref.allFourBranchesAttributePerWarden === 3948000, 'unexpected claimed four-branch attribute');
+  assert(ref.allFourBranchesFor40Wardens === 157920000, 'unexpected claimed 40-Warden aggregate');
+  assert(ref.gardenMaxEffectLevel === 140 && ref.gardenPointsToMax === 18900, 'Garden reference checkpoints missing');
+  assert(ref.singleBranchCouncilCost * 4 === ref.allFourBranchesCouncilCost, 'branch council-cost aggregate arithmetic failed');
+  assert(ref.singleBranchAttributePerWarden * 4 === ref.allFourBranchesAttributePerWarden, 'branch attribute arithmetic failed');
+  assert(ref.allFourBranchesAttributePerWarden * 40 === ref.allFourBranchesFor40Wardens, '40-Warden arithmetic failed');
+});
+run('Conclave historical table disagreement is detected and blocks exact forecast', () => {
+  const rows = data.conclaveLevels;
+  const ref = data.conclaveCommunityAggregate;
+  assert(rows.length === 180, 'expected 180 historical level rows');
+  const direct = rows.reduce((sum, row) => sum + Number(row.dom || 0), 0);
+  const book = rows.reduce((sum, row) => sum + Number(row.book || 0), 0);
+  const missingCosts = rows.filter(row => row.cost === null || row.cost === undefined || !Number.isFinite(Number(row.cost)));
+  assert(direct === 610200, 'historical direct attribute checkpoint unexpectedly changed; review regression impact');
+  assert(book === 1092, 'historical book bonus checkpoint unexpectedly changed; review regression impact');
+  assert(direct !== ref.singleBranchAttributePerWarden, 'expected unresolved direct-attribute conflict');
+  assert(book !== ref.singleBranchBookBonusPercent, 'expected unresolved book-bonus conflict');
+  assert(missingCosts.length === 50, 'expected known cost gaps at levels 11-20 and 141-180');
+  assert(ref.useAsPerLevelFormula === false, 'community aggregate must never be used as a row-level formula');
+  const conflict = conflicts.conflicts.find(row => row.id === 'conclave-full-branch-aggregate');
+  assert(Boolean(conflict), 'Conclave aggregate conflict record missing');
+  assert(conflict.status.includes('unresolved'), 'Conclave aggregate discrepancy must remain unresolved');
+  assert(conflict.useInCalculator === false, 'unverified aggregate cannot be an approved formula');
+});
+
 if (process.exitCode) process.exit(process.exitCode);

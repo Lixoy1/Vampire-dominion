@@ -117,6 +117,60 @@
       "kind": "community-channel-mentioned-by-owner",
       "purpose": "candidate source to research",
       "status": "exact public handle/link not identified from indexed public search; do not cite as evidence until identified"
+    },
+    {
+      "id": "public-fan-calculator-repository",
+      "name": "Game of Vampires Calculator — public source repository",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
+      "kind": "public-community-code-repository",
+      "purpose": "research lead for Warden catalog, talent profiles, Blood Bonds, Garden/Courtyard, Conclave and inspiration modules",
+      "metadata": {
+        "defaultBranch": "main",
+        "lastObservedPushAt": "2026-06-11T03:05:42Z",
+        "license": null,
+        "reportedLicenseStatus": "GitHub repository metadata reports no license"
+      },
+      "status": "candidate dataset; not official; last observed push predates the 2026-09 release listing; do not treat as current-game truth or copy code/data arrays wholesale",
+      "observedFiles": [
+        {
+          "name": "wardenCatalog.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenCatalog.ts",
+          "reportedRows": 60
+        },
+        {
+          "name": "wardenTalentProfiles.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenTalentProfiles.ts",
+          "reportedProfiles": 63
+        },
+        {
+          "name": "scarletBonds.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts",
+          "reportedPairs": 43,
+          "reportedLevels": 200
+        },
+        {
+          "name": "courtyard.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+          "reportedLevelRows": 291
+        },
+        {
+          "name": "conclave.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/conclave.ts",
+          "reportedLevelRows": 101
+        },
+        {
+          "name": "auras.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/auras.ts",
+          "reported": "inspiration and bond bonus configuration"
+        }
+      ],
+      "knownConflicts": [
+        "The public catalog and local historical catalog have different sizes and naming; English names such as Dominique and Lorenzo are not yet mapped to Russian names with certainty.",
+        "The public Blood Bonds table gives `dual: 936020` at level 131; the user screenshot shows `+936.12K` (=936120) for a display row, a difference of 100. The labels may not be the same metric or may include other modifiers; do not treat as a formula match.",
+        "The public Garden table records level 112 as cost 320, points 44000 (commented All x4); the screenshot shows level 112 universal wardens `Все +22000` and raw `4280/170` near the upgrade control. The cost may refer to a different transition, but exact alignment remains unresolved.",
+        "Public Garden rows extend to 291, while a community archive claims max Garden effect level 140 and 18900 points. The claims may refer to different definitions or outdated versions; neither is an approved constant.",
+        "Public Conclave values differ from the local historical table at levels 1, 2, 10, 100 and 101. The old local regression examples remain authoritative for the existing engine until primary evidence resolves specific rows."
+      ]
     }
   ],
   "rules": [

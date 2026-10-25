@@ -216,3 +216,18 @@ button,input,select{font-family:var(--font-ui)}
   .break-row.provisional{align-items:flex-start;flex-direction:column;gap:5px}
   #conclaveDataAudit,#booksConclaveAudit,#domSummaryTrust{font-size:.88rem}
 }
+
+
+/* v2.15 — searchable, source-labelled Blood Bonds crosswalk */
+.bond-coverage-toolbar{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:end;margin:12px 0}
+.bond-coverage-toolbar label{min-width:0}
+.bond-coverage-toolbar input{max-width:100%}
+.bond-coverage-table-wrap{max-width:100%;overflow:auto;border:1px solid var(--line);border-radius:14px;background:var(--soft);margin:12px 0}
+.bond-coverage-table{width:100%;border-collapse:collapse;min-width:790px;font-size:.82rem}
+.bond-coverage-table th,.bond-coverage-table td{padding:10px 11px;text-align:left;vertical-align:top;border-bottom:1px solid var(--line)}
+.bond-coverage-table th{position:sticky;top:0;background:var(--card2);color:var(--gold);font-size:.72rem;letter-spacing:.04em}
+.bond-coverage-table tr:last-child td{border-bottom:0}
+.bond-coverage-table td:first-child{white-space:nowrap}
+.coverage-status{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:var(--muted);line-height:1.25;background:var(--card)}
+#bloodBondCoverageStatus{line-height:1.5}
+@media(max-width:600px){.bond-coverage-toolbar{grid-template-columns:1fr;gap:8px}.bond-coverage-table{font-size:.78rem}.bond-coverage-table th,.bond-coverage-table td{padding:9px}}

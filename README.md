@@ -1,4 +1,4 @@
-# Vampire Dominion v2.12 — Blood Moon Edition
+# Vampire Dominion v2.13 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -71,3 +71,12 @@
 - Added the guild-experience workbook values and direct link to the audit report in the guide.
 - Clarified that public wiki pages explain system relationships but do not provide complete verified per-level numeric tables.
 - Corrected section numbering after adding the guild-experience page and refreshed asset/PWA cache versions.
+
+
+## v2.13 — Conclave reference audit
+- Recorded the published community aggregate checkpoints for one Conclave branch and all four branches without treating them as per-level formulas.
+- Added an automated audit comparing the legacy row table against those aggregate checkpoints.
+- The current row table does not match: its direct attribute sum is 610,200 versus the community figure 987,000; book bonus sum is 1,092% versus 1,056%; and 50 level costs are missing.
+- Exact Conclave gain and Conclave book bonus are now excluded from the global forecast until a complete level table is verified. A separate provisional row remains visible for debugging.
+- Added visible status messages to distinguish calculated values from unverified estimates.
+- Existing legacy source files and regression fixtures are preserved.

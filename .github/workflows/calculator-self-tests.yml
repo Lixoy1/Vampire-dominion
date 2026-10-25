@@ -28,8 +28,11 @@ jobs:
           node --check engine.js
           node --check app.js
           node --check scripts/self-test.cjs
+          node --check scripts/validate-game-data.cjs
           node --check illustrations.js
       - name: Verify bundled illustration assets
         run: node scripts/verify-illustrations.cjs
+      - name: Validate evidence-backed game data registry
+        run: node scripts/validate-game-data.cjs
       - name: Run calculator regression checks
         run: node scripts/self-test.cjs

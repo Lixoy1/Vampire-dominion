@@ -201,7 +201,7 @@ function recalc(){
  });
  const conc=getConclave();
  const conclaveAudit=E.conclaveDataAudit();
- setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
+ setText('#conclaveGain',fmt(conc.gain));setText('#conclaveGainLabel',conclaveAudit.fullyMatched?'Прирост Конклава':'Предварительный прирост · не включён в итог');setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
  const auditBox=$('#conclaveDataAudit');
  if(auditBox){
   auditBox.className='goal-status';

@@ -55,3 +55,12 @@
 - `счет опыта ги.xlsx`: источник кандидатов коэффициентов опыта гильдии. Перенесены значения 500, 100, 40, 20, 40, 20, 400 и 1200 опыта за предмет; они остаются помеченными как требующие проверки в текущей игре.
 - `БлизостьВлечениеРесурсы.xlsx`: formulas for closeness, attraction and resource collection were compared with `data.js`. The item ranges and eight collection multipliers match the workbook's formulas.
 - Подробный разбор исходных формул, диапазонов и ограничений: [UPLOADED-SPREADSHEET-AUDIT.md](UPLOADED-SPREADSHEET-AUDIT.md).
+
+
+## Публичная Wiki — механика без полной числовой таблицы
+
+- [Dominance](https://gameofvampirestwilightsun.fandom.com/wiki/Dominance) описывает источники господства и сообщает, что индивидуальное господство Смотрителя основано на сумме атрибутов с усилениями от талантов, аур, скинов и, где применимо, Кровных уз связанного Партнёра. Страница помечена как незавершённая и не даёт полной таблицы всех уровней.
+- [Lovers](https://gameofvampirestwilightsun.fandom.com/wiki/Lovers) связывает Intimacy с детьми/разблокировкой Кровных уз, Attraction — с получаемой от свиданий Affinity, а Affinity — с улучшением Scarlet Bonds.
+- [Attributes](https://gameofvampirestwilightsun.fandom.com/wiki/Attributes) сообщает, что Courtyard Boons в системе Familiars могут увеличивать атрибуты Смотрителей. Это подтверждает направление связи с «Садом», но не точные значения стоимости и прироста каждого уровня.
+
+Эти страницы используются как справочные источники о связях между системами. Числовые коэффициенты не извлекаются из описательного текста; для них всё ещё нужна таблица уровней и проверка в клиенте игры.

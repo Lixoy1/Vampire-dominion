@@ -2,8 +2,27 @@
   'use strict';
 
   const assets = [
-    { id: 'loveIllustration', path: 'assets/optimist-love-160.webp.b64' },
-    { id: 'closenessIllustration', path: 'assets/closeness-160.webp.b64' }
+    {
+      id: 'loveIllustration',
+      parts: [
+        'assets/love-hq-00.b64',
+        'assets/love-hq-01.b64',
+        'assets/love-hq-02.b64',
+        'assets/love-hq-03.b64',
+        'assets/love-hq-04.b64',
+        'assets/love-hq-05.b64'
+      ]
+    },
+    {
+      id: 'closenessIllustration',
+      parts: [
+        'assets/closeness-hq-00.b64',
+        'assets/closeness-hq-01.b64',
+        'assets/closeness-hq-02.b64',
+        'assets/closeness-hq-03.b64',
+        'assets/closeness-hq-04.b64'
+      ]
+    }
   ];
 
   async function hydrateImage(asset) {
@@ -12,11 +31,15 @@
 
     let objectUrl = null;
     try {
-      const response = await fetch(asset.path, { cache: 'force-cache' });
-      if (!response.ok) throw new Error('HTTP ' + response.status);
-      const encoded = (await response.text()).trim().replace(/\\s+/g, '');
-      if (!encoded.startsWith('UklGR') || encoded.length % 4 === 1) {
-        throw new Error('Некорректный Base64 WebP: ' + asset.id);
+      const chunks = await Promise.all(asset.parts.map(async (path) => {
+        const response = await fetch(path, { cache: 'force-cache' });
+        if (!response.ok) throw new Error('HTTP ' + response.status + ': ' + path);
+        return (await response.text()).trim();
+      }));
+      const encoded = chunks.join('').replace(/\s+/g, '');
+      if (!encoded.startsWith('UklGR') || encoded.length % 4 !== 0 ||
+          !/^[A-Za-z0-9+/]+={0,2}$/.test(encoded)) {
+        throw new Error('Некорректная Base64-последовательность: ' + asset.id);
       }
 
       const binary = window.atob(encoded);

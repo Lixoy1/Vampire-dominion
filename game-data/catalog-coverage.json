@@ -45,6 +45,7 @@
     "bloodBondCandidatePairs": 43,
     "bloodBondMappedLocalRosterProfiles": 43,
     "bloodBondUnresolvedLocalization": [
+      "Лоуренс",
       "Чарльз"
     ],
     "bloodBondCandidateTableStatus": "candidate-only; no numeric formulas imported; not enabled for exact forecast",
@@ -68,8 +69,7 @@
       "Висент",
       "Вотан",
       "Дэмиен",
-      "Кендэс",
-      "Лоуренс"
+      "Кендэс"
     ]
   },
   "wardens": [

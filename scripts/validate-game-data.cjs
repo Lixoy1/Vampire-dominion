@@ -69,6 +69,15 @@ run('Garden observations preserve raw evidence and block unverified aggregate fr
   assert(garden.communityAggregate.useInCalculator === false, 'community aggregate must not be a formula constant');
   assert(garden.communityAggregate.evidenceClass === 'community-unverified', 'aggregate evidence status must be explicit');
 });
+run('Russian App Store release source is distinguished from the international app', () => {
+  const ruStore = sources.sources.find(x => x.id === 'rustore-versions');
+  const ruApple = sources.sources.find(x => x.id === 'app-store-russian');
+  const intlApple = sources.sources.find(x => x.id === 'international-app-store');
+  assert(Boolean(ruStore && ruApple && intlApple), 'missing one of the platform-specific version sources');
+  assert(ruApple.url.includes('id6469098312'), 'Russian App Store source must use the Russian game app id');
+  assert(intlApple.url.includes('id6469515429'), 'international App Store source must keep its separate app id');
+  assert(!ruApple.url.includes('id6469515429'), 'international App Store listing must not be used as Russian version evidence');
+});
 run('Source manifest marks the requested unidentified channel as unresolved', () => {
   const source = sources.sources.find(x => x.id === 'dampirlogiya');
   assert(Boolean(source), 'missing Dampirlogiya tracking entry');

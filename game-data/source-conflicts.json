@@ -1,0 +1,158 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-25",
+  "disclaimer": "This file documents disagreements between sources. These values are not used by the calculator until resolved by current in-game evidence.",
+  "sources": {
+    "localLegacy": {
+      "name": "Vampire Dominion legacy engine data",
+      "path": "data.js",
+      "status": "regression-tested legacy values"
+    },
+    "publicFanRepo": {
+      "name": "Game of Vampires Calculator",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
+      "lastObservedPushAt": "2026-06-11T03:05:42Z",
+      "license": null,
+      "status": "community dataset; no license declared in repository metadata"
+    }
+  },
+  "conflicts": [
+    {
+      "id": "blood-bond-dual-level-131",
+      "system": "blood-bonds",
+      "publicCandidate": {
+        "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts",
+        "field": "dual",
+        "level": 131,
+        "value": 936020
+      },
+      "inGameObservation": {
+        "source": "user-screenshot-blood-bonds-2026-10-25",
+        "warden": "Майк",
+        "skill": "Глаза голода",
+        "level": 131,
+        "displayed": "+936.12K",
+        "normalizedDisplay": 936120
+      },
+      "arithmeticDifference": 100,
+      "status": "unresolved-metric-mapping",
+      "notes": "The screenshot label and public `dual` column may not represent the same metric or modifiers. Do not use either value to calculate account Dominion without verifying the mapping."
+    },
+    {
+      "id": "garden-level-112",
+      "system": "garden",
+      "publicCandidate": {
+        "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+        "level": 112,
+        "cost": 320,
+        "points": 44000,
+        "comment": "All x4"
+      },
+      "inGameObservation": {
+        "source": "user-garden-screenshot-2026-10-25",
+        "level": 112,
+        "category": "universal wardens",
+        "bonus": "Все +22000",
+        "rawUpgradeDisplay": "4280/170"
+      },
+      "status": "unresolved-transition-and-point-definition",
+      "notes": "The displayed cost may refer to the next upgrade transition and may align with the public row for level 113 (cost 170), but that mapping is not yet proven. The `points` field and per-attribute effect are also not clearly equivalent."
+    },
+    {
+      "id": "garden-maximum",
+      "system": "garden",
+      "communityClaim": {
+        "url": "https://telemetr.io/en/channels/2158115409-draculachest/posts",
+        "claimedMaxEffectLevel": 140,
+        "claimedFullUpgradePoints": 18900,
+        "status": "community-unverified-date-unknown"
+      },
+      "publicCandidate": {
+        "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+        "rows": 291,
+        "highestLevel": 291,
+        "lastObservedPushAt": "2026-06-11"
+      },
+      "status": "unresolved-definition-and-version",
+      "notes": "This may be a stale aggregate, a different level definition, or a different game version. Neither claim is used in the calculator."
+    },
+    {
+      "id": "conclave-cost-table",
+      "system": "conclave",
+      "publicCandidateUrl": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/conclave.ts",
+      "localCandidatePath": "data.js",
+      "examples": [
+        {
+          "level": 1,
+          "local": 5130,
+          "public": 5300,
+          "status": "different"
+        },
+        {
+          "level": 2,
+          "local": 5335,
+          "public": 5420,
+          "status": "different"
+        },
+        {
+          "level": 3,
+          "local": 5540,
+          "public": 5540,
+          "status": "same-value-one-row-only"
+        },
+        {
+          "level": 10,
+          "local": 7180,
+          "public": 6480,
+          "status": "different"
+        },
+        {
+          "level": 11,
+          "local": null,
+          "public": 9330,
+          "status": "local-unknown"
+        },
+        {
+          "level": 50,
+          "local": 108340,
+          "public": 108340,
+          "status": "same-value-one-row-only"
+        },
+        {
+          "level": 100,
+          "local": 15110000,
+          "public": 15390000,
+          "status": "different"
+        },
+        {
+          "level": 101,
+          "local": 30892764,
+          "public": 32650000,
+          "status": "different-approx-local"
+        }
+      ],
+      "status": "known-dataset-disagreement",
+      "notes": "Do not wholesale-replace local Conclave values with the community table. Existing regression fixtures must remain stable."
+    },
+    {
+      "id": "warden-catalog-completeness",
+      "system": "wardens",
+      "local": {
+        "namedProfiles": 64,
+        "knownIncompleteProfiles": [
+          "Мара"
+        ]
+      },
+      "publicCandidate": {
+        "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenCatalog.ts",
+        "records": 60
+      },
+      "publicTalentProfiles": {
+        "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenTalentProfiles.ts",
+        "profiles": 63
+      },
+      "status": "coverage-and-name-mapping-unresolved",
+      "notes": "Differences in counts and transliteration are not proof that any character is absent from the current game."
+    }
+  ]
+}

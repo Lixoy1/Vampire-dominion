@@ -178,21 +178,29 @@ function initBloodBondCoverage(){
  const search=$('#bloodBondCoverageSearch');
  const rowsBox=$('#bloodBondCoverageRows');
  const meta=$('#bloodBondCoverageMeta');
+ const rosterRowsBox=$('#bloodBondRosterCoverageRows');
+ const rosterMeta=$('#bloodBondRosterCoverageMeta');
  const status=$('#bloodBondCoverageStatus');
- if(!rowsBox)return;
- let candidates=[];
+ if(!rowsBox||!rosterRowsBox)return;
+ let candidates=[],localRosterCoverage=[];
  const typeLabels={All:'Все атрибуты',Dual:'Два атрибута',Single:'Один атрибут'};
  const localizationLabels={
   'matched-name':'Кандидат по имени · требует сверки',
   'probable-localization':'Вероятная локализация · подтвердить',
   'unresolved-localization':'Сопоставление не подтверждено'
  };
+ const rosterStatusLabels={
+  'candidate-pair-found-needs-game-verification':'Кандидат найден · нужна проверка в игре',
+  'candidate-pair-needs-localization-review':'Нужно проверить локализацию имени',
+  'no-pair-found-in-this-public-candidate-table':'Пара не найдена в этой публичной выборке'
+ };
  function render(){
   const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
+  const candidateIndex=new Map(candidates.map(row=>[row.candidateId,row]));
   const filtered=candidates.filter(row=>[
    row.publicPartnerLabel,row.publicWardenName,row.possibleLocalWarden,row.candidateId,row.bondClass,row.localizationStatus
   ].some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query)));
-  if(meta)meta.textContent=query?`${filtered.length} из ${candidates.length} связок`:`${candidates.length} кандидатных связок`;
+  if(meta)meta.textContent=query?`${filtered.length} из ${candidates.length} кандидатных связок`:`${candidates.length} кандидатных связок`;
   rowsBox.innerHTML=filtered.length?filtered.map(row=>`<tr>
    <td><code>${esc(row.candidateId)}</code></td>
    <td>${esc(row.publicPartnerLabel)}</td>
@@ -201,21 +209,43 @@ function initBloodBondCoverage(){
    <td>${esc(typeLabels[row.bondClass]||row.bondClass||'не указан')}</td>
    <td><span class="coverage-status">${esc(localizationLabels[row.localizationStatus]||row.localizationStatus||'неизвестно')}</span></td>
   </tr>`).join(''):`<tr><td colspan="6">${candidates.length?'По такому запросу связок не найдено.':'Реестр пока не загружен.'}</td></tr>`;
+
+  const filteredRoster=localRosterCoverage.filter(row=>{
+   const related=(row.publicCandidateBondPairs||[]).map(id=>candidateIndex.get(id)).filter(Boolean);
+   const relatedText=related.flatMap(item=>[item.candidateId,item.publicPartnerLabel,item.publicWardenName,item.possibleLocalWarden]).join(' ');
+   return [row.localWardenName,row.coverageStatus,relatedText]
+    .some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query));
+  });
+  if(rosterMeta)rosterMeta.textContent=query?`${filteredRoster.length} из ${localRosterCoverage.length} профилей`:`${localRosterCoverage.length} локальных профилей`;
+  rosterRowsBox.innerHTML=filteredRoster.length?filteredRoster.map(row=>{
+   const related=(row.publicCandidateBondPairs||[]).map(id=>candidateIndex.get(id)).filter(Boolean);
+   const relatedText=related.length?related.map(item=>`${item.candidateId} · ${item.publicPartnerLabel}`).join('; '):'В кандидатном наборе не найдено';
+   const exactText=row.exactCalculationEnabled===true?'Разрешено':'Отключено · нет полной подтверждённой таблицы';
+   return `<tr>
+    <td><b>${esc(row.localWardenName)}</b></td>
+    <td>${esc(relatedText)}</td>
+    <td><span class="coverage-status">${esc(rosterStatusLabels[row.coverageStatus]||row.coverageStatus||'Статус неизвестен')}</span></td>
+    <td>${esc(exactText)}</td>
+   </tr>`;
+  }).join(''):`<tr><td colspan="4">${localRosterCoverage.length?'По такому запросу Смотрители не найдены.':'Каталог покрытия пока не загружен.'}</td></tr>`;
  }
  search?.addEventListener('input',render);
  fetch('./game-data/blood-bond-pairing-candidates.json')
   .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
   .then(payload=>{
    candidates=Array.isArray(payload.candidatePairs)?payload.candidatePairs:[];
+   localRosterCoverage=Array.isArray(payload.localRosterCoverage)?payload.localRosterCoverage:[];
    render();
    if(status){
     status.className='goal-status warn';
-    status.textContent=`Загружено ${candidates.length} кандидатных связок из стороннего справочника. В наборе нет числовых формул; совпадения имён, тип связи и актуальность необходимо подтвердить в игре. Этот список не влияет на расчёт господства.`;
+    status.textContent=`Загружено ${candidates.length} кандидатных связок и ${localRosterCoverage.length} локальных профилей. В наборе нет числовых формул; имена, тип связи и актуальность нужно подтвердить в игре. Ни одна строка не включена в расчёт господства.`;
    }
   })
   .catch(()=>{
    if(meta)meta.textContent='Реестр недоступен';
+   if(rosterMeta)rosterMeta.textContent='Каталог недоступен';
    rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр. Проверь подключение или открой JSON по ссылке ниже.</td></tr>';
+   rosterRowsBox.innerHTML='<tr><td colspan="4">Не удалось загрузить каталог покрытия.</td></tr>';
    if(status){status.className='goal-status warn';status.textContent='Реестр кандидатов недоступен. Расчёты калькулятора продолжают работать; список можно открыть напрямую в GitHub.'}
   });
 }

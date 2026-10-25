@@ -32,7 +32,7 @@
       "url": "https://play.google.com/store/apps/details?id=com.mechanist.vampire.aos",
       "kind": "store-listing",
       "purpose": "publisher contact and store update notes",
-      "status": "store update date differs from RuStore listing; treat rollout as potentially regional"
+      "status": "store update date differs from RuStore listing; treat rollout as potentially regional Separate English listing id 6469515429 is a different app and must not be used to infer the Russian client's version."
     },
     {
       "id": "dracula-chest-channel",
@@ -196,6 +196,14 @@
         "Many Conclave cost rows are blank",
         "Roster coverage differs from the current local roster"
       ]
+    },
+    {
+      "id": "app-store-russian",
+      "name": "App Store: Наследие Вампиров: Новолуние",
+      "url": "https://apps.apple.com/ru/app/нaследие-вампиров-новолуние/id6469098312",
+      "kind": "store-release-history",
+      "purpose": "Russian-client version history and update notes",
+      "status": "checked 2026-10-25; the page lists version 1.051.013 and displays its date relatively (about three days ago in the page snapshot); verify directly in the client before assigning a universal game version"
     }
   ],
   "rules": [

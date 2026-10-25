@@ -1,4 +1,4 @@
-# Vampire Dominion v2.6 — Blood Moon Edition
+# Vampire Dominion v2.7 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -30,3 +30,10 @@
 - Fonts: Cormorant Garamond for gothic/display headings and Manrope for clear interface text, with system fallbacks.
 - Added a validated image loader and offline cache entries for both illustration files.
 - Kept the illustrations separate from the calculator math; no existing calculations were changed.
+
+
+## v2.7 — Offline reliability
+- Versioned asset URLs and the PWA cache now move together.
+- Service worker falls back to cached files when a versioned URL is unavailable offline.
+- Previous `vd-local-*` caches are removed on activation to avoid stale UI and image assets.
+- Existing calculation logic is unchanged by this PWA fix.

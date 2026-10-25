@@ -231,3 +231,13 @@ button,input,select{font-family:var(--font-ui)}
 .coverage-status{display:inline-block;border:1px solid var(--line);border-radius:999px;padding:4px 7px;color:var(--muted);line-height:1.25;background:var(--card)}
 #bloodBondCoverageStatus{line-height:1.5}
 @media(max-width:600px){.bond-coverage-toolbar{grid-template-columns:1fr;gap:8px}.bond-coverage-table{font-size:.78rem}.bond-coverage-table th,.bond-coverage-table td{padding:9px}}
+
+
+/* v2.16 — complete local Warden coverage view for Blood Bonds */
+.bond-roster-note{color:var(--muted);font-size:.88rem;line-height:1.55}
+.bond-roster-toolbar{display:flex;justify-content:flex-end;align-items:center;margin-top:4px}
+.bond-roster-table{min-width:720px}
+.bond-roster-table td:nth-child(1){min-width:125px}
+.bond-roster-table td:nth-child(2){min-width:220px;white-space:normal}
+.bond-roster-table td:nth-child(3){min-width:210px;white-space:normal}
+.bond-roster-table td:nth-child(4){min-width:210px;white-space:normal}

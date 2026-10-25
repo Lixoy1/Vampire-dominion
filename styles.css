@@ -153,3 +153,9 @@ button,input,select{font-family:var(--font-ui)}
   .love-line span{animation:none}
 }
 
+
+/* v2.5 — illustration loading and refined type hierarchy */
+#loveIllustration,#closenessIllustration{opacity:0;transition:opacity .28s ease}
+#loveIllustration[data-loaded="true"],#closenessIllustration[data-loaded="true"]{opacity:1}
+.illustration-unavailable img{display:none!important}
+@media(prefers-reduced-motion:reduce){#loveIllustration,#closenessIllustration{transition:none}}

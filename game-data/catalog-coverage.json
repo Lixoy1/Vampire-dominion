@@ -45,12 +45,6 @@
     "bloodBondCandidatePairs": 43,
     "bloodBondMappedLocalRosterProfiles": 43,
     "bloodBondUnresolvedLocalization": [
-      "Аластар",
-      "Висент",
-      "Вотан",
-      "Дэмиен",
-      "Кендэс",
-      "Лоуренс",
       "Чарльз"
     ],
     "bloodBondCandidateTableStatus": "candidate-only; no numeric formulas imported; not enabled for exact forecast",
@@ -68,7 +62,15 @@
       "communityClaimedBooksBonusPercentPerBranch": 1056,
       "levelCostsMissing": 50,
       "status": "unresolved; exact forecast excluded until a complete current-game table is verified"
-    }
+    },
+    "bloodBondProbableLocalization": [
+      "Аластар",
+      "Висент",
+      "Вотан",
+      "Дэмиен",
+      "Кендэс",
+      "Лоуренс"
+    ]
   },
   "wardens": [
     {

@@ -21,6 +21,7 @@ const bonds = readJson('game-data/blood-bonds-observations.json');
 const garden = readJson('game-data/garden-observations.json');
 const sources = readJson('game-data/source-manifest.json');
 const conflicts = readJson('game-data/source-conflicts.json');
+const bondCandidates = readJson('game-data/blood-bond-pairing-candidates.json');
 
 run('Coverage roster exactly matches current legacy data.js roster', () => {
   const expected = Object.keys(data.watchers).sort();
@@ -142,6 +143,20 @@ run('Conclave historical table disagreement is detected and blocks exact forecas
   assert(Boolean(conflict), 'Conclave aggregate conflict record missing');
   assert(conflict.status.includes('unresolved'), 'Conclave aggregate discrepancy must remain unresolved');
   assert(conflict.useInCalculator === false, 'unverified aggregate cannot be an approved formula');
+});
+
+run('Blood Bond candidate crosswalk covers the external 43 pair records without importing formulas', () => {
+  assert(bondCandidates.source.license === null, 'unknown public repository licence must remain explicit');
+  assert(bondCandidates.candidatePairs.length === 43, 'expected 43 candidate pair links');
+  assert(bondCandidates.counts.byBondClass.All === 7, 'unexpected All candidate link count');
+  assert(bondCandidates.counts.byBondClass.Dual === 17, 'unexpected Dual candidate link count');
+  assert(bondCandidates.counts.byBondClass.Single === 19, 'unexpected Single candidate link count');
+  assert(bondCandidates.localRosterCoverage.length === Object.keys(data.watchers).length, 'crosswalk roster differs from current legacy roster');
+  assert(bondCandidates.localRosterCoverage.every(x => x.exactCalculationEnabled === false), 'candidate mapping must not enable exact calculations');
+  assert(bondCandidates.candidatePairs.every(x => x.numericTableImported === false && x.verificationStatus === 'community-candidate-unverified'), 'candidate rows must remain unverified and non-numeric');
+  const unresolved = bondCandidates.candidatePairs.filter(x => x.localizationStatus === 'unresolved-localization');
+  assert(unresolved.some(x => x.publicWardenName === 'Charlemagne'), 'Charlemagne localization conflict missing');
+  assert(unresolved.some(x => x.publicWardenName === 'Lorenzo'), 'Lorenzo localization conflict missing');
 });
 
 if (process.exitCode) process.exit(process.exitCode);

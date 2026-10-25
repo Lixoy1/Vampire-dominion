@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.9 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.10 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=228" />
+  <link rel="stylesheet" href="styles.css??v=230" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -313,12 +313,13 @@
 
         <details class="guide-card"><summary>📚 Статус нашей базы: что собрано, что нет</summary><div class="guide-body">
           <div class="attribute-guide">
-            <div><b>65 записей Смотрителей</b><span>Исторический каталог проекта; требует сверки с текущим составом игры.</span></div>
+            <div><b>64 профиля · 513 записей талантов</b><span>Историческая база; актуальный полный состав игры ещё не подтверждён.</span></div>
             <div><b>6 наблюдений Кровных уз</b><span>Майк и Кармилла, точные переходы уровней с предоставленных скриншотов.</span></div>
             <div><b>7 уровней Сада</b><span>Наблюдения по уровням 109–115, не полная таблица.</span></div>
+            <div><b>1 профиль заблокирован</b><span>У Мары неполная запись талантов, поэтому точный прогноз отключён до проверки.</span></div>
             <div><b>Полные формулы</b><span>Для Кровных уз и Сада ещё не подтверждены.</span></div>
           </div>
-          <p>Мы не выдаём исторический список за полный современный каталог. Новые и изменённые персонажи должны добавляться с источником. Для Кровных уз и Сада храним сырые наблюдения отдельно от формул, поэтому их неполные данные не портят общий прогноз.</p>
+          <p>Мы не выдаём исторический список за полный современный каталог. У каждого героя должны быть свой профиль талантов, вдохновение, связанные Кровные узы и применимость бонусов Сада. Новые и изменённые персонажи добавляются только с источником. Для неполных профилей точный прогноз блокируется.</p>
           <p><a href="https://github.com/Lixoy1/Vampire-dominion/tree/feature/global-dominion-expansion/game-data" target="_blank" rel="noopener noreferrer">Открыть реестр данных в GitHub</a></p>
         </div></details>
 
@@ -361,6 +362,26 @@
           <p><a href="https://telemetr.io/en/channels/2158115409-draculachest/posts" target="_blank" rel="noopener noreferrer">Архив публикаций «Сундука Дракулы»</a></p>
         </div></details>
 
+        <details class="guide-card"><summary>🔍 Публичные таблицы сообщества: сверка, не копирование</summary><div class="guide-body">
+          <p>Мы нашли открытый сторонний <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator" target="_blank" rel="noopener noreferrer">Game of Vampires Calculator</a>. В его репозитории есть таблицы Смотрителей, талантов, Кровных уз, Сада и Конклава. Это полезная отправная точка для поиска пропусков, но не официальный справочник разработчиков.</p>
+          <div class="attribute-guide">
+            <div><b>43 связки Кровных уз</b><span>В стороннем файле scarletBonds.ts; каждую нужно сверить с игрой.</span></div>
+            <div><b>200 уровней уз</b><span>Кандидатная таблица прогрессии; некоторые пропущенные значения интерполируются.</span></div>
+            <div><b>291 уровень Сада</b><span>Другая таблица даёт иные трактовки бонусов; автоматический импорт запрещён до сверки.</span></div>
+            <div><b>Конклав расходится</b><span>Есть несовпадения со старой локальной таблицей. Старые проверенные формулы не заменяются.</span></div>
+          </div>
+          <p>Пример расхождения: сторонняя таблица указывает стоимость уровня 1 Конклава 5300, а наш исторический калькулятор использует 5130; для уровня 10 это 6480 против 7180. По Саду на уровне 112 сторонняя таблица содержит points=44000, а игровой скриншот показывает «Все +22000». Пока значение этих полей не сопоставлено однозначно, они не входят в формулу.</p>
+          <p class="guide-tip">Мы не копируем код и изображения стороннего проекта. Значения берём в нашу базу только после установления источника, смысла поля и контрольной сверки с актуальной игрой.</p>
+          <div class="source-links">
+            <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenCatalog.ts" target="_blank" rel="noopener noreferrer">Каталог Смотрителей</a>
+            <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenTalentProfiles.ts" target="_blank" rel="noopener noreferrer">Профили талантов</a>
+            <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Кровные узы</a>
+            <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts" target="_blank" rel="noopener noreferrer">Сад</a>
+            <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/conclave.ts" target="_blank" rel="noopener noreferrer">Конклав</a>
+            <a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/docs/EXTERNAL-DATA-COVERAGE-AUDIT.md" target="_blank" rel="noopener noreferrer">Наш аудит расхождений</a>
+          </div>
+        </div></details>
+
         <details class="guide-card"><summary>★ Таланты, книги и Конклав</summary><div class="guide-body">
           <p>Существующий калькулятор уже содержит расчётный движок, таблицы и регрессионные примеры для Смотрителей, талантов, книг, Конклава, близости и влечения. Эти формулы сохраняются. При этом старый тест доказывает воспроизводимость примера, а не гарантирует, что каждый справочный ряд обновлён для последней версии игры.</p>
           <ul>
@@ -392,6 +413,10 @@
           <p>История RuStore указывает на версию 1.051.013 от 24.09.2026. Google Play отображает другую дату обновления, поэтому релизные заметки могут расходиться между магазинами или регионами. Не используем один магазин как универсальный номер версии для всех игроков.</p>
           <div class="source-links">
             <a href="https://www.rustore.ru/catalog/app/com.mechanist.vampire.aos.rustore/versions" target="_blank" rel="noopener noreferrer">История версий RuStore</a>
+            <a href="https://t.me/gov_announcements" target="_blank" rel="noopener noreferrer">Официальные объявления игры</a>
+            <a href="https://t.me/gov_ruofficial" target="_blank" rel="noopener noreferrer">Официальная группа Telegram</a>
+            <a href="https://t.me/DampirHelperBot" target="_blank" rel="noopener noreferrer">Бот-помощник DampirHelperBot</a>
+            <a href="https://t.me/DraculaHelper" target="_blank" rel="noopener noreferrer">Поддержка бота</a>
             <a href="https://play.google.com/store/apps/details?id=com.mechanist.vampire.aos" target="_blank" rel="noopener noreferrer">Карточка Google Play</a>
             <a href="https://vk.com/nasledie_vampirov" target="_blank" rel="noopener noreferrer">VK-сообщество из карточки игры</a>
             <a href="https://t.me/draculachest" target="_blank" rel="noopener noreferrer">Сундук Дракулы</a>
@@ -408,7 +433,7 @@
   </main>
 
   <footer class="site-footer">
-    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.8 <span>·</span> проект <b>ОПТИМИСТ</b></div>
+    <div class="site-footer__brand">Vampire Dominion <span>·</span> v2.10 <span>·</span> проект <b>ОПТИМИСТ</b></div>
     <div class="footer-love-card">
       <div class="footer-love-card__art">
         <img id="loveIllustration" alt="Влюблённая вампирская пара — иллюстрация проекта" loading="lazy" decoding="async">
@@ -424,10 +449,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=228"></script>
-  <script src="source-samples.js?v=228"></script>
-  <script src="engine.js?v=228"></script>
-  <script src="app.js?v=228"></script>
-  <script src="illustrations.js?v=228"></script>
+  <script src="data.js??v=230"></script>
+  <script src="source-samples.js??v=230"></script>
+  <script src="engine.js??v=230"></script>
+  <script src="app.js??v=230"></script>
+  <script src="illustrations.js??v=230"></script>
 </body>
 </html>

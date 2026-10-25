@@ -1,4 +1,4 @@
-# Vampire Dominion v2.7 — Blood Moon Edition
+# Vampire Dominion v2.9 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -37,3 +37,12 @@
 - Service worker falls back to cached files when a versioned URL is unavailable offline.
 - Previous `vd-local-*` caches are removed on activation to avoid stale UI and image assets.
 - Existing calculation logic is unchanged by this PWA fix.
+
+
+## v2.9 — Source-backed game-data registry and guides
+- Replaced the in-app guide with source-aware material and clearly marked community claims.
+- Added a 65-entry coverage checklist based on the existing legacy Warden catalog; it is explicitly not declared complete/current.
+- Added structured observations for six Blood Bonds level transitions and seven Garden levels transcribed from user-provided screenshots.
+- Community-reported Garden maximum level and total points are recorded as unverified and are not used in calculations.
+- Added a source manifest, data-quality rules, and CI checks for registry coverage and evidence status.
+- Existing calculator formulas remain unchanged.

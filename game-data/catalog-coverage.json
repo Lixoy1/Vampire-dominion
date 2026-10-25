@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "game": "Наследие Вампиров: Новолуние",
   "generatedAt": "2026-10-25",
-  "disclaimer": "This is a coverage checklist, not a claim that the legacy roster is the complete/current roster. Existing calculator data must be rechecked against the current game. Unknown fields must not be used as formula inputs.",
+  "disclaimer": "This is a coverage checklist, not a claim that the legacy roster is the complete/current roster. It contains 64 local legacy Warden records and 513 talent rows; the local profile for Mara is incomplete and exact forecasting is blocked for her. External public datasets are discovery aids, not verified game facts.",
   "legacyRosterSource": {
     "file": "data.js",
     "dataVersion": "v1.4-derived",
@@ -25,7 +25,16 @@
     "profileRowsInLegacyData": 513,
     "profilesBlockedFromExactForecast": [
       "Мара"
-    ]
+    ],
+    "externalCandidateTables": {
+      "wardenCatalog": 60,
+      "wardenTalentProfiles": 63,
+      "bloodBondPairs": 43,
+      "bloodBondLevels": 200,
+      "gardenRows": 291,
+      "conclaveRows": 101
+    },
+    "externalCandidateStatus": "community-unverified; last observed push 2026-06-11; contains unresolved conflicts"
   },
   "wardens": [
     {

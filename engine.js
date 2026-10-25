@@ -275,6 +275,41 @@
     return {gain,bySource,details,missingRows,invalidRows,complete:missingRows.length===0&&invalidRows.length===0};
   }
 
+  // Guild experience values are transcribed from the uploaded workbook "счет опыта ги.xlsx".
+  // The formulas are implemented exactly as provided; game-version verification is still pending.
+  function guildExperienceCalc(rows){
+    const defs=Array.isArray(DATA.guildExperienceItems)?DATA.guildExperienceItems:[];
+    const itemTotals=Object.fromEntries(defs.map(item=>[item.key,0]));
+    const members=[];
+    const invalidFields=[];
+    let total=0,totalItems=0,contributors=0;
+    for(const row of (rows||[])){
+      const counts=(row&&row.counts)||{};
+      let memberTotal=0,memberItemCount=0,hasItems=false;
+      const itemDetails={};
+      for(const item of defs){
+        const raw=String(counts[item.key]??'').trim();
+        const parsed=raw===''?0:Number(raw.replace(',','.'));
+        const valid=Number.isSafeInteger(parsed)&&parsed>=0;
+        const quantity=valid?parsed:0;
+        if(!valid) invalidFields.push({memberId:row&&row.id,itemKey:item.key,raw});
+        const exp=quantity*item.experience;
+        itemDetails[item.key]={quantity,experiencePerItem:item.experience,gain:exp,valid};
+        itemTotals[item.key]+=quantity;
+        memberItemCount+=quantity;
+        memberTotal+=exp;
+        if(quantity>0) hasItems=true;
+      }
+      const name=String((row&&row.name)||'').trim();
+      if(name||memberItemCount>0||Object.values(counts).some(v=>String(v??'').trim()!=='')){
+        members.push({id:row&&row.id,name,total:memberTotal,totalItems:memberItemCount,hasItems,itemDetails});
+      }
+      total+=memberTotal; totalItems+=memberItemCount;
+      if(hasItems) contributors++;
+    }
+    return {total,totalItems,contributors,members,itemTotals,invalidFields,complete:invalidFields.length===0};
+  }
+
   function requirementStatus(available,required,complete=true,entered=true){
     available=Math.max(0,num(available)); required=Math.max(0,num(required));
     if(!complete) return {state:'unknown',label:'нет данных',hint:'Для части выбранных уровней в исходной таблице не указана стоимость.'};
@@ -318,10 +353,16 @@
       const manual=manualSourcesCalc([{id:1,source:'Сад',gain:'2,5M'},{id:2,source:'Кровные узы',gain:'???'},{id:3,source:'Скины',gain:''}]);
       tests.push({name:'Дополнительные источники: только подтверждённые приросты',ok:manual.gain===2500000&&manual.bySource['Сад']===2500000&&manual.invalidRows.length===1&&manual.missingRows.length===1,got:manual});
       tests.push({name:'K/M/B парсер',ok:parseCompact('5,25M')===5250000&&parseCompact('1.2B')===1200000000&&parseCompact('750K')===750000,got:[parseCompact('5,25M'),parseCompact('1.2B'),parseCompact('750K')]});
+      const guild=guildExperienceCalc([{id:1,name:'Участник 1',counts:{goldBucket:2,silverBucket:3,bronzeBucket:4,woodenBucket:5,steelChest:6,simpleChest:7,contribution:8,largeContribution:9}}]);
+      tests.push({name:'Опыт гильдии: все 8 коэффициентов из таблицы',ok:guild.total===15940&&guild.totalItems===44&&guild.contributors===1&&guild.itemTotals.goldBucket===2&&guild.itemTotals.largeContribution===9,got:guild});
+      const guildInvalid=guildExperienceCalc([{id:1,name:'Участник 1',counts:{goldBucket:-1,contribution:'1.5'}}]);
+      tests.push({name:'Опыт гильдии: отрицательные и дробные количества не считаются',ok:guildInvalid.total===0&&guildInvalid.complete===false&&guildInvalid.invalidFields.length===2,got:guildInvalid});
+      const guildZero=guildExperienceCalc([]);
+      tests.push({name:'Опыт гильдии: пустой список',ok:guildZero.total===0&&guildZero.totalItems===0&&guildZero.contributors===0,got:guildZero});
       const zero=conclaveCalc({watcherCount:0,seals:{},attrTotals:{}}); const zeroBooks=booksCalc({},{}); const zeroRange=closenessCalc({}); const zeroTal=talentRatingCalc([],{},{}); tests.push({name:'Нулевое состояние всех модулей',ok:zero.gain===0&&zero.council===0&&zeroBooks.gain===0&&zeroRange.min===0&&zeroRange.max===0&&zeroTal.score===0,got:{zero,zeroBooks,zeroRange,zeroTal}});
     }catch(e){tests.push({name:'Исключение тестов',ok:false,error:String(e&&e.stack||e)});}
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,guildExperienceCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

@@ -23,5 +23,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Validate JavaScript syntax
+        run: |
+          node --check engine.js
+          node --check app.js
+          node --check scripts/self-test.cjs
       - name: Run calculator regression checks
         run: node scripts/self-test.cjs

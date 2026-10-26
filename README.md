@@ -1,4 +1,4 @@
-# Vampire Dominion v2.19 — Blood Moon Edition
+# Vampire Dominion v2.20 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -121,3 +121,9 @@
 - Added regression tests for accepted verified rows and blocked unverified rows. Legacy formula tests remain intact.
 - Added `docs/LEVEL-DATA-CAPTURE-SCHEMA.md` with the required fields, evidence status rules, transition-cost meaning and before/after verification protocol.
 - These planners are not enabled with community values yet. A complete verified per-level table and Warden applicability mapping are still required before linking either module to the global forecast.
+
+
+## v2.20 — Full community roster coverage
+- Blood Bonds workspace now surfaces all 65 Warden names listed by a public community Wiki, alongside the existing 43 pair candidates and 64 local legacy profiles.
+- Every name mapping remains provisional where not supported by an exact mapping record. The list does not auto-create talent profiles and is not treated as an official/current complete roster.
+- Added the public candidate roster to the offline cache and a CI validation that guards its 65 unique names and unresolved mapping caveats.

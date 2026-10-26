@@ -50,6 +50,8 @@
     <button class="tab" data-tab="resources">◇<span>Ресурсы</span></button>
     <button class="tab" data-tab="guildxp">♜<span>Опыт ГИ</span></button>
     <button class="tab" data-tab="heirs">♧<span>Наследники</span></button>
+    <button class="tab" data-tab="bloodbonds">🩸<span>Кровные узы</span></button>
+    <button class="tab" data-tab="garden">🌌<span>Сад</span></button>
     <button class="tab" data-tab="closeness">♡<span>Близость</span></button>
     <button class="tab" data-tab="attraction">✦<span>Влечение</span></button>
     <button class="tab" data-tab="guides">?<span>Гайды</span></button>
@@ -69,6 +71,8 @@
           <button data-jump="talents"><b>★</b><span>Рейтинг талантов</span></button>
           <button data-jump="resources"><b>◇</b><span>Ресурсы и предметы</span></button>
           <button data-jump="guildxp"><b>♜</b><span>Опыт гильдии</span></button>
+          <button data-jump="bloodbonds"><b>🩸</b><span>Кровные узы</span></button>
+          <button data-jump="garden"><b>🌌</b><span>Сад</span></button>
           <button data-jump="closeness"><b>♡</b><span>Близость</span></button>
           <button data-jump="attraction"><b>✦</b><span>Влечение</span></button>
         </div>
@@ -281,6 +285,86 @@
       </article>
     </section>
 
+
+
+    <section id="bloodbonds" class="page">
+      <div class="page-head"><span class="eyebrow">08 · СВЯЗИ СМОТРИТЕЛЕЙ</span><h2>Кровные узы</h2><p>Реестр связок и переходов уровней. Числа из источников сообщества не участвуют в итоговом господстве, пока не установлено их соответствие текущей версии игры.</p></div>
+      <article class="card">
+        <div class="card-title"><div><h3>Шесть наблюдений из игровых экранов</h3><p>Это конкретные отображаемые значения для двух Смотрителей, а не полная таблица по всем героям.</p></div><span class="badge">только наблюдения</span></div>
+        <div class="bond-coverage-table-wrap"><table class="bond-coverage-table">
+          <thead><tr><th>Смотритель</th><th>Навык</th><th>Переход</th><th>Текущее отображение</th><th>Следующее отображение</th><th>Цена следующего уровня</th></tr></thead>
+          <tbody>
+            <tr><td>Майк</td><td>Глаза голода</td><td>131 → 132</td><td>+936.12K</td><td>+960.52K</td><td>50.83K</td></tr>
+            <tr><td>Майк</td><td>Сила путника</td><td>120 → 121</td><td>+120.00% (+1.12M)</td><td>+121.00%</td><td>36.81K</td></tr>
+            <tr><td>Майк</td><td>Волчьи клыки</td><td>149 → 150</td><td>+1.47M</td><td>+1.50M</td><td>82.46K</td></tr>
+            <tr><td>Кармилла</td><td>Тайные страсти</td><td>166 → 167</td><td>+1.64M</td><td>+1.68M</td><td>95.62K</td></tr>
+            <tr><td>Кармилла</td><td>Сила ночи</td><td>157 → 158</td><td>+157.00% (+2.58M)</td><td>+158.00%</td><td>77.5K</td></tr>
+            <tr><td>Кармилла</td><td>Вожделение</td><td>136 → 137</td><td>+798.09K</td><td>+818.64K</td><td>45.15K</td></tr>
+          </tbody>
+        </table></div>
+        <div class="goal-status warn">Эти переходы зафиксированы как показания экрана. Они не подтверждают полную кривую роста, тип бонуса или точный прирост общего господства.</div>
+      </article>
+      <article class="card">
+        <div class="card-title"><div><h3>Сопоставление Партнёров и Смотрителей</h3><p>Индекс для поиска отсутствующих связок. Он не считается официальным и не содержит числовой формулы.</p></div></div>
+        <div class="guide-body">
+          <p>Это индекс связок из стороннего проекта, нужен для поиска пропущенных соответствий между Партнёрами и Смотрителями. Он не содержит используемых сайтом числовых формул, не считается официальным и не подтверждает актуальную связь в текущей версии игры.</p>
+          <div class="bond-coverage-toolbar">
+            <label for="bloodBondCoverageSearch">Поиск по имени Партнёра или Смотрителя<input id="bloodBondCoverageSearch" type="search" placeholder="Например: Майк, Diana, April"></label>
+            <span id="bloodBondCoverageMeta" class="badge">Загружаем реестр…</span>
+          </div>
+          <div class="bond-coverage-table-wrap">
+            <table class="bond-coverage-table">
+              <thead><tr><th>ID</th><th>Партнёр (источник)</th><th>Смотритель (источник)</th><th>Возможное локальное имя</th><th>Тип связи</th><th>Статус сопоставления</th></tr></thead>
+              <tbody id="bloodBondCoverageRows"><tr><td colspan="6">Читаем открытый реестр кандидатов…</td></tr></tbody>
+            </table>
+          </div>
+          <h4>Покрытие по каждому Смотрителю из локального каталога</h4>
+          <p class="bond-roster-note">Эта таблица включает все локальные профили, а не только найденные в сторонней выборке связки. «Не найдено» означает отсутствие пары в данном публичном наборе — это не доказательство отсутствия Кровных уз в игре.</p>
+          <div class="bond-coverage-toolbar bond-roster-toolbar">
+            <span id="bloodBondRosterCoverageMeta" class="badge">Готовим покрытие всех героев…</span>
+          </div>
+          <div class="bond-coverage-table-wrap">
+            <table class="bond-coverage-table bond-roster-table">
+              <thead><tr><th>Локальный Смотритель</th><th>Кандидатные пары из источника</th><th>Статус проверки</th><th>Использование в расчёте</th></tr></thead>
+              <tbody id="bloodBondRosterCoverageRows"><tr><td colspan="4">Загружаем каталог всех Смотрителей…</td></tr></tbody>
+            </table>
+          </div>
+          <div id="bloodBondCoverageStatus" class="goal-status warn">Значения связи и цены уровней из стороннего источника не используются в расчёте. Каждую связь и её уровни необходимо отдельно сверить с игрой.</div>
+          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">Открыть наш реестр и происхождение кандидатов</a> · <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Первоисточник списка сообщества</a></p>
+        </div>
+      </article>
+    </section>
+
+
+
+    <section id="garden" class="page">
+      <div class="page-head"><span class="eyebrow">09 · УСИЛЕНИЕ АТРИБУТОВ</span><h2>Сад</h2><p>Полное покрытие заявленного диапазона уровней 1–140 с явным разделением наблюдений, источниковых кандидатов и отсутствующих данных.</p></div>
+      <article class="card">
+        <div class="card-title"><div><h3>Реестр уровней и стоимости</h3><p>Сообщество заявляет 18 900 очков на полную прокачку. Это контрольный агрегат для сверки, а не способ восстановить отсутствующие цены.</p></div><span class="badge">140 уровней · точность проверяется</span></div>
+        <div class="note">Подтверждённые наблюдения из экранов остаются отдельными от кандидатной таблицы. Уровень 112 показывает «Все +22000», тогда как публичная таблица использует points=44000. Пока не установлено значение этих полей, система Сада не добавляет господство в общий прогноз.</div>
+        <div class="guide-body"><h4>Полное покрытие уровней Сада</h4>
+          <p class="garden-coverage-note">Ниже показаны все уровни заявленного диапазона 1–140. Наблюдения из игры отделены от отсутствующих данных. Сумма 18 900 очков хранится как непроверенный агрегат сообщества и не используется для расчёта цены отдельного улучшения.</p>
+          <div class="bond-coverage-toolbar garden-coverage-toolbar">
+            <label for="gardenCoverageSearch">Поиск по уровню, категории или атрибуту<input id="gardenCoverageSearch" type="search" placeholder="Например: 112, Воля, универсальные"></label>
+            <label for="gardenCoverageFilter">Показывать<select id="gardenCoverageFilter">
+              <option value="all">Все уровни</option>
+              <option value="observed">Только наблюдаемые</option>
+              <option value="missing">Только без данных</option>
+            </select></label>
+            <span id="gardenCoverageMeta" class="badge">Загружаем уровни Сада…</span>
+          </div>
+          <div class="bond-coverage-table-wrap garden-coverage-table-wrap">
+            <table class="bond-coverage-table garden-coverage-table">
+              <thead><tr><th>Уровень</th><th>Категория смотрителей</th><th>Отображённый эффект</th><th>Стоимость улучшения</th><th>Статус данных</th></tr></thead>
+              <tbody id="gardenCoverageRows"><tr><td colspan="5">Читаем записи Сада…</td></tr></tbody>
+            </table>
+          </div>
+          <div id="gardenCoverageStatus" class="goal-status warn">Таблица эффектов и цен пока неполная. Неподтверждённые строки не используются в прогнозе господства.</div>
+        </div>
+        <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/garden-observations.json" target="_blank" rel="noopener noreferrer">Открыть сырые наблюдения и статусы данных</a></p>
+      </article>
+    </section>
+
     <section id="closeness" class="page">
       <div class="page-head"><span class="eyebrow">07 · ПАРТНЁРЫ</span><h2>Близость</h2><p>Рассчитай очки близости, оцени диапазон случайных подарков и проверь, хватает ли запаса до цели.</p></div>
 
@@ -386,32 +470,7 @@
           <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Lovers" target="_blank" rel="noopener noreferrer">Wiki: Lovers и Scarlet Bonds</a> · <a href="https://gameofvampires.com/en/lovers-overview/" target="_blank" rel="noopener noreferrer">Обзор Партнёров и Кровных уз</a></p>
         </div></details>
 
-        <details class="guide-card"><summary>🧭 Реестр 43 кандидатных связок Кровных уз</summary><div class="guide-body">
-          <p>Это индекс связок из стороннего проекта, нужен для поиска пропущенных соответствий между Партнёрами и Смотрителями. Он не содержит используемых сайтом числовых формул, не считается официальным и не подтверждает актуальную связь в текущей версии игры.</p>
-          <div class="bond-coverage-toolbar">
-            <label for="bloodBondCoverageSearch">Поиск по имени Партнёра или Смотрителя<input id="bloodBondCoverageSearch" type="search" placeholder="Например: Майк, Diana, April"></label>
-            <span id="bloodBondCoverageMeta" class="badge">Загружаем реестр…</span>
-          </div>
-          <div class="bond-coverage-table-wrap">
-            <table class="bond-coverage-table">
-              <thead><tr><th>ID</th><th>Партнёр (источник)</th><th>Смотритель (источник)</th><th>Возможное локальное имя</th><th>Тип связи</th><th>Статус сопоставления</th></tr></thead>
-              <tbody id="bloodBondCoverageRows"><tr><td colspan="6">Читаем открытый реестр кандидатов…</td></tr></tbody>
-            </table>
-          </div>
-          <h4>Покрытие по каждому Смотрителю из локального каталога</h4>
-          <p class="bond-roster-note">Эта таблица включает все локальные профили, а не только найденные в сторонней выборке связки. «Не найдено» означает отсутствие пары в данном публичном наборе — это не доказательство отсутствия Кровных уз в игре.</p>
-          <div class="bond-coverage-toolbar bond-roster-toolbar">
-            <span id="bloodBondRosterCoverageMeta" class="badge">Готовим покрытие всех героев…</span>
-          </div>
-          <div class="bond-coverage-table-wrap">
-            <table class="bond-coverage-table bond-roster-table">
-              <thead><tr><th>Локальный Смотритель</th><th>Кандидатные пары из источника</th><th>Статус проверки</th><th>Использование в расчёте</th></tr></thead>
-              <tbody id="bloodBondRosterCoverageRows"><tr><td colspan="4">Загружаем каталог всех Смотрителей…</td></tr></tbody>
-            </table>
-          </div>
-          <div id="bloodBondCoverageStatus" class="goal-status warn">Значения связи и цены уровней из стороннего источника не используются в расчёте. Каждую связь и её уровни необходимо отдельно сверить с игрой.</div>
-          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">Открыть наш реестр и происхождение кандидатов</a> · <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Первоисточник списка сообщества</a></p>
-        </div></details>
+        <p class="guide-tip">Для поиска и сверки связок открой отдельный раздел «Кровные узы».</p><p><button class="small-btn" type="button" data-jump="bloodbonds">Открыть реестр Кровных уз</button></p>
 
         <details class="guide-card"><summary>🌌 Сад: наблюдаемые уровни и пробелы</summary><div class="guide-body">
           <ul>
@@ -429,25 +488,7 @@
           <p>В открытой Wiki Сад соответствует Courtyard Boons в системе фамильяров и описан как источник бонусов атрибутов Смотрителей. Доступное описание подтверждает назначение системы, но не раскрывает полную числовую таблицу стоимости и эффекта каждого уровня.</p>
           <p><a href="https://gameofvampirestwilightsun.fandom.com/wiki/Attributes" target="_blank" rel="noopener noreferrer">Wiki: связь Сада и атрибутов</a> · <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Category:Familiars" target="_blank" rel="noopener noreferrer">Wiki: Familiars и Courtyard</a></p>
           <p><a href="https://telemetr.io/en/channels/2158115409-draculachest/posts" target="_blank" rel="noopener noreferrer">Архив публикаций «Сундука Дракулы»</a></p>
-          <h4>Полное покрытие уровней Сада</h4>
-          <p class="garden-coverage-note">Ниже показаны все уровни заявленного диапазона 1–140. Наблюдения из игры отделены от отсутствующих данных. Сумма 18 900 очков хранится как непроверенный агрегат сообщества и не используется для расчёта цены отдельного улучшения.</p>
-          <div class="bond-coverage-toolbar garden-coverage-toolbar">
-            <label for="gardenCoverageSearch">Поиск по уровню, категории или атрибуту<input id="gardenCoverageSearch" type="search" placeholder="Например: 112, Воля, универсальные"></label>
-            <label for="gardenCoverageFilter">Показывать<select id="gardenCoverageFilter">
-              <option value="all">Все уровни</option>
-              <option value="observed">Только наблюдаемые</option>
-              <option value="missing">Только без данных</option>
-            </select></label>
-            <span id="gardenCoverageMeta" class="badge">Загружаем уровни Сада…</span>
-          </div>
-          <div class="bond-coverage-table-wrap garden-coverage-table-wrap">
-            <table class="bond-coverage-table garden-coverage-table">
-              <thead><tr><th>Уровень</th><th>Категория смотрителей</th><th>Отображённый эффект</th><th>Стоимость улучшения</th><th>Статус данных</th></tr></thead>
-              <tbody id="gardenCoverageRows"><tr><td colspan="5">Читаем записи Сада…</td></tr></tbody>
-            </table>
-          </div>
-          <div id="gardenCoverageStatus" class="goal-status warn">Таблица эффектов и цен пока неполная. Неподтверждённые строки не используются в прогнозе господства.</div>
-        </div></details>
+          <p class="guide-tip">Полная таблица уровней вынесена в отдельный раздел «Сад».</p><p><button class="small-btn" type="button" data-jump="garden">Открыть реестр уровней Сада</button></p></div></details>
 
         <details class="guide-card"><summary>🔍 Публичные таблицы сообщества: сверка, не копирование</summary><div class="guide-body">
           <p>Мы нашли открытый сторонний <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator" target="_blank" rel="noopener noreferrer">Game of Vampires Calculator</a>. В его репозитории есть таблицы Смотрителей, талантов, Кровных уз, Сада и Конклава. Это полезная отправная точка для поиска пропусков, но не официальный справочник разработчиков.</p>

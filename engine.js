@@ -332,6 +332,8 @@
   // The formulas are implemented exactly as provided; game-version verification is still pending.
   // Exact planners for future data-complete modules. The caller must pass rows explicitly
   // marked verified-in-game; candidate/community data never silently becomes calculation input.
+  // Exact Garden planner. Counts must be broken down by both Warden category and
+  // specialized attribute; a generic category total is not sufficient to apply selective boons.
   function gardenAttributePlan(input){
     input=input||{};
     const currentLevel=Math.round(num(input.currentLevel));
@@ -345,12 +347,13 @@
     if(!Number.isInteger(currentLevel)||!Number.isInteger(targetLevel)||currentLevel<0||targetLevel<currentLevel||targetLevel>500){
       return {ready:false,currentLevel,targetLevel,cost:null,attributeGain:null,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts:[{reason:'invalid-level-range'}],details:[]};
     }
-    if(targetLevel===currentLevel){
-      return {ready:true,currentLevel,targetLevel,cost:0,attributeGain,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts,details:[]};
-    }
+    if(targetLevel===currentLevel)return {ready:true,currentLevel,targetLevel,cost:0,attributeGain,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts,details:[]};
     for(const category of categories){
-      const raw=categoryCounts[category];
-      if(raw===undefined||raw===null||String(raw).trim()===''||!Number.isSafeInteger(Number(raw))||Number(raw)<0) invalidCounts.push({category,raw});
+      const counts=categoryCounts[category];
+      for(const attr of ATTRS){
+        const raw=counts&&counts[attr];
+        if(raw===undefined||raw===null||String(raw).trim()===''||!Number.isSafeInteger(Number(raw))||Number(raw)<0)invalidCounts.push({category,attribute:attr,raw});
+      }
     }
     const steps=[];
     for(let level=currentLevel+1;level<=targetLevel;level++){
@@ -359,15 +362,11 @@
       if(row.status!=='verified-in-game')unverifiedLevels.push(level);
       if(row.cost===null||row.cost===undefined||String(row.cost).trim()===''||!Number.isFinite(Number(row.cost))||Number(row.cost)<0)missingCosts.push(level);
       const effects=Array.isArray(row.effects)?row.effects:[];
-      if(effects.length===0){invalidEffects.push({level,reason:'missing-effects'});continue;}
+      if(!effects.length){invalidEffects.push({level,reason:'missing-effects'});continue;}
       for(const effect of effects){
-        if(!effect||!categories.includes(String(effect.category||''))||!effect.attributes||typeof effect.attributes!=='object'||Array.isArray(effect.attributes)){
-          invalidEffects.push({level,reason:'invalid-effect-schema'});continue;
-        }
+        if(!effect||!categories.includes(String(effect.category||''))||!effect.attributes||typeof effect.attributes!=='object'||Array.isArray(effect.attributes)){invalidEffects.push({level,reason:'invalid-effect-schema'});continue;}
         const entries=Object.entries(effect.attributes);
-        if(!entries.length||entries.some(([attr,value])=>!normalizeAttr(attr)||value===null||value===undefined||String(value).trim()===''||!Number.isFinite(Number(value))||Number(value)<0)){
-          invalidEffects.push({level,reason:'invalid-effect-value'});continue;
-        }
+        if(!entries.length||entries.some(([attr,value])=>!normalizeAttr(attr)||value===null||value===undefined||String(value).trim()===''||!Number.isFinite(Number(value))||Number(value)<0))invalidEffects.push({level,reason:'invalid-effect-value'});
       }
       steps.push(row);
     }
@@ -376,12 +375,11 @@
     }
     let cost=0;const details=[];
     for(const row of steps){
-      let levelCost=Number(row.cost),levelAttributes=Object.fromEntries(ATTRS.map(attr=>[attr,0]));
+      const levelCost=Number(row.cost),levelAttributes=Object.fromEntries(ATTRS.map(attr=>[attr,0]));
       for(const effect of row.effects){
-        const count=Number(categoryCounts[effect.category]);
         for(const [rawAttr,rawGain] of Object.entries(effect.attributes)){
           const attr=normalizeAttr(rawAttr);
-          levelAttributes[attr]+=Number(rawGain)*count;
+          levelAttributes[attr]+=Number(rawGain)*Number(categoryCounts[effect.category][attr]);
         }
       }
       cost+=levelCost;
@@ -526,9 +524,9 @@
       tests.push({name:'Опыт гильдии: отрицательные и дробные количества не считаются',ok:guildInvalid.total===0&&guildInvalid.complete===false&&guildInvalid.invalidFields.length===2,got:guildInvalid});
       const guildZero=guildExperienceCalc([]);
       tests.push({name:'Опыт гильдии: пустой список',ok:guildZero.total===0&&guildZero.totalItems===0&&guildZero.contributors===0,got:guildZero});
-      const gardenPlan=gardenAttributePlan({currentLevel:1,targetLevel:2,categoryCounts:{single:2,dual:1,universal:1},rows:[{level:2,status:'verified-in-game',cost:10,effects:[{category:'single',attributes:{'Сила':100}}]}]});
+      const gardenPlan=gardenAttributePlan({currentLevel:1,targetLevel:2,categoryCounts:{single:{Сила:2,Харизма:0,Интеллект:0,Воля:0},dual:{Сила:0,Харизма:0,Интеллект:0,Воля:0},universal:{Сила:0,Харизма:0,Интеллект:0,Воля:0}},rows:[{level:2,status:'verified-in-game',cost:10,effects:[{category:'single',attributes:{'Сила':100}}]}]});
       tests.push({name:'Сад: подтверждённая строка считает атрибуты по числу смотрителей',ok:gardenPlan.ready&&gardenPlan.cost===10&&gardenPlan.attributeGain['Сила']===200&&gardenPlan.attributeGain['Харизма']===0,got:gardenPlan});
-      const gardenUnverified=gardenAttributePlan({currentLevel:1,targetLevel:2,categoryCounts:{single:1,dual:0,universal:0},rows:[{level:2,status:'community-candidate',cost:10,effects:[{category:'single',attributes:{'Сила':100}}]}]});
+      const gardenUnverified=gardenAttributePlan({currentLevel:1,targetLevel:2,categoryCounts:{single:{Сила:1,Харизма:0,Интеллект:0,Воля:0},dual:{Сила:0,Харизма:0,Интеллект:0,Воля:0},universal:{Сила:0,Харизма:0,Интеллект:0,Воля:0}},rows:[{level:2,status:'community-candidate',cost:10,effects:[{category:'single',attributes:{'Сила':100}}]}]});
       tests.push({name:'Сад: кандидат сообщества не допускается в точный расчёт',ok:!gardenUnverified.ready&&gardenUnverified.cost===null&&gardenUnverified.attributeGain===null&&gardenUnverified.unverifiedLevels.includes(2),got:gardenUnverified});
       const bondPlan=bloodBondProgressionPlan({skills:[{warden:'Тестовый герой',skillName:'Тестовый узел',currentLevel:1,targetLevel:2}],rows:[{warden:'Тестовый герой',skillName:'Тестовый узел',level:1,status:'verified-in-game',value:100,metric:'flat-attribute',upgradeCost:null},{warden:'Тестовый герой',skillName:'Тестовый узел',level:2,status:'verified-in-game',value:150,metric:'flat-attribute',upgradeCost:10}]});
       tests.push({name:'Кровные узы: verified-only progression сохраняет метрику и считает стоимость',ok:bondPlan.ready&&bondPlan.cost===10&&bondPlan.gainByMetric['flat-attribute']===50&&bondPlan.details.length===1,got:bondPlan});

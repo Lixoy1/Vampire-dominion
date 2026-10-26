@@ -102,6 +102,18 @@ run('Garden comparison checkpoints preserve the unresolved level-112 discrepancy
   assert(candidate.rows.find(x => x.level === 113).cost === 170, 'level-113 candidate checkpoint changed unexpectedly');
   assert(candidate.notes.some(x => x.includes('not independent proof') || x.includes('matching the community aggregate') || x.includes('18,900')), 'Garden candidate notes must explain the aggregate cross-check limitations');
 });
+const rosterCandidates = readJson('game-data/community-warden-roster-candidates.json');
+run('Community roster candidate list has 65 unique names without claiming official completeness', () => {
+  assert(rosterCandidates.status === 'community-roster-candidate-not-authoritative', 'community roster must remain non-authoritative');
+  assert(rosterCandidates.sourceCount === 65 && rosterCandidates.names.length === 65, 'expected 65 candidate names');
+  assert(new Set(rosterCandidates.names).size === 65, 'duplicate candidate Warden names');
+  assert(rosterCandidates.source.url === 'https://gameofvampirestwilightsun.fandom.com/wiki/Category:Warden', 'unexpected roster source URL');
+  assert(rosterCandidates.localRosterCount === Object.keys(data.watchers).length, 'local roster count drifted');
+  assert(rosterCandidates.reconciliation.status === 'needs-manual-name-mapping', 'unresolved roster mapping must remain explicit');
+  assert(rosterCandidates.reconciliation.aliasesRequiringConfirmation.length === 2, 'expected two explicitly unresolved possible aliases');
+  assert(rosterCandidates.reconciliation.candidateWithoutObviousLocalName === 'Dominique', 'unmapped candidate must remain explicit');
+});
+
 run('Russian App Store release source is distinguished from the international app', () => {
   const ruStore = sources.sources.find(x => x.id === 'rustore-versions');
   const ruApple = sources.sources.find(x => x.id === 'app-store-russian');

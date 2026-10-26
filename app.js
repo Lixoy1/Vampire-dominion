@@ -212,11 +212,12 @@ function initBloodBondCoverage(){
    <td><span class="coverage-status">${esc(localizationLabels[row.localizationStatus]||row.localizationStatus||'неизвестно')}</span></td>
   </tr>`).join(''):`<tr><td colspan="6">${candidates.length?'По такому запросу связок не найдено.':'Реестр пока не загружен.'}</td></tr>`;
 
-  const filteredCommunity=communityNames.filter(name=>[
-   name,
-   (candidateIndex.get(name)||{}).possibleLocalWarden,
-   ...candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name).toLocaleLowerCase('en-US')).flatMap(row=>[row.possibleLocalWarden,row.publicPartnerLabel,row.candidateId])
-  ].some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query)));
+  const filteredCommunity=communityNames.filter(name=>{
+   const alias=aliasesRequiringConfirmation.find(row=>row.sourceName===name);
+   const related=candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name).toLocaleLowerCase('en-US'));
+   return [name,alias&&alias.localName,...related.flatMap(row=>[row.possibleLocalWarden,row.publicPartnerLabel,row.candidateId])]
+    .some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query));
+  });
   if(communityMeta)communityMeta.textContent=query?filteredCommunity.length+' из '+communityNames.length+' имён':communityNames.length+' имён из публичного списка';
   communityRowsBox.innerHTML=filteredCommunity.length?filteredCommunity.map(name=>{
    const related=candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name||'').toLocaleLowerCase('en-US'));

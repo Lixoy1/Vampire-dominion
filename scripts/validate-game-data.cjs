@@ -85,6 +85,23 @@ run('Garden observations preserve raw evidence and block unverified aggregate fr
   assert(garden.communityAggregate.useInCalculator === false, 'community aggregate must not be a formula constant');
   assert(garden.communityAggregate.evidenceClass === 'community-unverified', 'aggregate evidence status must be explicit');
 });
+run('Garden comparison checkpoints preserve the unresolved level-112 discrepancy', () => {
+  const candidate = garden.communityCandidateCheckpoints;
+  assert(Boolean(candidate && candidate.source), 'Garden community candidate source missing');
+  assert(candidate.source.url === 'https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts', 'unexpected Garden candidate source');
+  assert(candidate.source.license === null, 'unknown public repository licence must remain explicit');
+  assert(candidate.useInCalculator === false, 'candidate Garden values must never enter exact calculation');
+  assert(JSON.stringify(candidate.rows.map(x => x.level)) === JSON.stringify([109,110,111,112,113,114,115]), 'unexpected Garden candidate checkpoint levels');
+  assert(candidate.rows.every(x => x.approvalStatus !== 'verified'), 'a community candidate was incorrectly marked verified');
+  const observed112 = garden.observations.find(x => x.level === 112);
+  const candidate112 = candidate.rows.find(x => x.level === 112);
+  assert(Boolean(observed112 && candidate112), 'level-112 comparison must exist');
+  assert(observed112.bonuses[0].displayed === '+22000', 'level-112 in-game observation changed unexpectedly');
+  assert(candidate112.points === 44000, 'level-112 community candidate changed unexpectedly');
+  assert(Number(observed112.bonuses[0].displayed.replace(/[^0-9]/g,'')) !== candidate112.points, 'level-112 conflict should remain unresolved');
+  assert(candidate.rows.find(x => x.level === 113).cost === 170, 'level-113 candidate checkpoint changed unexpectedly');
+  assert(candidate.notes.some(x => x.includes('not independent proof') || x.includes('matching the community aggregate') || x.includes('18,900')), 'Garden candidate notes must explain the aggregate cross-check limitations');
+});
 run('Russian App Store release source is distinguished from the international app', () => {
   const ruStore = sources.sources.find(x => x.id === 'rustore-versions');
   const ruApple = sources.sources.find(x => x.id === 'app-store-russian');

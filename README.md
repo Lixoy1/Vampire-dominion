@@ -1,4 +1,4 @@
-# Vampire Dominion v2.18 — Blood Moon Edition
+# Vampire Dominion v2.19 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -112,3 +112,12 @@
 - Garden page compares seven source checkpoints with the seven in-game observations. The level-112 effect mismatch is highlighted; candidate values remain excluded from the account forecast.
 - Added the attributed source checkpoints to the evidence JSON and refreshed the offline cache for both priority registers.
 - No speculative Garden or Blood Bonds numbers are added to the exact global-dominion forecast. Full level-by-level, per-Warden tables remain open work.
+
+
+## v2.19 — Verified-only progression interfaces
+- Added pure engine planners for Garden attribute gains and Blood Bonds level progression. Both require every target row to be explicitly marked `verified-in-game`; missing, candidate, or observation-only rows block the result.
+- Garden planning requires counts split by category and specialized attribute, avoiding the incorrect shortcut of applying a selective boon to every Warden in one broad category.
+- Blood Bonds planning keeps metrics separate, so percentages are never added to flat attribute values. It produces per-metric changes and costs, not a guessed account-Dominion value.
+- Added regression tests for accepted verified rows and blocked unverified rows. Legacy formula tests remain intact.
+- Added `docs/LEVEL-DATA-CAPTURE-SCHEMA.md` with the required fields, evidence status rules, transition-cost meaning and before/after verification protocol.
+- These planners are not enabled with community values yet. A complete verified per-level table and Warden applicability mapping are still required before linking either module to the global forecast.

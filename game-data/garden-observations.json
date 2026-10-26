@@ -133,5 +133,71 @@
     "Confirmed eligible Warden categories / applicability",
     "Whether the bonus is reflected in Warden attributes or account Dominion separately",
     "Before/after Dominion validation for a single Garden upgrade"
-  ]
+  ],
+  "communityCandidateCheckpoints": {
+    "source": {
+      "name": "Game of Vampires Calculator (community project)",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+      "license": null,
+      "status": "candidate-only; not accepted as current in-game truth"
+    },
+    "disclaimer": "Only seven checkpoints are recorded here for side-by-side review; they are not a replacement for the full source table and do not feed the calculation engine. `cost` is reproduced as published by the candidate source; its transition semantics still need in-game confirmation.",
+    "useInCalculator": false,
+    "rows": [
+      {
+        "level": 109,
+        "cost": 160,
+        "points": 11000,
+        "sourceComment": "single",
+        "approvalStatus": "unverified-candidate"
+      },
+      {
+        "level": 110,
+        "cost": 240,
+        "points": 22000,
+        "sourceComment": "dual",
+        "approvalStatus": "unverified-candidate"
+      },
+      {
+        "level": 111,
+        "cost": 240,
+        "points": 22000,
+        "sourceComment": "dual",
+        "approvalStatus": "unverified-candidate"
+      },
+      {
+        "level": 112,
+        "cost": 320,
+        "points": 44000,
+        "sourceComment": "all-x4",
+        "approvalStatus": "effect-conflict"
+      },
+      {
+        "level": 113,
+        "cost": 170,
+        "points": 12000,
+        "sourceComment": "single",
+        "approvalStatus": "unverified-candidate"
+      },
+      {
+        "level": 114,
+        "cost": 170,
+        "points": 12000,
+        "sourceComment": "single",
+        "approvalStatus": "unverified-candidate"
+      },
+      {
+        "level": 115,
+        "cost": 170,
+        "points": 12000,
+        "sourceComment": "single",
+        "approvalStatus": "unverified-candidate"
+      }
+    ],
+    "notes": [
+      "The candidate costs for levels 1–140 sum to 18,900 in the public dataset, matching the community aggregate claim; this is a useful cross-check, not independent proof that every row is current.",
+      "At level 112 the screenshot displays `Все +22000`, while the public candidate row says points=44000; keep this conflict unresolved.",
+      "The screenshot near level 112 reads `4280/170`; cost 170 at candidate level 113 may fit a next-upgrade interpretation, but the mapping is not yet proven."
+    ]
+  }
 }

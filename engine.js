@@ -330,6 +330,103 @@
 
   // Guild experience values are transcribed from the uploaded workbook "счет опыта ги.xlsx".
   // The formulas are implemented exactly as provided; game-version verification is still pending.
+  // Exact planners for future data-complete modules. The caller must pass rows explicitly
+  // marked verified-in-game; candidate/community data never silently becomes calculation input.
+  function gardenAttributePlan(input){
+    input=input||{};
+    const currentLevel=Math.round(num(input.currentLevel));
+    const targetLevel=Math.round(num(input.targetLevel));
+    const rows=Array.isArray(input.rows)?input.rows:[];
+    const categoryCounts=input.categoryCounts||{};
+    const categories=['single','dual','universal'];
+    const missingLevels=[],unverifiedLevels=[],missingCosts=[],invalidEffects=[],invalidCounts=[];
+    const byLevel=new Map(rows.map(row=>[Number(row&&row.level),row]));
+    const attributeGain=Object.fromEntries(ATTRS.map(attr=>[attr,0]));
+    if(!Number.isInteger(currentLevel)||!Number.isInteger(targetLevel)||currentLevel<0||targetLevel<currentLevel||targetLevel>500){
+      return {ready:false,currentLevel,targetLevel,cost:null,attributeGain:null,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts:[{reason:'invalid-level-range'}],details:[]};
+    }
+    if(targetLevel===currentLevel){
+      return {ready:true,currentLevel,targetLevel,cost:0,attributeGain,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts,details:[]};
+    }
+    for(const category of categories){
+      const raw=categoryCounts[category];
+      if(raw===undefined||raw===null||String(raw).trim()===''||!Number.isSafeInteger(Number(raw))||Number(raw)<0) invalidCounts.push({category,raw});
+    }
+    const steps=[];
+    for(let level=currentLevel+1;level<=targetLevel;level++){
+      const row=byLevel.get(level);
+      if(!row){missingLevels.push(level);continue;}
+      if(row.status!=='verified-in-game')unverifiedLevels.push(level);
+      if(row.cost===null||row.cost===undefined||String(row.cost).trim()===''||!Number.isFinite(Number(row.cost))||Number(row.cost)<0)missingCosts.push(level);
+      const effects=Array.isArray(row.effects)?row.effects:[];
+      if(effects.length===0){invalidEffects.push({level,reason:'missing-effects'});continue;}
+      for(const effect of effects){
+        if(!effect||!categories.includes(String(effect.category||''))||!effect.attributes||typeof effect.attributes!=='object'||Array.isArray(effect.attributes)){
+          invalidEffects.push({level,reason:'invalid-effect-schema'});continue;
+        }
+        const entries=Object.entries(effect.attributes);
+        if(!entries.length||entries.some(([attr,value])=>!normalizeAttr(attr)||value===null||value===undefined||String(value).trim()===''||!Number.isFinite(Number(value))||Number(value)<0)){
+          invalidEffects.push({level,reason:'invalid-effect-value'});continue;
+        }
+      }
+      steps.push(row);
+    }
+    if(missingLevels.length||unverifiedLevels.length||missingCosts.length||invalidEffects.length||invalidCounts.length){
+      return {ready:false,currentLevel,targetLevel,cost:null,attributeGain:null,missingLevels,unverifiedLevels:[...new Set(unverifiedLevels)],missingCosts:[...new Set(missingCosts)],invalidEffects,invalidCounts,details:[]};
+    }
+    let cost=0;const details=[];
+    for(const row of steps){
+      let levelCost=Number(row.cost),levelAttributes=Object.fromEntries(ATTRS.map(attr=>[attr,0]));
+      for(const effect of row.effects){
+        const count=Number(categoryCounts[effect.category]);
+        for(const [rawAttr,rawGain] of Object.entries(effect.attributes)){
+          const attr=normalizeAttr(rawAttr);
+          levelAttributes[attr]+=Number(rawGain)*count;
+        }
+      }
+      cost+=levelCost;
+      for(const attr of ATTRS)attributeGain[attr]+=levelAttributes[attr];
+      details.push({level:Number(row.level),cost:levelCost,attributeGain:levelAttributes});
+    }
+    return {ready:true,currentLevel,targetLevel,cost,attributeGain,missingLevels,unverifiedLevels,missingCosts,invalidEffects,invalidCounts,details};
+  }
+
+  // Blood Bond planner is metric-aware: it never adds percentage labels to flat attribute values.
+  // Rows must contain each level's confirmed displayed numeric value, its metric, and next-level cost.
+  function bloodBondProgressionPlan(input){
+    input=input||{};
+    const skills=Array.isArray(input.skills)?input.skills:[];
+    const rows=Array.isArray(input.rows)?input.rows:[];
+    const key=(warden,skill,level)=>String(warden||'')+'|'+String(skill||'')+'|'+Number(level);
+    const byKey=new Map(rows.map(row=>[key(row&&row.warden,row&&row.skillName,row&&row.level),row]));
+    const missingRows=[],unverifiedRows=[],missingCosts=[],invalidSkills=[],details=[];
+    const totalByMetric={};let totalCost=0;
+    for(const skill of skills){
+      const warden=String(skill&&skill.warden||'').trim(),skillName=String(skill&&skill.skillName||'').trim();
+      const current=Math.round(num(skill&&skill.currentLevel)),target=Math.round(num(skill&&skill.targetLevel));
+      if(!warden||!skillName||current<1||target<current||target>500){invalidSkills.push({warden,skillName,current,target});continue;}
+      if(current===target){details.push({warden,skillName,currentLevel:current,targetLevel:target,delta:0,cost:0,metric:null});continue;}
+      const sequence=[];let sequenceInvalid=false;
+      for(let level=current;level<=target;level++){
+        const row=byKey.get(key(warden,skillName,level));
+        if(!row){missingRows.push({warden,skillName,level});sequenceInvalid=true;continue;}
+        if(row.status!=='verified-in-game'){unverifiedRows.push({warden,skillName,level});sequenceInvalid=true;}
+        if(row.value===null||row.value===undefined||String(row.value).trim()===''||!Number.isFinite(Number(row.value))||Number(row.value)<0||!String(row.metric||'').trim()){missingRows.push({warden,skillName,level,field:'value-or-metric'});sequenceInvalid=true;}
+        if(level>current&&(row.upgradeCost===null||row.upgradeCost===undefined||String(row.upgradeCost).trim()===''||!Number.isFinite(Number(row.upgradeCost))||Number(row.upgradeCost)<0)){missingCosts.push({warden,skillName,level});sequenceInvalid=true;}
+        sequence.push(row);
+      }
+      if(sequenceInvalid||sequence.length!==target-current+1)continue;
+      const metric=String(sequence[0].metric);
+      if(sequence.some(row=>String(row.metric)!==metric)){invalidSkills.push({warden,skillName,reason:'metric-changed-within-level-range'});continue;}
+      const start=Number(sequence[0].value),finish=Number(sequence[sequence.length-1].value);
+      const delta=finish-start;let cost=0;
+      for(let index=1;index<sequence.length;index++)cost+=Number(sequence[index].upgradeCost);
+      totalByMetric[metric]=(totalByMetric[metric]||0)+delta;totalCost+=cost;
+      details.push({warden,skillName,currentLevel:current,targetLevel:target,delta,cost,metric});
+    }
+    const ready=skills.length>0&&missingRows.length===0&&unverifiedRows.length===0&&missingCosts.length===0&&invalidSkills.length===0;
+    return {ready,cost:ready?totalCost:null,gainByMetric:ready?totalByMetric:null,missingRows,unverifiedRows,missingCosts,invalidSkills,details:ready?details:[]};
+  }
   function guildExperienceCalc(rows){
     const defs=Array.isArray(DATA.guildExperienceItems)?DATA.guildExperienceItems:[];
     const itemTotals=Object.fromEntries(defs.map(item=>[item.key,0]));
@@ -434,5 +531,5 @@
     return {ok:tests.every(t=>t.ok),tests};
   }
 
-  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,conclaveDataAudit,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,guildExperienceCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
+  return {ATTRS,HEIR_RING_TYPES,MANUAL_DOMINION_SOURCES,parseCompact,formatCompact,conclaveCalc,conclaveDataAudit,requirementStatus,inspirationTotals,talentIncrease,normalizeAttr,wardenCalc,otherWatcherGain,booksCalc,tastingCalc,miscCalc,resourceCalc,closenessCalc,attractionCalc,heirMarriageCalc,manualSourcesCalc,gardenAttributePlan,bloodBondProgressionPlan,guildExperienceCalc,talentRatingCalc,scrollPool,bloodNeeded,levelCoeffAt,selfTests};
 });

@@ -250,7 +250,7 @@ function initBloodBondCoverage(){
    </tr>`;
   }).join(''):`<tr><td colspan="4">${localRosterCoverage.length?'По такому запросу Смотрители не найдены.':'Каталог покрытия пока не загружен.'}</td></tr>`;
  }
- search?.addEventListener('input',render);
+  search?.addEventListener('input',render);
  fetch('./game-data/blood-bond-pairing-candidates.json')
   .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
   .then(payload=>{
@@ -259,10 +259,18 @@ function initBloodBondCoverage(){
    render();
    if(status){
     status.className='goal-status warn';
-    status.textContent=`Загружено ${candidates.length} кандидатных связок и ${localRosterCoverage.length} локальных профилей. В наборе нет числовых формул; имена, тип связи и актуальность нужно подтвердить в игре. Ни одна строка не включена в расчёт господства.`;
+    status.textContent='Загружено '+candidates.length+' кандидатных связок и '+localRosterCoverage.length+' локальных профилей. В наборе нет числовых формул; имена, тип связи и актуальность нужно подтвердить в игре. Ни одна строка не включена в расчёт господства.';
    }
   })
-  fetch('./game-data/community-warden-roster-candidates.json')
+  .catch(()=>{
+   if(meta)meta.textContent='Реестр недоступен';
+   if(rosterMeta)rosterMeta.textContent='Каталог недоступен';
+   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр. Проверь подключение или открой JSON по ссылке ниже.</td></tr>';
+   rosterRowsBox.innerHTML='<tr><td colspan="4">Не удалось загрузить каталог покрытия.</td></tr>';
+   if(status){status.className='goal-status warn';status.textContent='Реестр кандидатов недоступен. Расчёты калькулятора продолжают работать; список можно открыть напрямую в GitHub.'}
+  });
+
+ fetch('./game-data/community-warden-roster-candidates.json')
   .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
   .then(payload=>{
    communityNames=Array.isArray(payload.names)?payload.names:[];
@@ -272,13 +280,6 @@ function initBloodBondCoverage(){
   .catch(()=>{
    if(communityMeta)communityMeta.textContent='Внешний список недоступен';
    communityRowsBox.innerHTML='<tr><td colspan="5">Не удалось загрузить кандидатный список. Открой JSON по ссылке ниже.</td></tr>';
-  });
-  .catch(()=>{
-   if(meta)meta.textContent='Реестр недоступен';
-   if(rosterMeta)rosterMeta.textContent='Каталог недоступен';
-   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр. Проверь подключение или открой JSON по ссылке ниже.</td></tr>';
-   rosterRowsBox.innerHTML='<tr><td colspan="4">Не удалось загрузить каталог покрытия.</td></tr>';
-   if(status){status.className='goal-status warn';status.textContent='Реестр кандидатов недоступен. Расчёты калькулятора продолжают работать; список можно открыть напрямую в GitHub.'}
   });
 }
 

@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.17 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.18 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=238" />
+  <link rel="stylesheet" href="styles.css?v=239" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -305,6 +305,15 @@
         <div class="goal-status warn">Эти переходы зафиксированы как показания экрана. Они не подтверждают полную кривую роста, тип бонуса или точный прирост общего господства.</div>
       </article>
       <article class="card">
+        <div class="card-title"><div><h3>Неразрешённое расхождение · уровень 131</h3><p>Числа из открытой таблицы и игрового экрана близки, но не равны. Без подтверждения смысла поля их нельзя считать одной метрикой.</p></div><span class="badge">разница 100</span></div>
+        <div class="bond-coverage-table-wrap"><table class="bond-coverage-table"><thead><tr><th>Источник</th><th>Поле / уровень</th><th>Значение</th><th>Статус</th></tr></thead><tbody>
+          <tr><td>Кандидатная таблица сообщества</td><td><code>dual</code>, уровень 131</td><td>936 020</td><td>Не подтверждено для навыка</td></tr>
+          <tr><td>Игровой экран Майка</td><td>«Глаза голода», уровень 131</td><td>+936.12K = 936 120</td><td>Наблюдаемое значение</td></tr>
+          <tr><td>Разница</td><td>Не сопоставленные метрики</td><td>100</td><td>Причина не установлена</td></tr>
+        </tbody></table></div>
+        <div class="goal-status warn">Не подгоняем числа друг к другу. Нужно установить, одинаковые ли эффекты сравниваются и какие модификаторы применены в игре.</div>
+      </article>
+      <article class="card">
         <div class="card-title"><div><h3>Сопоставление Партнёров и Смотрителей</h3><p>Индекс для поиска отсутствующих связок. Он не считается официальным и не содержит числовой формулы.</p></div></div>
         <div class="guide-body">
           <p>Это индекс связок из стороннего проекта, нужен для поиска пропущенных соответствий между Партнёрами и Смотрителями. Он не содержит используемых сайтом числовых формул, не считается официальным и не подтверждает актуальную связь в текущей версии игры.</p>
@@ -355,8 +364,8 @@
           </div>
           <div class="bond-coverage-table-wrap garden-coverage-table-wrap">
             <table class="bond-coverage-table garden-coverage-table">
-              <thead><tr><th>Уровень</th><th>Категория смотрителей</th><th>Отображённый эффект</th><th>Стоимость улучшения</th><th>Статус данных</th></tr></thead>
-              <tbody id="gardenCoverageRows"><tr><td colspan="5">Читаем записи Сада…</td></tr></tbody>
+              <thead><tr><th>Уровень</th><th>Категория смотрителей</th><th>Эффект в игре</th><th>Цена с экрана</th><th>Кандидат сообщества</th><th>Статус данных</th></tr></thead>
+              <tbody id="gardenCoverageRows"><tr><td colspan="6">Читаем записи Сада…</td></tr></tbody>
             </table>
           </div>
           <div id="gardenCoverageStatus" class="goal-status warn">Таблица эффектов и цен пока неполная. Неподтверждённые строки не используются в прогнозе господства.</div>

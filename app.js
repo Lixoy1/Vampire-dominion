@@ -4,7 +4,7 @@ const D=window.VD_DATA, E=window.VD_ENGINE;
 const ATTRS=E.ATTRS;
 const $=s=>document.querySelector(s); const $$=s=>[...document.querySelectorAll(s)];
 const attrsShort={Сила:'Сила',Харизма:'Харизма',Интеллект:'Интеллект',Воля:'Воля'};
-let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0;
+let wardenSeq=0,inspSeq=0,otherSeq=0,ratingSeq=0,manualSourceSeq=0,guildMemberSeq=1;
 
 function freshState(){return {
  profile:{dominion:'',watchers:'',blood:'',council:''},
@@ -16,7 +16,10 @@ function freshState(){return {
  books:Object.fromEntries(['Энциклопедия',...ATTRS].map(a=>[a,{V:'',IV:'',III:'',II:'',I:'',packI15:'',packII15:'',packIII15:''}])),bookPackIIIEach:'',
  tasting:Object.fromEntries(Object.keys(D.tasting).map(n=>[n,''])),misc:{plasma:'',vito:'',trustTotal:'',heirsRB:'',heirsGP:'',heirsS:'',directOther:''},
  closeness:Object.fromEntries(Object.keys(D.closeness).map(n=>[n,''])),closenessGoal:'',
- attraction:Object.fromEntries(Object.keys(D.attraction).map(n=>[n,''])),attractionGoal:''
+ attraction:Object.fromEntries(Object.keys(D.attraction).map(n=>[n,''])),attractionGoal:'',
+ heirs:{rings:{amethyst:{stock:'',planned:'',gainPerMarriage:''},ruby:{stock:'',planned:'',gainPerMarriage:''},blackPearl:{stock:'',planned:'',gainPerMarriage:''}}},
+ manualSources:[],
+ guildExp:{members:[{id:1,name:'',counts:Object.fromEntries((D.guildExperienceItems||[]).map(item=>[item.key,'']))}]}
 };}
 let S=freshState();
 
@@ -109,26 +112,339 @@ function renderBooks(){
 function renderTasting(){const box=$('#tastingRows');box.innerHTML='';for(const [name,v] of Object.entries(D.tasting)){const el=document.createElement('div');el.className='counter-item';el.innerHTML=`<span>${name} · +${v}</span><input inputmode="numeric" placeholder="0" value="${esc(S.tasting[name])}">`;el.querySelector('input').addEventListener('input',e=>{S.tasting[name]=e.target.value;recalc()});box.append(el)}}
 function renderItems(type){const defs=D[type],state=S[type],box=$('#'+type+'Rows');box.innerHTML='';for(const [name,range] of Object.entries(defs)){const fixed=range[0]===range[1];const el=document.createElement('div');el.className='item-row';el.innerHTML=`<div><b>${name}</b><div class="meta">${fixed?'+'+range[0]:'+'+range[0]+'…'+range[1]} за предмет</div></div><input inputmode="numeric" placeholder="0" value="${esc(state[name])}">`;el.querySelector('input').addEventListener('input',e=>{state[name]=e.target.value;recalc()});box.append(el)}}
 
+function newManualSource(){return {id:++manualSourceSeq,source:'',gain:'',note:''}}
+function renderManualDominionSources(){
+ const box=$('#manualDominionRows');if(!box)return;box.innerHTML='';
+ const opts='<option value="">Выбери систему</option>'+E.MANUAL_DOMINION_SOURCES.map(x=>`<option value="${esc(x.name)}">${esc(x.name)}</option>`).join('');
+ for(const row of S.manualSources){
+  const el=document.createElement('div');el.className='manual-source-row';
+  el.innerHTML=`<label>Источник<select class="manual-source-select">${opts}</select></label>
+   <label>Подтверждённый прирост<input class="manual-source-gain" inputmode="decimal" value="${esc(row.gain)}" placeholder="например 1,25M"></label>
+   <label>Заметка / контрольный экран<input class="manual-source-note" value="${esc(row.note)}" placeholder="например, улучшение узла 112"></label>
+   <button class="remove-btn" type="button" aria-label="Удалить источник">×</button>`;
+  const select=el.querySelector('.manual-source-select');select.value=row.source||'';
+  select.addEventListener('change',e=>{row.source=e.target.value;recalc()});
+  el.querySelector('.manual-source-gain').addEventListener('input',e=>{row.gain=e.target.value;recalc()});
+  el.querySelector('.manual-source-note').addEventListener('input',e=>{row.note=e.target.value;scheduleLocalSave()});
+  el.querySelector('.remove-btn').addEventListener('click',()=>{S.manualSources=S.manualSources.filter(x=>x.id!==row.id);renderManualDominionSources();recalc()});
+  box.append(el);
+ }
+ setText('#manualSourceCount',String(S.manualSources.length));
+}
+$('#addManualDominionSource').addEventListener('click',()=>{S.manualSources.push(newManualSource());renderManualDominionSources();recalc()});
+
+function newGuildMember(){
+ return {id:++guildMemberSeq,name:'',counts:Object.fromEntries((D.guildExperienceItems||[]).map(item=>[item.key,'']))};
+}
+function renderGuildMembers(){
+ const box=$('#guildMemberRows');if(!box)return;box.innerHTML='';
+ const defs=D.guildExperienceItems||[];
+ for(const member of S.guildExp.members){
+  member.counts=member.counts||{};
+  for(const item of defs) if(member.counts[item.key]===undefined)member.counts[item.key]='';
+  const el=document.createElement('article');el.className='guild-member-card';el.dataset.memberId=String(member.id);
+  el.innerHTML=`<div class="guild-member-head">
+    <label class="guild-member-name">Участник / ник<input class="guild-name" value="${esc(member.name)}" placeholder="Имя участника"></label>
+    <div class="guild-member-total"><span>Опыт участника</span><strong data-guild-member-total>0</strong><small data-guild-member-items>0 предметов</small></div>
+    <button class="remove-btn guild-remove" type="button" aria-label="Удалить участника">×</button>
+   </div>
+   <div class="guild-item-grid">${defs.map(item=>`<label><span>${esc(item.name)}<small>+ ${intfmt(item.experience)} опыта / шт.</small></span><input type="number" min="0" step="1" inputmode="numeric" data-item-key="${esc(item.key)}" value="${esc(member.counts[item.key])}" placeholder="0" aria-label="${esc(item.name)}"></label>`).join('')}</div>`;
+  el.querySelector('.guild-name').addEventListener('input',e=>{member.name=e.target.value;recalc()});
+  el.querySelectorAll('[data-item-key]').forEach(input=>input.addEventListener('input',e=>{member.counts[e.target.dataset.itemKey]=e.target.value;recalc()}));
+  el.querySelector('.guild-remove').addEventListener('click',()=>{S.guildExp.members=S.guildExp.members.filter(x=>x.id!==member.id);renderGuildMembers();recalc()});
+  box.append(el);
+ }
+ const add=$('#addGuildMember');if(add){add.disabled=S.guildExp.members.length>=29;add.innerHTML=S.guildExp.members.length>=29?'Лимит участников <span class="count-badge">29 / 29</span>':'+ Добавить участника <span class="count-badge">'+S.guildExp.members.length+' / 29</span>';}
+ setText('#guildMemberCount',String(S.guildExp.members.length));
+}
+$('#addGuildMember').addEventListener('click',()=>{
+ if(S.guildExp.members.length>=29)return;
+ S.guildExp.members.push(newGuildMember());renderGuildMembers();recalc();
+});
+function renderHeirRings(){
+ const box=$('#heirRingRows');if(!box)return;box.innerHTML='';
+ for(const type of E.HEIR_RING_TYPES){
+  const rowState=S.heirs.rings[type.key]||(S.heirs.rings[type.key]={stock:'',planned:'',gainPerMarriage:''});
+  const el=document.createElement('div');el.className='heir-ring-row';
+  el.innerHTML=`<div class="heir-ring-label"><b>${esc(type.name)}</b><small>Для наследников: ${esc(type.rank)}</small></div>
+   <label>В сумке<input data-field="stock" inputmode="numeric" value="${esc(rowState.stock)}" placeholder="0"></label>
+   <label>План браков<input data-field="planned" inputmode="numeric" value="${esc(rowState.planned)}" placeholder="0"></label>
+   <label>Прирост за брак<input data-field="gainPerMarriage" inputmode="decimal" value="${esc(rowState.gainPerMarriage)}" placeholder="значение из игры"></label>`;
+  el.querySelectorAll('input').forEach(inp=>inp.addEventListener('input',e=>{rowState[e.target.dataset.field]=e.target.value;recalc()}));
+  box.append(el);
+ }
+}
+function initBloodBondCoverage(){
+ const search=$('#bloodBondCoverageSearch');
+ const rowsBox=$('#bloodBondCoverageRows');
+ const meta=$('#bloodBondCoverageMeta');
+ const rosterRowsBox=$('#bloodBondRosterCoverageRows');
+ const rosterMeta=$('#bloodBondRosterCoverageMeta');
+ const status=$('#bloodBondCoverageStatus');
+ const communityRowsBox=$('#communityWardenRosterRows');
+ const communityMeta=$('#communityWardenRosterMeta');
+ if(!rowsBox||!rosterRowsBox||!communityRowsBox)return;
+ let candidates=[],localRosterCoverage=[],communityNames=[],aliasesRequiringConfirmation=[];
+ const typeLabels={All:'Все атрибуты',Dual:'Два атрибута',Single:'Один атрибут'};
+ const localizationLabels={
+  'matched-name':'Кандидат по имени · требует сверки',
+  'probable-localization':'Вероятная локализация · подтвердить',
+  'unresolved-localization':'Сопоставление не подтверждено'
+ };
+ const rosterStatusLabels={
+  'candidate-pair-found-needs-game-verification':'Кандидат найден · нужна проверка в игре',
+  'candidate-pair-needs-localization-review':'Нужно проверить локализацию имени',
+  'no-pair-found-in-this-public-candidate-table':'Пара не найдена в этой публичной выборке'
+ };
+ function render(){
+  const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
+  const candidateIndex=new Map(candidates.map(row=>[row.candidateId,row]));
+  const filtered=candidates.filter(row=>[
+   row.publicPartnerLabel,row.publicWardenName,row.possibleLocalWarden,row.candidateId,row.bondClass,row.localizationStatus
+  ].some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query)));
+  if(meta)meta.textContent=query?`${filtered.length} из ${candidates.length} кандидатных связок`:`${candidates.length} кандидатных связок`;
+  rowsBox.innerHTML=filtered.length?filtered.map(row=>`<tr>
+   <td><code>${esc(row.candidateId)}</code></td>
+   <td>${esc(row.publicPartnerLabel)}</td>
+   <td>${esc(row.publicWardenName)}</td>
+   <td>${esc(row.possibleLocalWarden||'—')}</td>
+   <td>${esc(typeLabels[row.bondClass]||row.bondClass||'не указан')}</td>
+   <td><span class="coverage-status">${esc(localizationLabels[row.localizationStatus]||row.localizationStatus||'неизвестно')}</span></td>
+  </tr>`).join(''):`<tr><td colspan="6">${candidates.length?'По такому запросу связок не найдено.':'Реестр пока не загружен.'}</td></tr>`;
+
+  const filteredCommunity=communityNames.filter(name=>{
+   const alias=aliasesRequiringConfirmation.find(row=>row.sourceName===name);
+   const related=candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name).toLocaleLowerCase('en-US'));
+   return [name,alias&&alias.localName,...related.flatMap(row=>[row.possibleLocalWarden,row.publicPartnerLabel,row.candidateId])]
+    .some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query));
+  });
+  if(communityMeta)communityMeta.textContent=query?filteredCommunity.length+' из '+communityNames.length+' имён':communityNames.length+' имён из публичного списка';
+  communityRowsBox.innerHTML=filteredCommunity.length?filteredCommunity.map(name=>{
+   const related=candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name||'').toLocaleLowerCase('en-US'));
+   const match=related[0]||null;
+   const alias=aliasesRequiringConfirmation.find(row=>row.sourceName===name);
+   let localName=match?.possibleLocalWarden||'—';
+   let mappingStatus=match?(localizationLabels[match.localizationStatus]||match.localizationStatus||'кандидатная связь'):'Не сопоставлено с локальным профилем';
+   if(alias){localName=alias.localName;mappingStatus='Возможный псевдоним · требуется проверка в игре';}
+   if(name==='Dominique'){localName='—';mappingStatus='Нет очевидного локального соответствия; не добавлять автоматически';}
+   const partnerText=related.length?related.map(row=>row.publicPartnerLabel).join('; '):'Пара не найдена в публичном списке из 43 связок';
+   const state=match?'Есть кандидат связи · не подтверждено в клиенте':'Нужна отдельная проверка партнёра и навыков';
+   return '<tr><td><b>'+esc(name)+'</b></td><td>'+esc(localName)+'</td><td>'+esc(partnerText)+'</td><td>'+esc(mappingStatus)+'</td><td>'+esc(state)+'</td></tr>';
+  }).join(''):'<tr><td colspan="5">По этому запросу имена не найдены.</td></tr>';
+
+  const filteredRoster=localRosterCoverage.filter(row=>{
+   const related=(row.publicCandidateBondPairs||[]).map(id=>candidateIndex.get(id)).filter(Boolean);
+   const relatedText=related.flatMap(item=>[item.candidateId,item.publicPartnerLabel,item.publicWardenName,item.possibleLocalWarden]).join(' ');
+   return [row.localWardenName,row.coverageStatus,relatedText]
+    .some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query));
+  });
+  if(rosterMeta)rosterMeta.textContent=query?`${filteredRoster.length} из ${localRosterCoverage.length} профилей`:`${localRosterCoverage.length} локальных профилей`;
+  rosterRowsBox.innerHTML=filteredRoster.length?filteredRoster.map(row=>{
+   const related=(row.publicCandidateBondPairs||[]).map(id=>candidateIndex.get(id)).filter(Boolean);
+   const relatedText=related.length?related.map(item=>`${item.candidateId} · ${item.publicPartnerLabel}`).join('; '):'В кандидатном наборе не найдено';
+   const exactText=row.exactCalculationEnabled===true?'Разрешено':'Отключено · нет полной подтверждённой таблицы';
+   return `<tr>
+    <td><b>${esc(row.localWardenName)}</b></td>
+    <td>${esc(relatedText)}</td>
+    <td><span class="coverage-status">${esc(rosterStatusLabels[row.coverageStatus]||row.coverageStatus||'Статус неизвестен')}</span></td>
+    <td>${esc(exactText)}</td>
+   </tr>`;
+  }).join(''):`<tr><td colspan="4">${localRosterCoverage.length?'По такому запросу Смотрители не найдены.':'Каталог покрытия пока не загружен.'}</td></tr>`;
+ }
+  search?.addEventListener('input',render);
+ fetch('./game-data/blood-bond-pairing-candidates.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   candidates=Array.isArray(payload.candidatePairs)?payload.candidatePairs:[];
+   localRosterCoverage=Array.isArray(payload.localRosterCoverage)?payload.localRosterCoverage:[];
+   render();
+   if(status){
+    status.className='goal-status warn';
+    status.textContent='Загружено '+candidates.length+' кандидатных связок и '+localRosterCoverage.length+' локальных профилей. В наборе нет числовых формул; имена, тип связи и актуальность нужно подтвердить в игре. Ни одна строка не включена в расчёт господства.';
+   }
+  })
+  .catch(()=>{
+   if(meta)meta.textContent='Реестр недоступен';
+   if(rosterMeta)rosterMeta.textContent='Каталог недоступен';
+   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр. Проверь подключение или открой JSON по ссылке ниже.</td></tr>';
+   rosterRowsBox.innerHTML='<tr><td colspan="4">Не удалось загрузить каталог покрытия.</td></tr>';
+   if(status){status.className='goal-status warn';status.textContent='Реестр кандидатов недоступен. Расчёты калькулятора продолжают работать; список можно открыть напрямую в GitHub.'}
+  });
+
+ fetch('./game-data/community-warden-roster-candidates.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   communityNames=Array.isArray(payload.names)?payload.names:[];
+   aliasesRequiringConfirmation=Array.isArray(payload.reconciliation?.aliasesRequiringConfirmation)?payload.reconciliation.aliasesRequiringConfirmation:[];
+   render();
+  })
+  .catch(()=>{
+   if(communityMeta)communityMeta.textContent='Внешний список недоступен';
+   communityRowsBox.innerHTML='<tr><td colspan="5">Не удалось загрузить кандидатный список. Открой JSON по ссылке ниже.</td></tr>';
+  });
+}
+
+function initGardenCoverage(){
+ const search=$('#gardenCoverageSearch');
+ const filter=$('#gardenCoverageFilter');
+ const rowsBox=$('#gardenCoverageRows');
+ const meta=$('#gardenCoverageMeta');
+ const status=$('#gardenCoverageStatus');
+ if(!rowsBox)return;
+ let observations=[],candidates=[],maxLevel=140,claimedPoints=18900;
+ function numericDisplay(value){
+  const raw=String(value??'').replace(/[^0-9,.-]/g,'').replace(',','.');
+  const out=Number(raw);return Number.isFinite(out)?out:null;
+ }
+ function render(){
+  const observedByLevel=new Map(observations.map(row=>[Number(row.level),row]));
+  const candidateByLevel=new Map(candidates.map(row=>[Number(row.level),row]));
+  const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
+  const mode=String(filter?.value||'all');
+  const rows=Array.from({length:maxLevel},(_,index)=>{
+   const level=index+1;
+   return {level,observation:observedByLevel.get(level)||null,candidate:candidateByLevel.get(level)||null};
+  }).filter(row=>{
+   const isObserved=Boolean(row.observation);
+   if(mode==='observed'&&!isObserved)return false;
+   if(mode==='missing'&&isObserved)return false;
+   if(!query)return true;
+   const o=row.observation,c=row.candidate;
+   const searchable=[
+    row.level,o?.category,o?.rawCostDisplay,c?.cost,c?.points,
+    ...(o?.bonuses||[]).flatMap(bonus=>[bonus.attribute,bonus.displayed]),o?.status
+   ].map(value=>String(value??'').toLocaleLowerCase('ru-RU'));
+   return searchable.some(value=>value.includes(query));
+  });
+  const observedCount=observations.length;
+  if(meta)meta.textContent=query||mode!=='all'
+    ?`${rows.length} из ${maxLevel} уровней · ${observedCount} с игровыми наблюдениями`
+    :`${observedCount} из ${maxLevel} уровней с игровыми наблюдениями`;
+  rowsBox.innerHTML=rows.length?rows.map(({level,observation:o,candidate:c})=>{
+   const effect=o&&Array.isArray(o.bonuses)&&o.bonuses.length
+    ?o.bonuses.map(b=>`${b.attribute}: ${b.displayed}`).join('; ')
+    :'Нет подтверждённого эффекта';
+   let observedCost='Нет подтверждённой цены';
+   if(o?.cost!==null&&o?.cost!==undefined)observedCost=String(o.cost);
+   else if(o?.rawCostDisplay)observedCost=`Сырая строка «${o.rawCostDisplay}»`;
+   const candidateText=c?`Цена ${intfmt(c.cost)} · points ${intfmt(c.points)}`:'Нет кандидатной строки';
+   const observedTotal=o?.bonuses?.length
+    ?o.bonuses.reduce((sum,b)=>sum+(numericDisplay(b.displayed)||0),0):null;
+   const conflict=Boolean(c&&observedTotal!==null&&observedTotal!==Number(c.points));
+   const rowStatus=conflict
+    ?'РАСХОЖДЕНИЕ · не использовать'
+    :o&&c?'Снимок есть · совпадение чисел не доказывает формулу'
+    :o?'Только наблюдение из игрового экрана'
+    :c?'Только кандидат сообщества · не подтверждён'
+    :'Нет данных';
+   return `<tr class="${conflict?'garden-conflict-row':o?'garden-observed-row':'garden-missing-row'}">
+    <td><b>${level}</b></td>
+    <td>${esc(o?.category||'—')}</td>
+    <td>${esc(effect)}</td>
+    <td>${esc(observedCost)}</td>
+    <td>${esc(candidateText)}</td>
+    <td><span class="coverage-status">${esc(rowStatus)}</span></td>
+   </tr>`;
+  }).join(''):'<tr><td colspan="6">По заданному фильтру уровни не найдены.</td></tr>';
+ }
+ search?.addEventListener('input',render);
+ filter?.addEventListener('change',render);
+ fetch('./game-data/garden-observations.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   observations=Array.isArray(payload.observations)?payload.observations:[];
+   const candidatePayload=payload.communityCandidateCheckpoints||{};
+   candidates=Array.isArray(candidatePayload.rows)?candidatePayload.rows:[];
+   const aggregate=payload.communityAggregate||{};
+   maxLevel=Math.max(1,Math.min(500,Math.round(Number(aggregate.claimedMaxLevel)||140)));
+   claimedPoints=Number(aggregate.claimedTotalPointsToMax)||18900;
+   render();
+   if(status){
+    status.className='goal-status warn';
+    status.textContent=`В реестре ${observations.length} игровых наблюдений и ${candidates.length} кандидатных строк сообщества на ${maxLevel} заявленных уровнях. Сумма ${intfmt(claimedPoints)} очков — неподтверждённый агрегат. Расхождение уровня 112 выделено отдельно. Ни одна кандидатная цифра не включена в прогноз господства.`;
+   }
+  })
+  .catch(()=>{
+   if(meta)meta.textContent='Реестр Сада недоступен';
+   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр уровней Сада.</td></tr>';
+   if(status){status.className='goal-status warn';status.textContent='Данные Сада недоступны. Никакие неподтверждённые значения не включаются в прогноз.'}
+  });
+}
+
 function getConclave(){const seals={};for(const a of ATTRS)seals[a]={current:n(S.conclave[a].current),target:n(S.conclave[a].target)};const totals=Object.fromEntries(ATTRS.map(a=>[a,parse(S.conclaveAttrTotals[a])]));return E.conclaveCalc({watcherCount:n(S.profile.watchers),seals,attrTotals:totals})}
 function getBookBonusFinal(conc){return Object.fromEntries(ATTRS.map(a=>[a,conc.details[a]?.finalBookBonusPct||0]))}
 
 function recalc(){
  scheduleLocalSave();
+ const guild=E.guildExperienceCalc(S.guildExp.members);
+ setText('#guildExpTotal',intfmt(guild.total));
+ setText('#guildExpItemsTotal',intfmt(guild.totalItems));
+ setText('#guildExpContributors',intfmt(guild.contributors));
+ const guildBreakdown=$('#guildExpBreakdown');
+ if(guildBreakdown)guildBreakdown.innerHTML=(D.guildExperienceItems||[]).map(item=>`<div class="break-row"><span>${esc(item.name)} · ${intfmt(guild.itemTotals[item.key]||0)} шт.</span><b>+${intfmt((guild.itemTotals[item.key]||0)*item.experience)}</b></div>`).join('');
+ const guildStatus=$('#guildExpStatus');
+ if(guildStatus){
+  guildStatus.className='goal-status';
+  if(!guild.complete){guildStatus.classList.add('warn');guildStatus.textContent='Проверь количества: предметы должны быть целыми неотрицательными числами. Ошибочные ячейки временно не включены в расчёт.'}
+  else{guildStatus.textContent='Расчёт использует коэффициенты из файла «счет опыта ги.xlsx». Перед использованием как эталонного результата сверь их с актуальной игрой: источник пока не подтверждён отдельно в клиенте.'}
+ }
+ const guildDetails=new Map(guild.members.map(row=>[String(row.id),row]));
+ $('#guildMemberRows .guild-member-card').forEach(card=>{
+  const detail=guildDetails.get(card.dataset.memberId);
+  const total=card.querySelector('[data-guild-member-total]');
+  const items=card.querySelector('[data-guild-member-items]');
+  if(total)total.textContent=intfmt(detail?detail.total:0);
+  if(items)items.textContent=intfmt(detail?detail.totalItems:0)+' предметов';
+ });
  const conc=getConclave();
- setText('#conclaveGain',fmt(conc.gain));setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
+ const conclaveAudit=E.conclaveDataAudit();
+ setText('#conclaveGain',fmt(conc.gain));setText('#conclaveGainLabel',conclaveAudit.fullyMatched?'Прирост Конклава':'Предварительный прирост · не включён в итог');setText('#conclaveCouncil',conc.councilComplete?fmt(conc.council):'нет данных');
+ const auditBox=$('#conclaveDataAudit');
+ if(auditBox){
+  auditBox.className='goal-status';
+  if(conclaveAudit.fullyMatched){auditBox.classList.add('good');auditBox.textContent='Таблица Конклава совпадает с контрольными суммами по опубликованным агрегатам и имеет полные стоимости всех уровней.'}
+  else{auditBox.classList.add('warn');auditBox.textContent='ПРЕДВАРИТЕЛЬНО: историческая таблица не совпадает с контрольными итогами сообщества. Одна ветвь: '+fmt(conclaveAudit.directAttribute)+' против '+fmt(conclaveAudit.expectedDirectAttribute)+' атрибута; книги: '+conclaveAudit.bookBonusPct+'% против '+conclaveAudit.expectedBookBonusPct+'%; нет цены для '+conclaveAudit.missingCostLevels.length+' уровней. Прирост Конклава не включён в общий итог, пока таблица не будет восстановлена по уровням.'}
+ }
+ const summaryTrust=$('#domSummaryTrust');
+ if(summaryTrust){summaryTrust.className='goal-status';if(!conclaveAudit.fullyMatched){summaryTrust.classList.add('warn');summaryTrust.textContent='Общий прогноз пока не включает прирост Конклава и его бонус книг: контрольные суммы текущей таблицы расходятся с источником сообщества. Остальные модули показываются по своим статусам проверки.'}else{summaryTrust.classList.add('good');summaryTrust.textContent='Таблица Конклава прошла сверку контрольных сумм.'}}
  const council=parseDefault(S.profile.council,1e6);const councilEntered=String(S.profile.council||'').trim()!=='';const cst=E.requirementStatus(council,conc.council,conc.councilComplete,councilEntered);
  const ccard=$('#conclaveStatusCard');if(ccard)ccard.className='status-card '+cst.state;setText('#conclaveStatus',cst.label);setText('#conclaveStatusHint',cst.hint);
  $$('#conclaveRows .seal-row').forEach((row,i)=>{const a=ATTRS[i],d=conc.details[a];row.querySelector('[data-out]').textContent=d?`+${fmt(d.direct+d.bookEffect)} · книги +${d.deltaBookPct.toLocaleString('ru-RU',{maximumFractionDigits:1})}%`:'+0'});
  const inspiration=recalcInspirationPills();
  let wGain=0,wBlood=0;
- $$('#wardenCards .warden-card').forEach((card,i)=>{const w=S.wardens[i];const calc=E.wardenCalc({name:w.name,currentLevel:n(w.currentLevel),targetLevel:n(w.targetLevel),talents:w.talents,inspiration});wGain+=calc.gain;wBlood+=calc.blood;card.querySelector('.w-blood').textContent=fmt(calc.blood);card.querySelector('.w-gain').textContent=calc.gainReady?fmt(calc.gain):'—';card.querySelector('.w-status').textContent=!calc.active?'заполни героя и уровни':!calc.gainReady?'введи текущие уровни всех талантов':'готово';card.querySelectorAll('[data-plan]').forEach((el,j)=>{const t=calc.talents[j];el.textContent=t&&t.planned?`+${t.planned} ур.`:'—'});card.querySelectorAll('[data-exp]').forEach((el,j)=>{const t=calc.talents[j];if(!t){el.textContent='EXP не указан';return}el.textContent=t.expValue>0?`остаток ${intfmt(t.expRemainder)} · до +1: ${intfmt(t.expToNext)} EXP`:'EXP не указан'});});
+ $$('#wardenCards .warden-card').forEach((card,i)=>{const w=S.wardens[i];const calc=E.wardenCalc({name:w.name,currentLevel:n(w.currentLevel),targetLevel:n(w.targetLevel),talents:w.talents,inspiration});wGain+=calc.gain;wBlood+=calc.blood;card.querySelector('.w-blood').textContent=fmt(calc.blood);card.querySelector('.w-gain').textContent=calc.gainReady?fmt(calc.gain):'—';card.querySelector('.w-status').textContent=calc.dataStatus==='incomplete'?'профиль требует проверки':!calc.active?'заполни героя и уровни':!calc.gainReady?'введи текущие уровни всех талантов':'готово';card.querySelectorAll('[data-plan]').forEach((el,j)=>{const t=calc.talents[j];el.textContent=t&&t.planned?`+${t.planned} ур.`:'—'});card.querySelectorAll('[data-exp]').forEach((el,j)=>{const t=calc.talents[j];if(!t){el.textContent='EXP не указан';return}el.textContent=t.expValue>0?`остаток ${intfmt(t.expRemainder)} · до +1: ${intfmt(t.expToNext)} EXP`:'EXP не указан'});});
  const other=E.otherWatcherGain(S.otherWardens,inspiration);wGain+=other.gain;
  const resource=E.resourceCalc(parseDefault(S.resource.one,1e6),S.resource.counts);setText('#resourceTotal',fmt(resource.total));
  const availBlood=parseDefault(S.profile.blood,1e9)+(S.resource.type==='Кровь'?resource.total:0);setText('#wardenBlood',fmt(wBlood));setText('#wardenGain',fmt(wGain));setText('#wardenBloodStatus',wBlood===0?'—':availBlood>=wBlood?`хватает · запас ${fmt(availBlood-wBlood)}`:`не хватает ${fmt(wBlood-availBlood)}`);
- const books=E.booksCalc(S.books,getBookBonusFinal(conc),n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const bookBonusForCalc=conclaveAudit.fullyMatched?getBookBonusFinal(conc):Object.fromEntries(ATTRS.map(a=>[a,0]));
+ const books=E.booksCalc(S.books,bookBonusForCalc,n(S.bookPackIIIEach));const tasting=E.tastingCalc(S.tasting);const misc=E.miscCalc(Object.fromEntries(Object.entries(S.misc).map(([k,v])=>[k,parse(v)])));setText('#booksGain',fmt(books.gain));setText('#tastingGain',fmt(tasting.gain));setText('#miscGain',fmt(misc.gain));
+ const booksAudit=$('#booksConclaveAudit');if(booksAudit){booksAudit.className='goal-status';if(!conclaveAudit.fullyMatched){booksAudit.classList.add('warn');booksAudit.textContent='Бонус книг Конклава временно отключён в этом расчёте, потому что таблица бонусов не прошла сверку. Книги считаются без этого множителя.'}else{booksAudit.classList.add('good');booksAudit.textContent='Бонус книг Конклава включён по сверенной таблице.'}}
+ const heirs=E.heirMarriageCalc({rings:S.heirs.rings});
+ const manual=E.manualSourcesCalc(S.manualSources);
+ setText('#manualSourcesGain',fmt(manual.gain));
+ const manualStatus=$('#manualSourcesStatus');
+ if(manualStatus){
+  manualStatus.className='goal-status';
+  if(manual.invalidRows.length){manualStatus.classList.add('warn');manualStatus.textContent='Есть '+manual.invalidRows.length+' строк(и) с неверным источником или форматом числа. Они не включены в прогноз.'}
+  else if(manual.missingRows.length){manualStatus.classList.add('warn');manualStatus.textContent='Заполни источник и подтверждённый прирост ещё в '+manual.missingRows.length+' строк(ах), либо удали пустые строки. Пустые строки не включены в расчёт.'}
+  else if(manual.details.length){manualStatus.textContent='В прогноз добавлены только введённые приросты: '+manual.details.length+'. Не дублируй здесь значения, уже учитываемые Конклавом, Смотрителями, книгами, Дегустацией, прочими формулами или кольцами.'}
+  else{manualStatus.textContent='Используй этот блок временно для подтверждённых приростов систем, для которых ещё нет проверенной автоматической формулы.'}
+ }
+ setText('#heirsGain',fmt(heirs.gain));setText('#heirsPlanned',intfmt(heirs.planned));setText('#heirsShortage',intfmt(heirs.shortage));
+ const heirsStatus=$('#heirsStatus');
+ if(heirsStatus){
+  heirsStatus.className='goal-status';
+  if(heirs.planned===0){heirsStatus.textContent='Добавь планируемые браки и фактический прирост господства за каждый тип кольца. Запас колец сам по себе господство не добавляет.'}
+  else if(!heirs.complete){heirsStatus.classList.add('warn');const missing=heirs.unknownTypes.map(k=>E.HEIR_RING_TYPES.find(t=>t.key===k)?.name||k).join(', ');heirsStatus.textContent='Не указано подтверждённое господство за брак: '+missing+'. Эти строки не включены в прогноз, пока значение не введено.'}
+  else if(heirs.shortage>0){heirsStatus.classList.add('warn');heirsStatus.textContent='План рассчитан по введённым значениям, но не хватает '+intfmt(heirs.shortage)+' колец. Прогноз прироста: '+fmt(heirs.gain)+'.'}
+  else{heirsStatus.classList.add('good');heirsStatus.textContent='План рассчитан по введённым игровым значениям. Прогноз дополнительного господства: '+fmt(heirs.gain)+'.'}
+ }
  const magicIIIUsed=Object.values(S.books).some(row=>n(row.packIII15)>0);const bh=$('#booksHint');if(bh){bh.className='goal-status';if(magicIIIUsed&&!n(S.bookPackIIIEach)){bh.classList.add('warn');bh.textContent='Есть Магия III, но не указан её номинал. Перепиши число с карточки предмета — до этого Магия III в итог не входит.'}else if(magicIIIUsed){bh.classList.add('good');bh.textContent=`Магия III учтена: по ${intfmt(n(S.bookPackIIIEach))} каждому из 15 смотрителей.`}else{bh.textContent='Добавь только те книги и предметы «Магия», которые собираешься использовать.'}}
- const overallGain=conc.gain+wGain+books.gain+tasting.gain+misc.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
- const parts=[['Конклав',conc.gain],['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain]].filter(x=>x[1]>0);$('#domBreakdown').innerHTML=parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>';
+ const acceptedConclaveGain=conclaveAudit.fullyMatched?conc.gain:0;
+ const overallGain=acceptedConclaveGain+wGain+books.gain+tasting.gain+misc.gain+heirs.gain+manual.gain;const current=parseDefault(S.profile.dominion,1e6);setText('#domCurrent',current?fmt(current):'—');setText('#domGain',fmt(overallGain));setText('#domFinal',current?fmt(current+overallGain):'—');setText('#homeGain',overallGain?fmt(overallGain):'—');setText('#homeFinal',current?fmt(current+overallGain):'—');
+ const parts=[...(conclaveAudit.fullyMatched?[['Конклав',conc.gain]]:[]),['Смотрители',wGain],['Книги',books.gain],['Дегустация',tasting.gain],['Прочее',misc.gain],['Наследники и браки',heirs.gain],...Object.entries(manual.bySource)].filter(x=>x[1]>0);
+ const provisionalConclave=!conclaveAudit.fullyMatched&&conc.gain>0?`<div class="break-row provisional"><span>Конклав · предварительно, не включён в итог</span><b>+${fmt(conc.gain)}</b></div>`:'';
+ $('#domBreakdown').innerHTML=provisionalConclave+(parts.length?parts.map(([k,v])=>`<div class="break-row"><span>${k}</span><b>+${fmt(v)}</b></div>`).join(''):'<div class="note">План пока пуст. Заполни только те разделы, которые собираешься использовать.</div>');
  const tr=E.talentRatingCalc(S.ratingRows,S.ratingManuscripts,{...S.scrolls});setText('#talentWatcherScore',intfmt(tr.watcherScore));setText('#talentManScore',intfmt(tr.manuscriptScore));setText('#talentTotalScore',intfmt(tr.score));setText('#scrollPool',intfmt(tr.scrollPool));setText('#scrollScore',intfmt(tr.scrollScore));$('#talentDetails').innerHTML=tr.details.length?tr.details.map(r=>{const expState=r.remainder===0?`до следующего ×${r.star}: ${intfmt(r.threshold)} EXP`:`остаток ${intfmt(r.remainder)} · до следующего: ${intfmt(r.missing)} EXP`;return `<div class="break-row"><span>${esc(r.name||'Смотритель')} · ×${r.star} · EXP ${intfmt(r.exp)}</span><b>+${r.score} · ${expState}</b></div>`}).join(''):'';
  const cl=E.closenessCalc(Object.fromEntries(Object.entries(S.closeness).map(([k,v])=>[k,n(v)])));setText('#closenessMin',intfmt(cl.min));setText('#closenessAvg',intfmt(cl.avg));setText('#closenessMax',intfmt(cl.max));goalStatus('#closenessStatus',n(S.closenessGoal),cl);
  const at=E.attractionCalc(Object.fromEntries(Object.entries(S.attraction).map(([k,v])=>[k,n(v)])));setText('#attractionMin',intfmt(at.min));setText('#attractionAvg',intfmt(at.avg));setText('#attractionMax',intfmt(at.max));goalStatus('#attractionStatus',n(S.attractionGoal),at);
@@ -140,15 +456,15 @@ let saveTimer=null;
 function serializableState(){return JSON.parse(JSON.stringify(S))}
 function saveLocalState(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(serializableState()))}catch(e){}}
 function scheduleLocalSave(){clearTimeout(saveTimer);saveTimer=setTimeout(saveLocalState,250)}
-function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});return true}catch(e){return false}}
+function loadLocalState(){try{const raw=localStorage.getItem(STORAGE_KEY);if(!raw)return false;const saved=JSON.parse(raw);const base=freshState();S={...base,...saved,profile:{...base.profile,...(saved.profile||{})},conclave:{...base.conclave,...(saved.conclave||{})},conclaveAttrTotals:{...base.conclaveAttrTotals,...(saved.conclaveAttrTotals||{})},inspiration:Array.isArray(saved.inspiration)?saved.inspiration:[],wardens:Array.isArray(saved.wardens)?saved.wardens:[],otherWardens:Array.isArray(saved.otherWardens)?saved.otherWardens:[],ratingRows:Array.isArray(saved.ratingRows)?saved.ratingRows:[],ratingManuscripts:{...base.ratingManuscripts,...(saved.ratingManuscripts||{})},scrolls:{...base.scrolls,...(saved.scrolls||{})},resource:{...base.resource,...(saved.resource||{}),counts:{...base.resource.counts,...((saved.resource||{}).counts||{})}},books:{...base.books,...(saved.books||{})},tasting:{...base.tasting,...(saved.tasting||{})},misc:{...base.misc,...(saved.misc||{})},closeness:{...base.closeness,...(saved.closeness||{})},attraction:{...base.attraction,...(saved.attraction||{})},heirs:{...base.heirs,...(saved.heirs||{}),rings:{...base.heirs.rings,...(((saved.heirs||{}).rings)||{})}},manualSources:Array.isArray(saved.manualSources)?saved.manualSources:[],guildExp:{...base.guildExp,...(saved.guildExp||{}),members:Array.isArray((saved.guildExp||{}).members)?saved.guildExp.members:base.guildExp.members}};Object.keys(base.books).forEach(k=>S.books[k]={...base.books[k],...(S.books[k]||{})});Object.keys(base.heirs.rings).forEach(k=>S.heirs.rings[k]={...base.heirs.rings[k],...((S.heirs.rings&&S.heirs.rings[k])||{})});return true}catch(e){return false}}
 function downloadBackup(){const p={schema:'vampire-dominion-local',version:2,createdAt:new Date().toISOString(),state:serializableState()};const b=new Blob([JSON.stringify(p,null,2)],{type:'application/json'}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=`vampire-dominion-backup-${new Date().toISOString().slice(0,10)}.json`;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast('Резервная копия сохранена')}
 function restoreBackup(file){const r=new FileReader();r.onload=()=>{try{const p=JSON.parse(String(r.result||''));localStorage.setItem(STORAGE_KEY,JSON.stringify(p.state||p));location.reload()}catch(e){alert('Не удалось восстановить JSON-бэкап Vampire Dominion.')}};r.readAsText(file,'utf-8')}
 $('#saveBackup').addEventListener('click',downloadBackup);$('#loadBackup').addEventListener('click',()=>$('#backupFile').click());$('#backupFile').addEventListener('change',e=>{const f=e.target.files&&e.target.files[0];if(f)restoreBackup(f);e.target.value=''})
 
-$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=0;localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
+$('#resetAll').addEventListener('click',()=>{if(!confirm('Обнулить все введённые данные?'))return;S=freshState();wardenSeq=inspSeq=otherSeq=ratingSeq=manualSourceSeq=0;guildMemberSeq=Math.max(1,...S.guildExp.members.map(x=>Number(x.id)||1));localStorage.removeItem(STORAGE_KEY);renderAll();toast('Данные обнулены')});
 function renderAll(){
  ['profileDominion','profileWatchers','profileBlood','profileCouncil'].forEach((id,i)=>{const keys=['dominion','watchers','blood','council'];$('#'+id).value=S.profile[keys[i]]});$('#closenessGoal').value=S.closenessGoal;$('#attractionGoal').value=S.attractionGoal;$('#oneCollect').value=S.resource.one;$('#resourceType').value=S.resource.type;$('#scrollHigh').value=S.scrolls.high;$('#scrollMid').value=S.scrolls.mid;$('#scrollSimple').value=S.scrolls.simple;$('#scrollStar').value=S.scrolls.star;$('#miscPlasma').value=S.misc.plasma;$('#miscVito').value=S.misc.vito;$('#miscTrust').value=S.misc.trustTotal;$('#miscRB').value=S.misc.heirsRB;$('#miscGP').value=S.misc.heirsGP;$('#miscS').value=S.misc.heirsS;$('#miscDirect').value=S.misc.directOther;if($('#packIIIEach'))$('#packIIIEach').value=S.bookPackIIIEach;
- renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');recalc();
+ renderConclave();renderInspiration();renderWardens();renderOtherWardens();renderRating();renderRatingManuscripts();renderResourceTokens();renderBooks();renderTasting();renderItems('closeness');renderItems('attraction');renderGuildMembers();renderHeirRings();renderManualDominionSources();recalc();
 }
 
 loadLocalState();
@@ -156,7 +472,9 @@ wardenSeq=Math.max(0,...S.wardens.map(x=>Number(x.id)||0));
 inspSeq=Math.max(0,...S.inspiration.map(x=>Number(x.id)||0));
 otherSeq=Math.max(0,...S.otherWardens.map(x=>Number(x.id)||0));
 ratingSeq=Math.max(0,...S.ratingRows.map(x=>Number(x.id)||0));
-bindStatic();renderAll();
+manualSourceSeq=Math.max(0,...S.manualSources.map(x=>Number(x.id)||0));
+guildMemberSeq=Math.max(0,...S.guildExp.members.map(x=>Number(x.id)||0));
+bindStatic();renderAll();initBloodBondCoverage();initGardenCoverage();
 if('scrollRestoration' in history) history.scrollRestoration='manual';
 const showHero=()=>{if(!location.hash)window.scrollTo({top:0,left:0,behavior:'instant'})};
 window.addEventListener('load',()=>setTimeout(showHero,40));window.addEventListener('pageshow',e=>{if(e.persisted)setTimeout(showHero,30)});

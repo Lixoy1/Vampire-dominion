@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "game": "Наследие Вампиров",
+  "checkedAt": "2026-10-26",
+  "disclaimer": "Community-reported aggregate checkpoints, not a per-level table and not independently verified against the current game client. These values must not replace the legacy Conclave engine or be used to infer missing per-level costs/effects.",
+  "source": {
+    "name": "Сундук Дракулы: Наследие Вампиров",
+    "url": "https://t.me/draculachest",
+    "evidence": "Owner-provided excerpt in the project conversation on 2026-10-26",
+    "evidenceClass": "community-aggregate-transcribed",
+    "publishedAt": "not-confirmed"
+  },
+  "garden": {
+    "claimedMaxEffectLevel": 140,
+    "claimedTotalPointsToMax": 18900,
+    "status": "community-aggregate-unverified",
+    "useInCalculator": false
+  },
+  "conclave": {
+    "claimedMaxLevelPerBranch": 180,
+    "claimedCostPerBranch": 19233610455,
+    "claimedCostAllFourBranches": 76934441820,
+    "claimedAttributePerWardenPerBranch": 987000,
+    "claimedBookBonusPercentPerBranch": 1056,
+    "claimedAttributePerWardenAllFourBranches": 3948000,
+    "claimedAttributeFor40WardensAllFourBranches": 157920000,
+    "status": "community-aggregate-unverified",
+    "useAsPerLevelFormula": false,
+    "crossCheck": {
+      "fourBranchesCostMatches": true,
+      "fourBranchAttributeMatches": true,
+      "fortyWardenAttributeMatches": true
+    }
+  },
+  "unresolvedConflicts": [
+    "The historical local Conclave table sums to 610200 direct attribute and 1092% book bonus per branch, which differs from the reported 987000 and 1056%.",
+    "The local legacy table does not contain complete costs for all 180 levels.",
+    "The public community Garden candidate table contains rows beyond level 140; the exact meaning/version of its level and points columns is unresolved."
+  ]
+}

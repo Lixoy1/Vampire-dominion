@@ -1,0 +1,982 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-25",
+  "game": "Наследие Вампиров: Новолуние",
+  "purpose": "crosswalk for identifying which local Warden records may correspond to a public community Blood Bond dataset",
+  "disclaimer": "This is a research index, not a verified gameplay table. It deliberately contains no level values, costs, or Dominion formulas from the external repository. The source repository has no declared license; use these factual candidate associations only for identification and manual verification, not by copying its code/data arrays. 'No pair found' means only absent from this candidate dataset, not that the Warden has no Blood Bonds in the current game.",
+  "source": {
+    "name": "Game of Vampires Calculator (community project)",
+    "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
+    "fileUrl": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts",
+    "blobSha": "a6f06c366cc195b2c3c8df2d92c46825f40316e3",
+    "lastObservedPushAt": "2026-06-11T03:05:42Z",
+    "license": null,
+    "status": "community candidate; old relative to 2026-09 game update"
+  },
+  "counts": {
+    "publicCandidatePairs": 43,
+    "byBondClass": {
+      "All": 7,
+      "Dual": 17,
+      "Single": 19
+    },
+    "localLegacyWardenProfiles": 64,
+    "matchedLocalNames": 43,
+    "unresolvedLocalization": 2,
+    "probableLocalization": 5
+  },
+  "candidatePairs": [
+    {
+      "candidateId": "bb-01",
+      "publicPartnerLabel": "April/Axel",
+      "publicWardenName": "Diana",
+      "bondClass": "All",
+      "possibleLocalWarden": "Диана",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-02",
+      "publicPartnerLabel": "Jen/Kal",
+      "publicWardenName": "Vance",
+      "bondClass": "All",
+      "possibleLocalWarden": "Вэнс",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-03",
+      "publicPartnerLabel": "Viola/Valerian",
+      "publicWardenName": "Damian",
+      "bondClass": "All",
+      "possibleLocalWarden": "Дэмиен",
+      "localizationStatus": "probable-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-04",
+      "publicPartnerLabel": "Nefertiti/Ramses",
+      "publicWardenName": "Cleo",
+      "bondClass": "All",
+      "possibleLocalWarden": "Клео",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-05",
+      "publicPartnerLabel": "Frances/Francis",
+      "publicWardenName": "Charlemagne",
+      "bondClass": "All",
+      "possibleLocalWarden": "Чарльз",
+      "localizationStatus": "unresolved-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-06",
+      "publicPartnerLabel": "Raven/Raven",
+      "publicWardenName": "Carmilla",
+      "bondClass": "All",
+      "possibleLocalWarden": "Кармилла",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-07",
+      "publicPartnerLabel": "Briony/Byron",
+      "publicWardenName": "Poe",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "По",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-08",
+      "publicPartnerLabel": "Ruby/Redd",
+      "publicWardenName": "William",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Уильям",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-09",
+      "publicPartnerLabel": "Estella/Nick",
+      "publicWardenName": "Aurelia",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Аурелия",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-10",
+      "publicPartnerLabel": "Isabella/Izan",
+      "publicWardenName": "Tomas",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Томас",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-11",
+      "publicPartnerLabel": "Mary/Martin",
+      "publicWardenName": "Victor",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Виктор",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-12",
+      "publicPartnerLabel": "Inanna/Enki",
+      "publicWardenName": "Gilgamesh",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Гильгамеш",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-13",
+      "publicPartnerLabel": "Otchigon/Subutai",
+      "publicWardenName": "Temujin",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Темучжин",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-14",
+      "publicPartnerLabel": "Skylar/Scott",
+      "publicWardenName": "Josey",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Джози",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-15",
+      "publicPartnerLabel": "Bess/Bas",
+      "publicWardenName": "Mike",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Майк",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-16",
+      "publicPartnerLabel": "Roxana/Richmond",
+      "publicWardenName": "Erik",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Эрик",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-17",
+      "publicPartnerLabel": "Aisha/Ajani",
+      "publicWardenName": "Candace",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Кендэс",
+      "localizationStatus": "probable-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-18",
+      "publicPartnerLabel": "Antonia/Antonio",
+      "publicWardenName": "Vicente",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Висент",
+      "localizationStatus": "probable-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-19",
+      "publicPartnerLabel": "Gabrielle/Gabriel",
+      "publicWardenName": "Julie",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Джули",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-20",
+      "publicPartnerLabel": "Mairi/Mitchell",
+      "publicWardenName": "Elsie",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Элси",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-21",
+      "publicPartnerLabel": "Aretha/Arthur",
+      "publicWardenName": "Robert",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Роберт",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-22",
+      "publicPartnerLabel": "Agneyi",
+      "publicWardenName": "Rudra",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Рудра",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-23",
+      "publicPartnerLabel": "Culann",
+      "publicWardenName": "Finn",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Финн",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-24",
+      "publicPartnerLabel": "Hela",
+      "publicWardenName": "Woden",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Вотан",
+      "localizationStatus": "probable-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-25",
+      "publicPartnerLabel": "Dionysus",
+      "publicWardenName": "Artemis",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Артемида",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-26",
+      "publicPartnerLabel": "Maya",
+      "publicWardenName": "Grendel",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Грендель",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-27",
+      "publicPartnerLabel": "Dahlia",
+      "publicWardenName": "Eddie",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Эдди",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-28",
+      "publicPartnerLabel": "Ember/Ash",
+      "publicWardenName": "Nyx",
+      "bondClass": "All",
+      "possibleLocalWarden": "Никс",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-29",
+      "publicPartnerLabel": "Azrael/Morrigan",
+      "publicWardenName": "Thanatos",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Танатос",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-30",
+      "publicPartnerLabel": "Kai/Gerda",
+      "publicWardenName": "Mara",
+      "bondClass": "Dual",
+      "possibleLocalWarden": "Мара",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-31",
+      "publicPartnerLabel": "Regina/Ray",
+      "publicWardenName": "Frederick",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Фредерик",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-32",
+      "publicPartnerLabel": "Ava/Ace",
+      "publicWardenName": "Alastair",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Аластар",
+      "localizationStatus": "probable-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-33",
+      "publicPartnerLabel": "Alexis/Alexis",
+      "publicWardenName": "Harker",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Харкер",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-34",
+      "publicPartnerLabel": "Elaine/Gawain",
+      "publicWardenName": "Morien",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Мориен",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-35",
+      "publicPartnerLabel": "Suria/Chandra",
+      "publicWardenName": "Pavan",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Паван",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-36",
+      "publicPartnerLabel": "Cordelia/Ward",
+      "publicWardenName": "Cornelius",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Корнелиус",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-37",
+      "publicPartnerLabel": "Hanna/Hugo",
+      "publicWardenName": "Piper",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Пайпер",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-38",
+      "publicPartnerLabel": "Elizabeth/Ellis",
+      "publicWardenName": "John",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Джон",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-39",
+      "publicPartnerLabel": "Michelle/Michael",
+      "publicWardenName": "Lorenzo",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Лоуренс",
+      "localizationStatus": "unresolved-localization",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-40",
+      "publicPartnerLabel": "Harriet/Harry",
+      "publicWardenName": "Nostradamus",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Нострадамус",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-41",
+      "publicPartnerLabel": "Johanna/Johan",
+      "publicWardenName": "Hans",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Ганс",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-42",
+      "publicPartnerLabel": "Lucy/Luca",
+      "publicWardenName": "Franco",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Франко",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    },
+    {
+      "candidateId": "bb-43",
+      "publicPartnerLabel": "Runa/Ragnor",
+      "publicWardenName": "Rollo",
+      "bondClass": "Single",
+      "possibleLocalWarden": "Ролло",
+      "localizationStatus": "matched-name",
+      "verificationStatus": "community-candidate-unverified",
+      "numericTableImported": false,
+      "source": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts"
+    }
+  ],
+  "localRosterCoverage": [
+    {
+      "localWardenName": "Аластар",
+      "publicCandidateBondPairs": [
+        "bb-32"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Артемида",
+      "publicCandidateBondPairs": [
+        "bb-25"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Асра",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Аурелия",
+      "publicCandidateBondPairs": [
+        "bb-09"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Виктор",
+      "publicCandidateBondPairs": [
+        "bb-11"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Висент",
+      "publicCandidateBondPairs": [
+        "bb-18"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Вотан",
+      "publicCandidateBondPairs": [
+        "bb-24"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Вэнс",
+      "publicCandidateBondPairs": [
+        "bb-02"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Ганс",
+      "publicCandidateBondPairs": [
+        "bb-41"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Гильгамеш",
+      "publicCandidateBondPairs": [
+        "bb-12"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Грендель",
+      "publicCandidateBondPairs": [
+        "bb-26"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Джози",
+      "publicCandidateBondPairs": [
+        "bb-14"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Джон",
+      "publicCandidateBondPairs": [
+        "bb-38"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Джули",
+      "publicCandidateBondPairs": [
+        "bb-19"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Диана",
+      "publicCandidateBondPairs": [
+        "bb-01"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Дракула",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Друзилла",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Дьяволо",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Дэмиен",
+      "publicCandidateBondPairs": [
+        "bb-03"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Иван",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Кармилла",
+      "publicCandidateBondPairs": [
+        "bb-06"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Кендэс",
+      "publicCandidateBondPairs": [
+        "bb-17"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Клео",
+      "publicCandidateBondPairs": [
+        "bb-04"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Корнелиус",
+      "publicCandidateBondPairs": [
+        "bb-36"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Лоуренс",
+      "publicCandidateBondPairs": [
+        "bb-39"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Люциан",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Майк",
+      "publicCandidateBondPairs": [
+        "bb-15"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Макс",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Мара",
+      "publicCandidateBondPairs": [
+        "bb-30"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Мария",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Мориен",
+      "publicCandidateBondPairs": [
+        "bb-34"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Мортимер",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Наджа",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Никола",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Никс",
+      "publicCandidateBondPairs": [
+        "bb-28"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Нострадамус",
+      "publicCandidateBondPairs": [
+        "bb-40"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Паван",
+      "publicCandidateBondPairs": [
+        "bb-35"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Пайпер",
+      "publicCandidateBondPairs": [
+        "bb-37"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "По",
+      "publicCandidateBondPairs": [
+        "bb-07"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Роберт",
+      "publicCandidateBondPairs": [
+        "bb-21"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Ролло",
+      "publicCandidateBondPairs": [
+        "bb-43"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Рудра",
+      "publicCandidateBondPairs": [
+        "bb-22"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Сарасвати",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Сейбер",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Скарлет",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Сэм",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Танатос",
+      "publicCandidateBondPairs": [
+        "bb-29"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Темучжин",
+      "publicCandidateBondPairs": [
+        "bb-13"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Томас",
+      "publicCandidateBondPairs": [
+        "bb-10"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Торгрим",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Уильям",
+      "publicCandidateBondPairs": [
+        "bb-08"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Ульфред",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Финн",
+      "publicCandidateBondPairs": [
+        "bb-23"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Франко",
+      "publicCandidateBondPairs": [
+        "bb-42"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Фредерик",
+      "publicCandidateBondPairs": [
+        "bb-31"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Харкер",
+      "publicCandidateBondPairs": [
+        "bb-33"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Цезарь",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Чарльз",
+      "publicCandidateBondPairs": [
+        "bb-05"
+      ],
+      "coverageStatus": "candidate-pair-needs-localization-review",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Шут",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Эдвард",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Эдди",
+      "publicCandidateBondPairs": [
+        "bb-27"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Элси",
+      "publicCandidateBondPairs": [
+        "bb-20"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Эрзебет",
+      "publicCandidateBondPairs": [],
+      "coverageStatus": "no-pair-found-in-this-public-candidate-table",
+      "exactCalculationEnabled": false
+    },
+    {
+      "localWardenName": "Эрик",
+      "publicCandidateBondPairs": [
+        "bb-16"
+      ],
+      "coverageStatus": "candidate-pair-found-needs-game-verification",
+      "exactCalculationEnabled": false
+    }
+  ],
+  "nextSteps": [
+    "Confirm every candidate name and Partner pairing in the current Russian game client.",
+    "For each linked Warden and each Blood Bond skill, capture level, next level, displayed current/next effect, cost, and effect type.",
+    "Confirm per-level values over multiple levels; do not interpolate from one screenshot.",
+    "Measure account Dominion before/after one isolated upgrade to identify its actual calculation path.",
+    "After a mapping is verified, add the numeric records to the canonical data registry with evidence and regression tests."
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-10-25",
+  "sources": [
+    {
+      "id": "official-vk",
+      "name": "VK Наследие Вампиров",
+      "url": "https://vk.com/nasledie_vampirov",
+      "kind": "publisher-linked-community",
+      "purpose": "official notices and community support",
+      "status": "game listing links here"
+    },
+    {
+      "id": "official-announcements",
+      "name": "Наследие Вампиров Объявления",
+      "url": "https://t.me/gov_announcements",
+      "kind": "official-announcements",
+      "purpose": "official patch previews and announced gameplay changes",
+      "status": "primary announcement source; preview content can change before release and does not necessarily publish full calculator formulas"
+    },
+    {
+      "id": "rustore-versions",
+      "name": "RuStore version history",
+      "url": "https://www.rustore.ru/catalog/app/com.mechanist.vampire.aos.rustore/versions",
+      "kind": "store-release-history",
+      "purpose": "version and feature changes",
+      "status": "latest surfaced listing: 1.051.013 dated 2026-09-24"
+    },
+    {
+      "id": "google-play",
+      "name": "Google Play listing",
+      "url": "https://play.google.com/store/apps/details?id=com.mechanist.vampire.aos",
+      "kind": "store-listing",
+      "purpose": "publisher contact and store update notes",
+      "status": "store update date differs from RuStore listing; treat rollout as potentially regional"
+    },
+    {
+      "id": "dracula-chest-channel",
+      "name": "Сундук Дракулы: Наследие Вампиров",
+      "url": "https://t.me/draculachest",
+      "archiveUrl": "https://telemetr.io/en/channels/2158115409-draculachest/posts",
+      "kind": "community-channel",
+      "purpose": "game notes, leaks and calculator announcements",
+      "status": "community source; leaks/forecasts not verified"
+    },
+    {
+      "id": "dampir-helper",
+      "name": "DampirHelperBot",
+      "url": "https://t.me/DampirHelperBot",
+      "kind": "community-tool",
+      "purpose": "reference for feature surface",
+      "status": "public channel post said it calculates closeness, attraction, talents, dominance, combat power, guild EXP; does not disclose formulas"
+    },
+    {
+      "id": "dampir-helper-support",
+      "name": "DraculaHelper",
+      "url": "https://t.me/DraculaHelper",
+      "kind": "community-support",
+      "purpose": "support/contact for helper bot",
+      "status": "listed by channel"
+    },
+    {
+      "id": "vampire-news",
+      "name": "Наследие Вампиров: Новости",
+      "url": "https://t.me/GameOfVampiresFan",
+      "archiveUrl": "https://sticker-collection.com/channels/@GameOfVampiresFan",
+      "kind": "community-channel",
+      "purpose": "change summaries and visual guides",
+      "status": "community, verify current mechanics"
+    },
+    {
+      "id": "academy-vampires",
+      "name": "Академия Вампиров",
+      "url": "https://t.me/AcademyVam",
+      "archiveUrl": "https://sticker-collection.com/channels/@AcademyVam",
+      "kind": "community-channel",
+      "purpose": "community tips and announcements",
+      "status": "community, some posts contain predictions"
+    },
+    {
+      "id": "warden-guide",
+      "name": "Смотрители: обзор",
+      "url": "https://gameofvampires.com/ru/smotriteli-obzor/",
+      "kind": "secondary-guide",
+      "purpose": "attributes and warden mechanics",
+      "status": "secondary guide, not official formula specification"
+    },
+    {
+      "id": "partner-guide",
+      "name": "Гайд для новичков",
+      "url": "https://gameofvampires.com/ru/nasledie-vampirov-gajd-dlya-novichkov/",
+      "kind": "secondary-guide",
+      "purpose": "warden/partner development and Blood Bonds overview",
+      "status": "secondary guide, strategy not mandatory mechanics"
+    },
+    {
+      "id": "warden-strategy-guide",
+      "name": "Кого прокачивать новичку",
+      "url": "https://gameofvampires.com/ru/smotriteli-in-game-of-vampires-who-should-beginners-develop/",
+      "kind": "secondary-guide",
+      "purpose": "inspiration groups and role strategy",
+      "status": "secondary guide; version/date should be checked"
+    },
+    {
+      "id": "competitor-calculator",
+      "name": "Game of Vampires Calculator",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
+      "kind": "fan-calculator",
+      "purpose": "feature-surface comparison",
+      "status": "public community reference; GitHub API shows no license metadata; table conflicts with some local historical rows; use only as hypothesis and verify each value in current game; do not copy code/assets",
+      "archiveUrl": "https://game-of-vampires-calculator.vercel.app/calculator/"
+    },
+    {
+      "id": "dampirlogiya",
+      "name": "Дампирология",
+      "url": null,
+      "kind": "community-channel-mentioned-by-owner",
+      "purpose": "candidate source to research",
+      "status": "exact public handle/link not identified from indexed public search; do not cite as evidence until identified"
+    },
+    {
+      "id": "public-fan-calculator-repository",
+      "name": "Game of Vampires Calculator — public source repository",
+      "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator",
+      "kind": "public-community-code-repository",
+      "purpose": "research lead for Warden catalog, talent profiles, Blood Bonds, Garden/Courtyard, Conclave and inspiration modules",
+      "metadata": {
+        "defaultBranch": "main",
+        "lastObservedPushAt": "2026-06-11T03:05:42Z",
+        "license": null,
+        "reportedLicenseStatus": "GitHub repository metadata reports no license"
+      },
+      "status": "candidate dataset; not official; last observed push predates the 2026-09 release listing; do not treat as current-game truth or copy code/data arrays wholesale",
+      "observedFiles": [
+        {
+          "name": "wardenCatalog.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenCatalog.ts",
+          "reportedRows": 60
+        },
+        {
+          "name": "wardenTalentProfiles.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/wardenTalentProfiles.ts",
+          "reportedProfiles": 63
+        },
+        {
+          "name": "scarletBonds.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts",
+          "reportedPairs": 43,
+          "reportedLevels": 200
+        },
+        {
+          "name": "courtyard.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/courtyard.ts",
+          "reportedLevelRows": 291
+        },
+        {
+          "name": "conclave.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/conclave.ts",
+          "reportedLevelRows": 101
+        },
+        {
+          "name": "auras.ts",
+          "url": "https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/auras.ts",
+          "reported": "inspiration and bond bonus configuration"
+        }
+      ],
+      "knownConflicts": [
+        "The public catalog and local historical catalog have different sizes and naming; English names such as Dominique and Lorenzo are not yet mapped to Russian names with certainty.",
+        "The public Blood Bonds table gives `dual: 936020` at level 131; the user screenshot shows `+936.12K` (=936120) for a display row, a difference of 100. The labels may not be the same metric or may include other modifiers; do not treat as a formula match.",
+        "The public Garden table records level 112 as cost 320, points 44000 (commented All x4); the screenshot shows level 112 universal wardens `Все +22000` and raw `4280/170` near the upgrade control. The cost may refer to a different transition, but exact alignment remains unresolved.",
+        "Public Garden rows extend to 291, while a community archive claims max Garden effect level 140 and 18900 points. The claims may refer to different definitions or outdated versions; neither is an approved constant.",
+        "Public Conclave values differ from the local historical table at levels 1, 2, 10, 100 and 101. The old local regression examples remain authoritative for the existing engine until primary evidence resolves specific rows."
+      ]
+    },
+    {
+      "id": "fandom-warden-category",
+      "name": "Game of Vampires: Twilight Sun Wiki — Category:Warden",
+      "url": "https://gameofvampirestwilightsun.fandom.com/wiki/Category:Warden",
+      "kind": "community-wiki-catalog",
+      "purpose": "independent Warden roster candidate and name reconciliation",
+      "status": "community wiki says All items (65); useful for roster comparison, not a publisher-controlled roster; apply CC-BY-SA attribution"
+    },
+    {
+      "id": "duff-dominion-workbook",
+      "name": "Калькулятор господства_Дуфф.xlsx",
+      "url": null,
+      "archiveUrl": null,
+      "kind": "user-provided-workbook",
+      "observedAt": "2026-10-25",
+      "version": "unknown",
+      "purpose": "historical formula structure for Conclave, inspiration, Warden leveling/talents, books, tasting, partner trust, heirs and miscellaneous sources",
+      "status": "user-supplied workbook; its own instruction sheet states that many table values and screenshots do not match; use formulas as research leads and treat numeric data as stale/unverified",
+      "knownGaps": [
+        "No complete Blood Bonds table",
+        "No Garden level table",
+        "Many Conclave cost rows are blank",
+        "Roster coverage differs from the current local roster"
+      ]
+    },
+    {
+      "id": "app-store-russian",
+      "name": "App Store: Наследие Вампиров: Новолуние",
+      "url": "https://apps.apple.com/ru/app/%D0%BD%D0%B0%D1%81%D0%BB%D0%B5%D0%B4%D0%B8%D0%B5-%D0%B2%D0%B0%D0%BC%D0%BF%D0%B8%D1%80%D0%BE%D0%B2-%D0%BD%D0%BE%D0%B2%D0%BE%D0%BB%D1%83%D0%BD%D0%B8%D0%B5/id6469098312?platform=vision",
+      "kind": "store-release-history",
+      "purpose": "Russian-client version history and update notes",
+      "status": "checked 2026-10-25; the page lists version 1.051.013 and displays its date relatively (about three days ago in the page snapshot); verify directly in the client before assigning a universal game version"
+    },
+    {
+      "id": "international-app-store",
+      "name": "App Store: Game of Vampires: Twilight Sun",
+      "url": "https://apps.apple.com/pk/app/game-of-vampires-twilight-sun/id6469515429",
+      "kind": "separate-international-app-listing",
+      "purpose": "disambiguation only",
+      "status": "different app listing/id from the Russian 'Наследие Вампиров: Новолуние' card; do not infer the Russian client's version from this page"
+    }
+  ],
+  "rules": [
+    "In-game screenshots and repeated before/after tests are the strongest basis for numeric formulas.",
+    "Official release notes are the primary basis for version changes and feature scope.",
+    "Community posts are leads, not trusted formula constants, until independently validated.",
+    "Do not embed or copy community images into the site unless reuse permission/license is clear; link and attribute instead."
+  ]
+}

@@ -1,0 +1,38 @@
+name: Calculator self-tests
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  calculator-self-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Validate JavaScript syntax
+        run: |
+          node --check engine.js
+          node --check app.js
+          node --check scripts/self-test.cjs
+          node --check scripts/validate-game-data.cjs
+          node --check illustrations.js
+      - name: Verify bundled illustration assets
+        run: node scripts/verify-illustrations.cjs
+      - name: Validate evidence-backed game data registry
+        run: node scripts/validate-game-data.cjs
+      - name: Run calculator regression checks
+        run: node scripts/self-test.cjs

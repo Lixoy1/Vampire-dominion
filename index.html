@@ -5,11 +5,11 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="theme-color" content="#12090d" />
   <meta name="description" content="Vampire Dominion — калькуляторы для игры Наследие Вампиров. Проект ОПТИМИСТ." />
-  <title>Vampire Dominion v2.19 — Blood Moon Edition</title>
+  <title>Vampire Dominion v2.20 — Blood Moon Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=240" />
+  <link rel="stylesheet" href="styles.css?v=241" />
 <!-- VAMPIRE-DOMINION-LOCAL-MODE -->
           <link rel="manifest" href="manifest.webmanifest">
           <meta name="theme-color" content="#5e1325">
@@ -338,6 +338,19 @@
               <tbody id="bloodBondRosterCoverageRows"><tr><td colspan="4">Загружаем каталог всех Смотрителей…</td></tr></tbody>
             </table>
           </div>
+          <h4>Полнота каталога: 65 имён из публичной Wiki</h4>
+          <p class="bond-roster-note">Этот список помогает отслеживать героев, которых надо сверить. Он является источником сообщества, а не официальным перечнем. Отсутствие партнёра в таблице из 43 кандидатных связок не означает отсутствия Кровных уз в игре.</p>
+          <div class="bond-coverage-toolbar">
+            <span id="communityWardenRosterMeta" class="badge">Загружаем публичный каталог…</span>
+          </div>
+          <div class="bond-coverage-table-wrap">
+            <table class="bond-coverage-table">
+              <thead><tr><th>Имя по Wiki</th><th>Кандидат локального имени</th><th>Связки из кандидатного списка</th><th>Статус локализации</th><th>Следующий шаг</th></tr></thead>
+              <tbody id="communityWardenRosterRows"><tr><td colspan="5">Загружаем 65 имён…</td></tr></tbody>
+            </table>
+          </div>
+          <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/community-warden-roster-candidates.json" target="_blank" rel="noopener noreferrer">Открыть публичный кандидатный список и правила сопоставления</a> · <a href="https://gameofvampirestwilightsun.fandom.com/wiki/Category:Warden" target="_blank" rel="noopener noreferrer">Источник: категория Warden в Wiki</a></p>
+          
           <div id="bloodBondCoverageStatus" class="goal-status warn">Значения связи и цены уровней из стороннего источника не используются в расчёте. Каждую связь и её уровни необходимо отдельно сверить с игрой.</div>
           <p><a href="https://github.com/Lixoy1/Vampire-dominion/blob/feature/global-dominion-expansion/game-data/blood-bond-pairing-candidates.json" target="_blank" rel="noopener noreferrer">Открыть наш реестр и происхождение кандидатов</a> · <a href="https://github.com/SakaKishiyami/Game-of-Vampires-Calculator/blob/main/src/data/scarletBonds.ts" target="_blank" rel="noopener noreferrer">Первоисточник списка сообщества</a></p>
         </div>
@@ -610,10 +623,10 @@
   </footer>
 
   <div id="toast" class="toast" role="status"></div>
-  <script src="data.js?v=240"></script>
-  <script src="source-samples.js?v=240"></script>
-  <script src="engine.js?v=240"></script>
-  <script src="app.js?v=240"></script>
-  <script src="illustrations.js?v=240"></script>
+  <script src="data.js?v=241"></script>
+  <script src="source-samples.js?v=241"></script>
+  <script src="engine.js?v=241"></script>
+  <script src="app.js?v=241"></script>
+  <script src="illustrations.js?v=241"></script>
 </body>
 </html>

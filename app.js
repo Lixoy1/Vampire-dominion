@@ -181,8 +181,10 @@ function initBloodBondCoverage(){
  const rosterRowsBox=$('#bloodBondRosterCoverageRows');
  const rosterMeta=$('#bloodBondRosterCoverageMeta');
  const status=$('#bloodBondCoverageStatus');
- if(!rowsBox||!rosterRowsBox)return;
- let candidates=[],localRosterCoverage=[];
+ const communityRowsBox=$('#communityWardenRosterRows');
+ const communityMeta=$('#communityWardenRosterMeta');
+ if(!rowsBox||!rosterRowsBox||!communityRowsBox)return;
+ let candidates=[],localRosterCoverage=[],communityNames=[],aliasesRequiringConfirmation=[];
  const typeLabels={All:'Все атрибуты',Dual:'Два атрибута',Single:'Один атрибут'};
  const localizationLabels={
   'matched-name':'Кандидат по имени · требует сверки',
@@ -209,6 +211,25 @@ function initBloodBondCoverage(){
    <td>${esc(typeLabels[row.bondClass]||row.bondClass||'не указан')}</td>
    <td><span class="coverage-status">${esc(localizationLabels[row.localizationStatus]||row.localizationStatus||'неизвестно')}</span></td>
   </tr>`).join(''):`<tr><td colspan="6">${candidates.length?'По такому запросу связок не найдено.':'Реестр пока не загружен.'}</td></tr>`;
+
+  const filteredCommunity=communityNames.filter(name=>[
+   name,
+   (candidateIndex.get(name)||{}).possibleLocalWarden,
+   ...candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name).toLocaleLowerCase('en-US')).flatMap(row=>[row.possibleLocalWarden,row.publicPartnerLabel,row.candidateId])
+  ].some(value=>String(value||'').toLocaleLowerCase('ru-RU').includes(query)));
+  if(communityMeta)communityMeta.textContent=query?filteredCommunity.length+' из '+communityNames.length+' имён':communityNames.length+' имён из публичного списка';
+  communityRowsBox.innerHTML=filteredCommunity.length?filteredCommunity.map(name=>{
+   const related=candidates.filter(row=>String(row.publicWardenName||'').toLocaleLowerCase('en-US')===String(name||'').toLocaleLowerCase('en-US'));
+   const match=related[0]||null;
+   const alias=aliasesRequiringConfirmation.find(row=>row.sourceName===name);
+   let localName=match?.possibleLocalWarden||'—';
+   let mappingStatus=match?(localizationLabels[match.localizationStatus]||match.localizationStatus||'кандидатная связь'):'Не сопоставлено с локальным профилем';
+   if(alias){localName=alias.localName;mappingStatus='Возможный псевдоним · требуется проверка в игре';}
+   if(name==='Dominique'){localName='—';mappingStatus='Нет очевидного локального соответствия; не добавлять автоматически';}
+   const partnerText=related.length?related.map(row=>row.publicPartnerLabel).join('; '):'Пара не найдена в публичном списке из 43 связок';
+   const state=match?'Есть кандидат связи · не подтверждено в клиенте':'Нужна отдельная проверка партнёра и навыков';
+   return '<tr><td><b>'+esc(name)+'</b></td><td>'+esc(localName)+'</td><td>'+esc(partnerText)+'</td><td>'+esc(mappingStatus)+'</td><td>'+esc(state)+'</td></tr>';
+  }).join(''):'<tr><td colspan="5">По этому запросу имена не найдены.</td></tr>';
 
   const filteredRoster=localRosterCoverage.filter(row=>{
    const related=(row.publicCandidateBondPairs||[]).map(id=>candidateIndex.get(id)).filter(Boolean);
@@ -241,6 +262,17 @@ function initBloodBondCoverage(){
     status.textContent=`Загружено ${candidates.length} кандидатных связок и ${localRosterCoverage.length} локальных профилей. В наборе нет числовых формул; имена, тип связи и актуальность нужно подтвердить в игре. Ни одна строка не включена в расчёт господства.`;
    }
   })
+  fetch('./game-data/community-warden-roster-candidates.json')
+  .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
+  .then(payload=>{
+   communityNames=Array.isArray(payload.names)?payload.names:[];
+   aliasesRequiringConfirmation=Array.isArray(payload.reconciliation?.aliasesRequiringConfirmation)?payload.reconciliation.aliasesRequiringConfirmation:[];
+   render();
+  })
+  .catch(()=>{
+   if(communityMeta)communityMeta.textContent='Внешний список недоступен';
+   communityRowsBox.innerHTML='<tr><td colspan="5">Не удалось загрузить кандидатный список. Открой JSON по ссылке ниже.</td></tr>';
+  });
   .catch(()=>{
    if(meta)meta.textContent='Реестр недоступен';
    if(rosterMeta)rosterMeta.textContent='Каталог недоступен';

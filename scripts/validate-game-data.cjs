@@ -182,4 +182,24 @@ run('Blood Bond candidate crosswalk covers the external 43 pair records without 
   assert(unresolved.some(x => x.publicWardenName === 'Lorenzo'), 'Lorenzo localization conflict missing');
 });
 
+
+const progression = readJson('game-data/community-progression-checkpoints.json');
+run('Community Garden and Conclave aggregate checkpoints are recorded without entering formulas', () => {
+  assert(progression.source.url === 'https://t.me/draculachest', 'unexpected community source');
+  assert(progression.garden.claimedMaxEffectLevel === 140, 'Garden max-level checkpoint changed');
+  assert(progression.garden.claimedTotalPointsToMax === 18900, 'Garden point-total checkpoint changed');
+  assert(progression.garden.useInCalculator === false, 'unverified Garden aggregate must not enter calculations');
+  const c = progression.conclave;
+  assert(c.claimedMaxLevelPerBranch === 180, 'Conclave max-level checkpoint changed');
+  assert(c.claimedCostPerBranch === 19233610455, 'Conclave per-branch cost checkpoint changed');
+  assert(c.claimedCostAllFourBranches === 76934441820, 'Conclave four-branch cost checkpoint changed');
+  assert(c.claimedAttributePerWardenPerBranch === 987000, 'Conclave per-Warden attribute checkpoint changed');
+  assert(c.claimedBookBonusPercentPerBranch === 1056, 'Conclave book bonus checkpoint changed');
+  assert(c.crossCheck.fourBranchesCostMatches === true && c.claimedCostPerBranch * 4 === c.claimedCostAllFourBranches, 'four-branch cost arithmetic failed');
+  assert(c.crossCheck.fourBranchAttributeMatches === true && c.claimedAttributePerWardenPerBranch * 4 === c.claimedAttributePerWardenAllFourBranches, 'four-branch attribute arithmetic failed');
+  assert(c.crossCheck.fortyWardenAttributeMatches === true && c.claimedAttributePerWardenAllFourBranches * 40 === c.claimedAttributeFor40WardensAllFourBranches, '40-Warden arithmetic failed');
+  assert(c.useAsPerLevelFormula === false, 'aggregate must not be treated as a per-level formula');
+  assert(progression.unresolvedConflicts.length >= 3, 'source conflicts must remain visible');
+});
+
 if (process.exitCode) process.exit(process.exitCode);

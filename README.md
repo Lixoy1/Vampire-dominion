@@ -1,4 +1,4 @@
-# Vampire Dominion v2.17 — Blood Moon Edition
+# Vampire Dominion v2.18 — Blood Moon Edition
 
 Калькулятор по игре «Наследие Вампиров» / Game of Vampires.
 
@@ -104,3 +104,11 @@
 - Existing regression and evidence-registry tests remain the release gate.
 - Added a Russian App Store version-history source and explicitly separated its app id from the international Game of Vampires: Twilight Sun listing.
 - Garden candidate check: rows 1–140 in the public community table sum to 18,900 `cost`, matching the post, but the candidate table continues to level 291 and its level-112 `points` conflicts with the in-game screenshot; no public numeric rows are imported.
+
+
+## v2.18 — Blood Bonds and Garden workspaces
+- Promoted Blood Bonds and Garden into dedicated top-level sections so the two priority systems are easy to inspect without digging through the guides.
+- Blood Bonds page now shows the six actual-screen transitions separately from the 43-pair community crosswalk, plus the unresolved level-131 mismatch (936,020 vs 936,120).
+- Garden page compares seven source checkpoints with the seven in-game observations. The level-112 effect mismatch is highlighted; candidate values remain excluded from the account forecast.
+- Added the attributed source checkpoints to the evidence JSON and refreshed the offline cache for both priority registers.
+- No speculative Garden or Blood Bonds numbers are added to the exact global-dominion forecast. Full level-by-level, per-Warden tables remain open work.

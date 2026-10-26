@@ -257,51 +257,61 @@ function initGardenCoverage(){
  const meta=$('#gardenCoverageMeta');
  const status=$('#gardenCoverageStatus');
  if(!rowsBox)return;
- let observations=[],maxLevel=140,claimedPoints=18900;
+ let observations=[],candidates=[],maxLevel=140,claimedPoints=18900;
+ function numericDisplay(value){
+  const raw=String(value??'').replace(/[^0-9,.-]/g,'').replace(',','.');
+  const out=Number(raw);return Number.isFinite(out)?out:null;
+ }
  function render(){
   const observedByLevel=new Map(observations.map(row=>[Number(row.level),row]));
+  const candidateByLevel=new Map(candidates.map(row=>[Number(row.level),row]));
   const query=String(search?.value||'').trim().toLocaleLowerCase('ru-RU');
   const mode=String(filter?.value||'all');
   const rows=Array.from({length:maxLevel},(_,index)=>{
    const level=index+1;
-   return {level,observation:observedByLevel.get(level)||null};
+   return {level,observation:observedByLevel.get(level)||null,candidate:candidateByLevel.get(level)||null};
   }).filter(row=>{
    const isObserved=Boolean(row.observation);
    if(mode==='observed'&&!isObserved)return false;
    if(mode==='missing'&&isObserved)return false;
    if(!query)return true;
-   const o=row.observation;
+   const o=row.observation,c=row.candidate;
    const searchable=[
-    row.level,
-    o?.category,
-    o?.rawCostDisplay,
-    ...(o?.bonuses||[]).flatMap(bonus=>[bonus.attribute,bonus.displayed]),
-    o?.status
+    row.level,o?.category,o?.rawCostDisplay,c?.cost,c?.points,
+    ...(o?.bonuses||[]).flatMap(bonus=>[bonus.attribute,bonus.displayed]),o?.status
    ].map(value=>String(value??'').toLocaleLowerCase('ru-RU'));
    return searchable.some(value=>value.includes(query));
   });
   const observedCount=observations.length;
   if(meta)meta.textContent=query||mode!=='all'
-    ?`${rows.length} из ${maxLevel} уровней · ${observedCount} с наблюдениями`
-    :`${observedCount} из ${maxLevel} уровней с наблюдениями`;
-  rowsBox.innerHTML=rows.length?rows.map(({level,observation:o})=>{
+    ?`${rows.length} из ${maxLevel} уровней · ${observedCount} с игровыми наблюдениями`
+    :`${observedCount} из ${maxLevel} уровней с игровыми наблюдениями`;
+  rowsBox.innerHTML=rows.length?rows.map(({level,observation:o,candidate:c})=>{
    const effect=o&&Array.isArray(o.bonuses)&&o.bonuses.length
     ?o.bonuses.map(b=>`${b.attribute}: ${b.displayed}`).join('; ')
     :'Нет подтверждённого эффекта';
-   let cost='Нет подтверждённой цены';
-   if(o?.cost!==null&&o?.cost!==undefined)cost=String(o.cost);
-   else if(o?.rawCostDisplay)cost=`Сырая строка «${o.rawCostDisplay}» · значение не интерпретировано`;
-   const rowStatus=o
-    ?(o.status==='raw-display-needs-interpretation'?'Есть наблюдение · требуется трактовка':'Только наблюдение из игрового экрана')
-    :'Нет подтверждённой записи';
-   return `<tr class="${o?'garden-observed-row':'garden-missing-row'}">
+   let observedCost='Нет подтверждённой цены';
+   if(o?.cost!==null&&o?.cost!==undefined)observedCost=String(o.cost);
+   else if(o?.rawCostDisplay)observedCost=`Сырая строка «${o.rawCostDisplay}»`;
+   const candidateText=c?`Цена ${intfmt(c.cost)} · points ${intfmt(c.points)}`:'Нет кандидатной строки';
+   const observedTotal=o?.bonuses?.length
+    ?o.bonuses.reduce((sum,b)=>sum+(numericDisplay(b.displayed)||0),0):null;
+   const conflict=Boolean(c&&observedTotal!==null&&observedTotal!==Number(c.points));
+   const rowStatus=conflict
+    ?'РАСХОЖДЕНИЕ · не использовать'
+    :o&&c?'Снимок есть · совпадение чисел не доказывает формулу'
+    :o?'Только наблюдение из игрового экрана'
+    :c?'Только кандидат сообщества · не подтверждён'
+    :'Нет данных';
+   return `<tr class="${conflict?'garden-conflict-row':o?'garden-observed-row':'garden-missing-row'}">
     <td><b>${level}</b></td>
     <td>${esc(o?.category||'—')}</td>
     <td>${esc(effect)}</td>
-    <td>${esc(cost)}</td>
+    <td>${esc(observedCost)}</td>
+    <td>${esc(candidateText)}</td>
     <td><span class="coverage-status">${esc(rowStatus)}</span></td>
    </tr>`;
-  }).join(''):'<tr><td colspan="5">По заданному фильтру уровни не найдены.</td></tr>';
+  }).join(''):'<tr><td colspan="6">По заданному фильтру уровни не найдены.</td></tr>';
  }
  search?.addEventListener('input',render);
  filter?.addEventListener('change',render);
@@ -309,18 +319,20 @@ function initGardenCoverage(){
   .then(response=>{if(!response.ok)throw new Error('HTTP '+response.status);return response.json()})
   .then(payload=>{
    observations=Array.isArray(payload.observations)?payload.observations:[];
+   const candidatePayload=payload.communityCandidateCheckpoints||{};
+   candidates=Array.isArray(candidatePayload.rows)?candidatePayload.rows:[];
    const aggregate=payload.communityAggregate||{};
    maxLevel=Math.max(1,Math.min(500,Math.round(Number(aggregate.claimedMaxLevel)||140)));
    claimedPoints=Number(aggregate.claimedTotalPointsToMax)||18900;
    render();
    if(status){
     status.className='goal-status warn';
-    status.textContent=`В реестре есть ${observations.length} наблюдений на ${maxLevel} заявленных уровнях. Сумма ${intfmt(claimedPoints)} очков — неподтверждённая агрегированная цифра сообщества, а цена перехода и эффект господства не заполнены для большинства уровней. Реестр не добавляет господство к общему прогнозу.`;
+    status.textContent=`В реестре ${observations.length} игровых наблюдений и ${candidates.length} кандидатных строк сообщества на ${maxLevel} заявленных уровнях. Сумма ${intfmt(claimedPoints)} очков — неподтверждённый агрегат. Расхождение уровня 112 выделено отдельно. Ни одна кандидатная цифра не включена в прогноз господства.`;
    }
   })
   .catch(()=>{
    if(meta)meta.textContent='Реестр Сада недоступен';
-   rowsBox.innerHTML='<tr><td colspan="5">Не удалось загрузить реестр уровней Сада.</td></tr>';
+   rowsBox.innerHTML='<tr><td colspan="6">Не удалось загрузить реестр уровней Сада.</td></tr>';
    if(status){status.className='goal-status warn';status.textContent='Данные Сада недоступны. Никакие неподтверждённые значения не включаются в прогноз.'}
   });
 }

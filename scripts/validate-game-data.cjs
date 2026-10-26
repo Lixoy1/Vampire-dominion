@@ -23,6 +23,22 @@ const sources = readJson('game-data/source-manifest.json');
 const conflicts = readJson('game-data/source-conflicts.json');
 const bondCandidates = readJson('game-data/blood-bond-pairing-candidates.json');
 
+run('Community aggregate checkpoints are internally arithmetically consistent and remain non-formula claims', () => {
+  const claim = data.conclaveCommunityAggregate;
+  assert(Boolean(claim), 'missing Conclave/Garden aggregate claim record');
+  assert(claim.useAsPerLevelFormula === false, 'community aggregate must not be used as per-level formula');
+  assert(claim.maxBranchLevel === 180, 'unexpected claimed Conclave branch cap');
+  assert(claim.singleBranchCouncilCost === 19233610455, 'unexpected claimed single-branch cost');
+  assert(claim.allFourBranchesCouncilCost === 76934441820, 'unexpected claimed four-branch cost');
+  assert(claim.singleBranchCouncilCost * 4 === claim.allFourBranchesCouncilCost, 'four-branch cost does not equal four times the single branch claim');
+  assert(claim.singleBranchAttributePerWarden === 987000, 'unexpected claimed single-branch attribute total');
+  assert(claim.allFourBranchesAttributePerWarden === 3948000, 'unexpected claimed four-branch attribute total');
+  assert(claim.singleBranchAttributePerWarden * 4 === claim.allFourBranchesAttributePerWarden, 'four-branch attribute total does not equal four times the single-branch claim');
+  assert(claim.allFourBranchesAttributePerWarden * 40 === claim.allFourBranchesFor40Wardens, '40-Warden aggregate does not match per-Warden claim');
+  assert(claim.singleBranchBookBonusPercent === 1056, 'unexpected claimed single-branch book bonus');
+  assert(claim.gardenMaxEffectLevel === 140 && claim.gardenPointsToMax === 18900, 'unexpected claimed Garden aggregate');
+  assert(claim.evidenceClass === 'community-unverified-aggregate', 'claim evidence class must remain unverified');
+});
 run('Coverage roster exactly matches current legacy data.js roster', () => {
   const expected = Object.keys(data.watchers).sort();
   const actual = coverage.wardens.map(x => x.name).sort();

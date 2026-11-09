@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vd-blood-moon-v311';
+const CACHE_NAME = 'vd-blood-moon-v312';
 const CORE_ASSETS = [
   './',
   './index.html',

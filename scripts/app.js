@@ -43,6 +43,7 @@ function createDefaultState() {
   }
   return {
     lang: 'ru',
+    theme: 'dark',
     preferLocalIcons: true,
     activeTab: 'dominance',
     bagFilter: 'all',
@@ -307,7 +308,12 @@ function commitPlanToAccount() {
 }
 
 // Главный рендер вкладок
+function applyTheme() {
+  document.documentElement.classList.toggle('light-theme', state.theme === 'light');
+}
+
 function render() {
+  applyTheme();
   const root = document.getElementById('app');
   if (!root) return;
 
@@ -315,15 +321,15 @@ function render() {
   const report = calculateTotalDominanceReport({ db, account: state.account, plan: state.plan });
 
   const tabs = [
-    ['dominance', '👑 Господство'],
-    ['conclave', '🏛 Конклав и Сад'],
-    ['levels', '🩸 Уровни и Кровь'],
-    ['talents', '📜 Таланты и Опыт'],
-    ['auras', '✨ Вдохновения и Веяния'],
-    ['bonds', '🔗 Кровные узы'],
-    ['skins', '🎭 Облики'],
-    ['summon', '➕ Призыв'],
-    ['bag', '🎒 Сумка и Очки'],
+    ['dominance', `👑 ${tUi('title_dominance')}`],
+    ['conclave', `🏛 ${tUi('conclave')} & ${tUi('courtyard')}`],
+    ['levels', `🩸 ${tUi('levels')}`],
+    ['talents', `📜 ${tUi('talents_title')}`],
+    ['auras', `✨ ${tUi('auras_title')} & ${tUi('presences_title')}`],
+    ['bonds', `🔗 ${tUi('bonds_title')}`],
+    ['skins', `🎭 ${tUi('skins_title')}`],
+    ['summon', `➕ ${tUi('summon_title')}`],
+    ['bag', `🎒 ${tUi('bag_inventory')}`],
   ];
 
   root.innerHTML = `
@@ -343,6 +349,8 @@ function render() {
         <div class="top-actions">
           <button class="btn btn-gold btn-sm" id="btn-auto-all">⚡ ${tUi('auto_all')}</button>
           <button class="btn btn-sm" id="btn-lang">${state.lang.toUpperCase()}</button>
+          <button class="btn btn-sm" id="btn-theme">${state.theme === 'light' ? '☀️' : '🌙'}</button>
+          <button class="btn btn-sm" id="btn-reset-plan-top">↺ ${tUi('reset_plan')}</button>
           <button class="btn btn-sm" id="btn-save">💾 ${tUi('save')}</button>
           <button class="btn btn-sm" id="btn-reset-account">🗑 ${tUi('reset_account')}</button>
           <button class="btn btn-sm" id="btn-export">📤 ${tUi('export')}</button>
@@ -842,6 +850,25 @@ function bindEvents(db) {
 
   document.getElementById('btn-lang')?.addEventListener('click', () => {
     state.lang = state.lang === 'ru' ? 'en' : 'ru';
+    saveState();
+    render();
+  });
+
+  document.getElementById('btn-theme')?.addEventListener('click', () => {
+    state.theme = state.theme === 'light' ? 'dark' : 'light';
+    saveState();
+    render();
+  });
+
+  document.getElementById('btn-reset-plan-top')?.addEventListener('click', () => {
+    state.plan = {
+      conclave: { ...state.account.conclave },
+      courtyardToLvl: state.account.courtyardLvl,
+      levels: {},
+      bonds: {},
+      skins: {},
+      summons: { wardens: [], lovers: [] },
+    };
     saveState();
     render();
   });

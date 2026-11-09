@@ -23,6 +23,8 @@ globalThis.localStorage = {
 };
 
 globalThis.document = {
+  documentElement: { classList: { toggle() {} } },
+  body: { classList: { add() {}, remove() {} } },
   addEventListener(event, handler) {
     if (event === 'DOMContentLoaded') readyHandler = handler;
   },
@@ -49,6 +51,10 @@ for (const expected of expectedTabs) {
   assert.ok(root.innerHTML.includes('assets/brand-hero.png'), `hero image remains on ${expected}`);
   assert.ok(root.innerHTML.includes('Создано с любовью при поддержке'), `credit caption remains on ${expected}`);
   assert.ok(root.innerHTML.includes('Vampire Dominion'), `application shell renders on ${expected}`);
+  assert.ok(root.innerHTML.includes('lord-header'), 'Lord Protector profile header renders');
+  assert.ok(root.innerHTML.includes('settings-overlay'), 'profile settings modal renders');
+  assert.ok(root.innerHTML.includes('setting-avatar-warden'), 'avatar selector is available');
+  assert.ok(root.innerHTML.includes('EU S-629'), 'default server badge is shown');
 }
 
 assert.ok(root.innerHTML.includes('Инвентарь Сумки'), 'bag tab content rendered');

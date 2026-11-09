@@ -139,4 +139,36 @@ test('unified dominance report returns finite totals and bond spend', () => {
   assert.ok(report.gain.total > 0);
 });
 
+
+test('dominance report includes already-owned progression with an empty upgrade plan', () => {
+  const w = GAME_DB.wardens[0];
+  const db = {
+    wardens: GAME_DB.wardens, lovers: GAME_DB.lovers, items: GAME_DB.items,
+    promotes: GAME_DB.warden_promotes, conclaveLevels: GAME_DB.conclave_levels,
+    courtyardLevels: GAME_DB.courtyard_levels,
+    presenceCurvesMap: E.buildPresenceCurvesMap(GAME_DB.lover_presence_levels),
+  };
+  const account = {
+    courtyardLvl: 10,
+    conclave: { strength: 10, allure: 10, intellect: 10, spirit: 10 },
+    ownedWardens: { [w.id]: { level: 100, promoteId: 1, talents: {} } },
+    ownedLovers: {},
+    bag: {},
+  };
+  const plan = {
+    conclave: { ...account.conclave },
+    courtyardToLvl: account.courtyardLvl,
+    levels: {},
+    bonds: {},
+    summons: { wardens: [], lovers: [] },
+  };
+  const report = E.calculateTotalDominanceReport({ db, account, plan });
+  assert.ok(report.gain.conclave > 0, 'current Conclave levels contribute');
+  assert.ok(report.gain.courtyard > 0, 'current Courtyard levels contribute');
+  assert.ok(report.gain.levels > 0, 'current Warden levels contribute');
+  assert.equal(report.spent.conclaveExp, 0);
+  assert.equal(report.spent.courtyardExp, 0);
+  assert.equal(report.spent.blood, 0);
+});
+
 console.log(`\n${passed} test groups passed.`);

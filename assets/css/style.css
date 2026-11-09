@@ -369,3 +369,21 @@ html, body {
   .credit-sticker { width: 190px; max-height: 190px; }
   .credit-copy strong { font-size: 12px; }
 }
+
+
+/* Blood Moon Edition — светлая тема */
+html.light-theme {
+  --bg: #f5f0e8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf6f0;
+  --bg-input: #f0ebe1;
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(168, 126, 51, 0.4);
+  --text: #211c29;
+  --muted: #6c6178;
+  --faint: #9e91ad;
+  --accent: #c92a42;
+  --accent-soft: rgba(201, 42, 66, 0.12);
+  --gold: #a87e33;
+  --gold-soft: rgba(168, 126, 51, 0.12);
+}

@@ -602,8 +602,8 @@ function renderTalentsTab(db) {
 }
 
 function renderAurasPresencesTab(db) {
-  const wardensWithAuras = db.wardens.filter(w => w.auras && w.auras.length > 0);
-  const loversWithPresences = db.lovers.filter(l => l.presences && l.presences.length > 0);
+  const wardensWithAuras = db.wardens.filter(w => w.auras?.length > 0);
+  const loversWithPresences = db.lovers.filter(l => l.presences?.length > 0);
 
   return `
     <section class="card card-gold">
@@ -618,7 +618,9 @@ function renderAurasPresencesTab(db) {
             ${w.auras.map(a => {
               const curLvl = state.account.ownedWardens[w.id]?.auras?.[a.id] ?? (a.min_lvl || 0);
               const pct = calcAuraPercent(a, curLvl);
-              return `<div class="row-sub">• [${a.aura_type}] Бонус (${a.bonus_type}): <b>${pct.toFixed(1)}%</b> (ур. ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
+              const typeName = tName('aura_type', a.aura_type);
+              const bonusName = tName('bonus_type', a.bonus_type);
+              return `<div class="row-sub">• ${typeName} · Бонус ${bonusName}: <b>${pct.toFixed(1)}%</b> (ур. ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
             }).join('')}
           </div>
         </div>
@@ -631,13 +633,14 @@ function renderAurasPresencesTab(db) {
       </div>
       ${loversWithPresences.map(l => `
         <div class="item-row">
-          <img class="avatar" src="${getIconUrl(getLoverIconPath(l, state.account.ownedLovers[l.id]), true)}" alt="" loading="lazy" />
+          <img class="avatar" src="${getIconUrl(getLoverIconPath(l, state.account.ownedLovers[l.id]), state.preferLocalIcons)}" alt="" loading="lazy" />
           <div class="row-info">
             <div class="row-name">${tName('lover', l.name)} ${attrDotsHtml(l.attributes)}</div>
             ${l.presences.map(p => {
               const curLvl = state.account.ownedLovers[l.id]?.presences?.[p.id] ?? (p.min_lvl || 0);
               const percs = calcPresencePercents(p, curLvl, presenceCurvesMap);
-              return `<div class="row-sub">• [${p.presence_type}] Ур. ${curLvl}/${p.max_lvl}: Сила ${percs.strength}% · Хар. ${percs.allure}% · Инт. ${percs.intellect}% · Воля ${percs.spirit}%</div>`;
+              const typeName = tName('aura_type', p.presence_type);
+              return `<div class="row-sub">• ${typeName} · Ур. ${curLvl}/${p.max_lvl}: Сила ${percs.strength}% · Харизма ${percs.allure}% · Интеллект ${percs.intellect}% · Воля ${percs.spirit}%</div>`;
             }).join('')}
           </div>
         </div>

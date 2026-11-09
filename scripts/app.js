@@ -43,6 +43,7 @@ function createDefaultState() {
   }
   return {
     lang: 'ru',
+    theme: 'dark',
     preferLocalIcons: true,
     activeTab: 'dominance',
     bagFilter: 'all',
@@ -85,12 +86,18 @@ function createDefaultState() {
 
 let state = loadState();
 
+function applyTheme() {
+  document.documentElement.classList.toggle('light-theme', state.theme === 'light');
+}
+
 function normalizeState(parsed = {}) {
   const base = createDefaultState();
   const incoming = parsed && typeof parsed === 'object' ? parsed : {};
   return {
     ...base,
     ...incoming,
+    lang: incoming.lang === 'en' ? 'en' : 'ru',
+    theme: incoming.theme === 'light' ? 'light' : 'dark',
     account: {
       ...base.account,
       ...(incoming.account || {}),
@@ -128,8 +135,21 @@ function saveState() {
 }
 
 function tName(type, key) {
-  const dict = state.lang === 'en' ? GAME_DB.names_en : GAME_DB.names_ru;
-  return dict?.[type]?.[key] ?? GAME_DB.names_ru?.[type]?.[key] ?? key;
+  if (key === null || key === undefined || key === '') return '';
+
+  const selectedDict = state.lang === 'en'
+    ? (GAME_DB.names_en || {})
+    : (GAME_DB.names_ru || {});
+  const translated = selectedDict[type]?.[key];
+  if (translated) return translated;
+
+  const russianFallback = GAME_DB.names_ru?.[type]?.[key];
+  if (russianFallback) return russianFallback;
+
+  return String(key)
+    .replace(/_/g, ' ')
+    .toLowerCase()
+    .replace(/^\w/, char => char.toUpperCase());
 }
 
 function fmt(num) {
@@ -334,6 +354,7 @@ function render() {
         <div class="top-actions">
           <button class="btn btn-gold btn-sm" id="btn-auto-all">⚡ Быстрый подсчёт (Авто)</button>
           <button class="btn btn-sm" id="btn-lang">${state.lang.toUpperCase()}</button>
+          <button class="btn btn-sm" id="btn-theme" aria-label="Переключить тему">${state.theme === 'dark' ? '🌙 Dark Fantasy' : '☀️ Light Theme'}</button>
           <button class="btn btn-sm" id="btn-export">💾 Экспорт</button>
           <button class="btn btn-sm" id="btn-import">📂 Импорт</button>
         </div>
@@ -832,6 +853,13 @@ function bindEvents(db) {
     render();
   });
 
+  document.getElementById('btn-theme')?.addEventListener('click', () => {
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+    saveState();
+    render();
+  });
+
   document.getElementById('btn-auto-all')?.addEventListener('click', runFullAutoDistribute);
   document.getElementById('btn-quick-run')?.addEventListener('click', runFullAutoDistribute);
   document.getElementById('btn-commit-plan')?.addEventListener('click', commitPlanToAccount);
@@ -1041,4 +1069,7 @@ function bindEvents(db) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', render);
+document.addEventListener('DOMContentLoaded', () => {
+  applyTheme();
+  render();
+});

@@ -128,8 +128,17 @@ function saveState() {
 }
 
 function tName(type, key) {
+  if (key === null || key === undefined || key === '') return '';
+  const normalizedKey = String(key);
   const dict = state.lang === 'en' ? GAME_DB.names_en : GAME_DB.names_ru;
-  return dict?.[type]?.[key] ?? GAME_DB.names_ru?.[type]?.[key] ?? key;
+  const translated = dict?.[type]?.[normalizedKey] ?? GAME_DB.names_ru?.[type]?.[normalizedKey];
+  if (translated) return translated;
+  return normalizedKey.replace(/_/g, ' ').toLowerCase().replace(/(^|\\s)\\S/g, c => c.toUpperCase());
+}
+
+function tUi(key) {
+  const dict = state.lang === 'en' ? GAME_DB.names_en : GAME_DB.names_ru;
+  return dict?.ui?.[key] ?? GAME_DB.names_ru?.ui?.[key] ?? String(key).replace(/_/g, ' ');
 }
 
 function fmt(num) {
@@ -332,10 +341,12 @@ function render() {
           </div>
         </div>
         <div class="top-actions">
-          <button class="btn btn-gold btn-sm" id="btn-auto-all">⚡ Быстрый подсчёт (Авто)</button>
+          <button class="btn btn-gold btn-sm" id="btn-auto-all">⚡ ${tUi('auto_all')}</button>
           <button class="btn btn-sm" id="btn-lang">${state.lang.toUpperCase()}</button>
-          <button class="btn btn-sm" id="btn-export">💾 Экспорт</button>
-          <button class="btn btn-sm" id="btn-import">📂 Импорт</button>
+          <button class="btn btn-sm" id="btn-save">💾 ${tUi('save')}</button>
+          <button class="btn btn-sm" id="btn-reset-account">🗑 ${tUi('reset_account')}</button>
+          <button class="btn btn-sm" id="btn-export">📤 ${tUi('export')}</button>
+          <button class="btn btn-sm" id="btn-import">📂 ${tUi('import')}</button>
         </div>
       </header>
 
@@ -608,7 +619,7 @@ function renderAurasPresencesTab(db) {
   return `
     <section class="card card-gold">
       <div class="card-head">
-        <div class="card-title">✨ Вдохновения смотрителей (${wardensWithAuras.length})</div>
+        <div class="card-title">✨ ${tUi('auras_title')} (${wardensWithAuras.length})</div>
       </div>
       ${wardensWithAuras.map(w => `
         <div class="item-row">
@@ -620,7 +631,7 @@ function renderAurasPresencesTab(db) {
               const pct = calcAuraPercent(a, curLvl);
               const typeName = tName('aura_type', a.aura_type);
               const bonusName = tName('bonus_type', a.bonus_type);
-              return `<div class="row-sub">• ${typeName} · Бонус ${bonusName}: <b>${pct.toFixed(1)}%</b> (ур. ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
+              return `<div class="row-sub">• [${typeName}] ${tUi('bonus')} ${bonusName}: <b>${pct.toFixed(1)}%</b> (${tUi('level')} ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
             }).join('')}
           </div>
         </div>
@@ -629,7 +640,7 @@ function renderAurasPresencesTab(db) {
 
     <section class="card">
       <div class="card-head">
-        <div class="card-title">💫 Веяния партнёров (${loversWithPresences.length})</div>
+        <div class="card-title">💫 ${tUi('presences_title')} (${loversWithPresences.length})</div>
       </div>
       ${loversWithPresences.map(l => `
         <div class="item-row">
@@ -640,7 +651,7 @@ function renderAurasPresencesTab(db) {
               const curLvl = state.account.ownedLovers[l.id]?.presences?.[p.id] ?? (p.min_lvl || 0);
               const percs = calcPresencePercents(p, curLvl, presenceCurvesMap);
               const typeName = tName('aura_type', p.presence_type);
-              return `<div class="row-sub">• ${typeName} · Ур. ${curLvl}/${p.max_lvl}: Сила ${percs.strength}% · Харизма ${percs.allure}% · Интеллект ${percs.intellect}% · Воля ${percs.spirit}%</div>`;
+              return `<div class="row-sub">• [${typeName}] ${tUi('level')} ${curLvl}/${p.max_lvl}: ${tUi('strength')} ${percs.strength}% · ${tUi('allure')} ${percs.allure}% · ${tUi('intellect')} ${percs.intellect}% · ${tUi('spirit')} ${percs.spirit}%</div>`;
             }).join('')}
           </div>
         </div>
@@ -831,6 +842,23 @@ function bindEvents(db) {
 
   document.getElementById('btn-lang')?.addEventListener('click', () => {
     state.lang = state.lang === 'ru' ? 'en' : 'ru';
+    saveState();
+    render();
+  });
+
+  document.getElementById('btn-save')?.addEventListener('click', () => {
+    saveState();
+    const button = document.getElementById('btn-save');
+    if (button) button.textContent = `✓ ${tUi('save')}`;
+  });
+
+  document.getElementById('btn-reset-account')?.addEventListener('click', () => {
+    const message = state.lang === 'en'
+      ? 'Reset the entire account, progress, and plan? This cannot be undone unless you exported a backup.'
+      : 'Полностью сбросить аккаунт, прогресс и план? Отменить это действие можно только из заранее сохранённой копии.';
+    if (!confirm(message)) return;
+    localStorage.removeItem(STORAGE_KEY);
+    state = createDefaultState();
     saveState();
     render();
   });

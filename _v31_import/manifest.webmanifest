@@ -1,0 +1,1 @@
+{"name":"Vampire Dominion","short_name":"Vampire Dominion","description":"Калькулятор для игры «Наследие Вампиров».","start_url":"./","scope":"./","display":"standalone","background_color":"#0d0710","theme_color":"#5e1325","lang":"ru","icons":[{"src":"assets/crest.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}]}

@@ -329,6 +329,7 @@ function commitPlanToAccount() {
 
 // Главный рендер вкладок
 function render() {
+  applyTheme();
   const root = document.getElementById('app');
   if (!root) return;
 
@@ -364,7 +365,7 @@ function render() {
           <span class="lord-avatar-crown" aria-hidden="true">✦</span>
         </button>
         <div class="lord-profile-copy">
-          <div class="lord-overline"><span class="lord-overline-mark">✦</span> VAMPIRE DOMINION · BLOOD MOON</div>
+          <div class="lord-overline"><span class="lord-overline-mark">✦</span> Vampire Dominion · Blood Moon</div>
           <div class="lord-greeting">${tUi('greeting')}</div>
           <div class="lord-name-line"><strong class="lord-name">${escapeHtml(lordName)}</strong><span class="lord-server"><span aria-hidden="true">🌐</span> ${escapeHtml(serverId)}</span></div>
           <div class="lord-profile-note">${tUi('local_profile')}</div>

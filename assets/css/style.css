@@ -369,3 +369,95 @@ html, body {
   .credit-sticker { width: 190px; max-height: 190px; }
   .credit-copy strong { font-size: 12px; }
 }
+
+/* ==========================================================================
+   LIGHT THEME — переключаемая светлая тема Blood Moon Edition
+   ========================================================================== */
+html.light-theme {
+  color-scheme: light;
+  --bg: #f5f0e8;
+  --bg-card: #ffffff;
+  --bg-card-hover: #faf6f0;
+  --bg-input: #f0ebe1;
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(168, 126, 51, 0.4);
+  --text: #211c29;
+  --muted: #6c6178;
+  --faint: #9e91ad;
+  --accent: #c92a42;
+  --accent-soft: rgba(201, 42, 66, 0.12);
+  --gold: #a87e33;
+  --gold-soft: rgba(168, 126, 51, 0.12);
+  --ok: #16834a;
+  --ok-soft: rgba(22, 131, 74, 0.12);
+}
+
+html.light-theme body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+html.light-theme .top-bar {
+  background: linear-gradient(145deg, #fffaf2, #f1e8dc 70%);
+  border-color: var(--line-strong);
+  box-shadow: 0 8px 24px rgba(70, 45, 25, 0.10);
+}
+
+html.light-theme .tab-btn {
+  background: var(--bg-card);
+  color: var(--muted);
+}
+
+html.light-theme .tab-btn:hover {
+  background: var(--bg-card-hover);
+  color: var(--text);
+}
+
+html.light-theme .tab-btn.active {
+  background: linear-gradient(135deg, #c92a42, #8f192b);
+  color: #fff;
+}
+
+html.light-theme .card {
+  box-shadow: 0 8px 24px rgba(70, 45, 25, 0.06);
+}
+
+html.light-theme .item-row,
+html.light-theme .bond-row {
+  background: rgba(80, 55, 35, 0.035);
+}
+
+html.light-theme .talent-editor,
+html.light-theme .lover-panel {
+  background: #faf6f0;
+  border-color: var(--line-strong);
+}
+
+html.light-theme .talent-editor summary,
+html.light-theme .lover-panel > summary {
+  color: #493747;
+}
+
+html.light-theme .credit-card {
+  background: radial-gradient(ellipse at 50% 0%, rgba(201, 42, 66, 0.08), #fffaf4 68%);
+  box-shadow: 0 12px 34px rgba(70, 45, 25, 0.08);
+}
+
+html.light-theme .credit-copy strong {
+  color: #493747;
+}
+
+html.light-theme .bond-warning {
+  color: #8f3027;
+  background: rgba(229, 107, 85, 0.09);
+}
+
+html.light-theme .hero-panel {
+  box-shadow: 0 18px 50px rgba(70, 45, 25, 0.16);
+}
+
+html.light-theme .input,
+html.light-theme input,
+html.light-theme select {
+  color: var(--text);
+}

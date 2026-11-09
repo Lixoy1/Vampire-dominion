@@ -136,20 +136,15 @@ function saveState() {
 
 function tName(type, key) {
   if (key === null || key === undefined || key === '') return '';
-
-  const selectedDict = state.lang === 'en'
-    ? (GAME_DB.names_en || {})
-    : (GAME_DB.names_ru || {});
-  const translated = selectedDict[type]?.[key];
+  const enumRu = { aura_type: { not_updatable: 'Статичный', updatable: 'Улучшаемый', collection: 'Коллекционный' }, presence_type: { not_updatable: 'Статичный', updatable: 'Улучшаемый', collection: 'Коллекционный' }, bonus_type: { talent: 'к талантам', book: 'к книгам', both: 'к талантам и книгам' } };
+  const enumEn = { aura_type: { not_updatable: 'Static', updatable: 'Upgradeable', collection: 'Collection' }, presence_type: { not_updatable: 'Static', updatable: 'Upgradeable', collection: 'Collection' }, bonus_type: { talent: 'to talents', book: 'to books', both: 'to talents and books' } };
+  const enumValue = (state.lang === 'en' ? enumEn : enumRu)[type]?.[key];
+  if (enumValue) return enumValue;
+  const dict = state.lang === 'en' ? (GAME_DB.names_en || {}) : (GAME_DB.names_ru || {});
+  const translated = dict[type]?.[key];
   if (translated) return translated;
-
-  const russianFallback = GAME_DB.names_ru?.[type]?.[key];
-  if (russianFallback) return russianFallback;
-
-  return String(key)
-    .replace(/_/g, ' ')
-    .toLowerCase()
-    .replace(/^\w/, char => char.toUpperCase());
+  if (state.lang === 'en') return String(key).replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+  return GAME_DB.names_ru?.[type]?.[key] || String(key).replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
 }
 
 function fmt(num) {
@@ -639,7 +634,7 @@ function renderAurasPresencesTab(db) {
             ${w.auras.map(a => {
               const curLvl = state.account.ownedWardens[w.id]?.auras?.[a.id] ?? (a.min_lvl || 0);
               const pct = calcAuraPercent(a, curLvl);
-              return `<div class="row-sub">• [${a.aura_type}] Бонус (${a.bonus_type}): <b>${pct.toFixed(1)}%</b> (ур. ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
+              return `<div class="row-sub">• [${tName('aura_type', a.aura_type)}] Бонус ${tName('bonus_type', a.bonus_type)}: <b>${pct.toFixed(1)}%</b> (ур. ${curLvl}${a.max_lvl ? '/' + a.max_lvl : ''})</div>`;
             }).join('')}
           </div>
         </div>
@@ -658,7 +653,7 @@ function renderAurasPresencesTab(db) {
             ${l.presences.map(p => {
               const curLvl = state.account.ownedLovers[l.id]?.presences?.[p.id] ?? (p.min_lvl || 0);
               const percs = calcPresencePercents(p, curLvl, presenceCurvesMap);
-              return `<div class="row-sub">• [${p.presence_type}] Ур. ${curLvl}/${p.max_lvl}: Сила ${percs.strength}% · Хар. ${percs.allure}% · Инт. ${percs.intellect}% · Воля ${percs.spirit}%</div>`;
+              return `<div class="row-sub">• [${tName('presence_type', p.presence_type)}] Ур. ${curLvl}/${p.max_lvl}: Сила ${percs.strength}% · Хар. ${percs.allure}% · Инт. ${percs.intellect}% · Воля ${percs.spirit}%</div>`;
             }).join('')}
           </div>
         </div>

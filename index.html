@@ -7,16 +7,16 @@
   <meta name="theme-color" content="#12070b" />
   <meta name="description" content="Vampire Dominion Blood Moon Edition — автономный калькулятор для игры «Наследие вампиров»." />
   <link rel="icon" href="./assets/crest.svg" type="image/svg+xml" />
-  <link rel="stylesheet" href="./assets/css/style.css?v=310" />
+  <link rel="stylesheet" href="./assets/css/style.css?v=311" />
 </head>
 <body>
   <div id="app"></div>
-  <script type="module" src="./scripts/app.js?v=310"></script>
+  <script type="module" src="./scripts/app.js?v=311"></script>
   <script>
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', async () => {
         try {
-          const registration = await navigator.serviceWorker.register('./sw.js?v=310', { updateViaCache: 'none' });
+          const registration = await navigator.serviceWorker.register('./sw.js?v=311', { updateViaCache: 'none' });
           await registration.update();
         } catch (error) {
           console.warn('Service worker update skipped:', error);

@@ -380,5 +380,15 @@
     "IZAN_SKIN_1_FEMALE": "Карточка облика: Изан",
     "AGNEYI_SKIN_1_FEMALE": "Карточка облика: Агнейи",
     "HELA_SKIN_1_FEMALE": "Карточка облика: Хела"
+  },
+  "aura_type": {
+    "not_updatable": "Постоянное",
+    "updatable": "Улучшаемое",
+    "collection": "Коллекционное"
+  },
+  "bonus_type": {
+    "talent": "к талантам",
+    "book": "к книгам",
+    "both": "к талантам и книгам"
   }
 }

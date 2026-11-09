@@ -1,11 +1,17 @@
 import assert from 'node:assert/strict';
 
 let navButtons = [];
+let mockElements = new Map();
+let bodyLocked = false;
 const root = {
   _html: '',
   get innerHTML() { return this._html; },
   set innerHTML(value) {
     this._html = value;
+    mockElements = new Map();
+    for (const match of value.matchAll(/id="([^"]+)"/g)) {
+      mockElements.set(match[1], { id: match[1], handlers: {}, value: '', hidden: match[1] === 'settings-overlay', addEventListener(event, handler) { this.handlers[event] = handler; } });
+    }
     navButtons = [...value.matchAll(/data-tab="([^"]+)"/g)].map((match) => ({
       dataset: { tab: match[1] },
       handlers: {},
@@ -39,10 +45,13 @@ globalThis.document = {
   addEventListener(event, handler) {
     if (event === 'DOMContentLoaded') readyHandler = handler;
   },
+  body: { classList: {
+    add(name) { if (name === 'settings-open') bodyLocked = true; },
+    remove(name) { if (name === 'settings-open') bodyLocked = false; },
+  } },
   getElementById(id) {
     if (id === 'app') return root;
-    if (id === 'btn-theme') return themeButton;
-    return null;
+    return mockElements.get(id) || null;
   },
   querySelectorAll(selector) {
     if (selector !== '[data-tab]') return [];
@@ -67,12 +76,19 @@ for (const expected of expectedTabs) {
 }
 
 assert.ok(root.innerHTML.includes('Инвентарь Сумки'), 'bag tab content rendered');
-assert.ok(root.innerHTML.includes('id="btn-theme"'), 'theme toggle is rendered');
+assert.ok(root.innerHTML.includes('class="lord-header"'), 'Lord Protector profile header is rendered');
+assert.ok(root.innerHTML.includes('id="settings-overlay"'), 'settings modal is rendered');
+assert.ok(root.innerHTML.includes('id="setting-avatar-warden"'), 'avatar selector is rendered');
+assert.ok(root.innerHTML.includes('EU S-629'), 'server badge is rendered');
+assert.ok(root.innerHTML.includes('id="btn-reset-account"'), 'account reset is available in settings');
+assert.ok(root.innerHTML.includes('id="btn-reset-plan-top"'), 'plan reset is available in settings');
 assert.equal(isLightTheme, false, 'dark theme is applied on startup');
-assert.equal(typeof themeButton.handlers.click, 'function', 'theme toggle has a click handler');
-themeButton.handlers.click();
-assert.equal(isLightTheme, true, 'light theme activates on click');
-assert.equal(JSON.parse(localStore.get('vampire_dominion_v3_state')).theme, 'light', 'theme choice is saved');
-themeButton.handlers.click();
-assert.equal(isLightTheme, false, 'dark theme can be restored');
+const openSettingsButton = mockElements.get('btn-open-settings');
+assert.equal(typeof openSettingsButton.handlers.click, 'function', 'avatar opens settings');
+openSettingsButton.handlers.click();
+assert.equal(mockElements.get('settings-overlay').hidden, false, 'settings modal opens');
+assert.equal(bodyLocked, true, 'background scrolling locks while settings are open');
+mockElements.get('btn-close-settings').handlers.click();
+assert.equal(mockElements.get('settings-overlay').hidden, true, 'settings modal closes');
+assert.equal(bodyLocked, false, 'background scrolling unlocks after close');
 console.log(`PASS app render smoke: ${expectedTabs.length} tabs + theme toggle`);

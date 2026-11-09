@@ -53,6 +53,10 @@ function createDefaultState() {
       conclaveExp: 500000,
       courtyardExp: 500,
       courtyardLvl: 10,
+      lordName: 'Оптимист',
+      serverId: 'EU S-629',
+      avatarWardenId: 10230,
+      partnerDefaultSex: 'female',
       conclave: { strength: 10, allure: 10, intellect: 10, spirit: 10 },
       ownedWardens,
       ownedLovers,
@@ -145,6 +149,17 @@ function tName(type, key) {
   if (translated) return translated;
   if (state.lang === 'en') return String(key).replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
   return GAME_DB.names_ru?.[type]?.[key] || String(key).replace(/_/g, ' ').toLowerCase().replace(/^\w/, c => c.toUpperCase());
+}
+
+function tUi(key) {
+  const dict = state.lang === 'en' ? (GAME_DB.names_en || {}) : (GAME_DB.names_ru || {});
+  return dict.ui?.[key] ?? GAME_DB.names_ru?.ui?.[key] ?? String(key).replace(/_/g, ' ');
+}
+
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, char => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[char]);
 }
 
 function fmt(num) {
@@ -320,16 +335,21 @@ function render() {
   const db = getDbContext();
   const report = calculateTotalDominanceReport({ db, account: state.account, plan: state.plan });
 
+  const lordName = String(state.account.lordName || 'Оптимист').trim() || 'Оптимист';
+  const serverId = String(state.account.serverId || 'EU S-629').trim() || 'EU S-629';
+  const avatarWardenId = Number(state.account.avatarWardenId || 10230);
+  const wardenObj = db.wardens.find(w => w.id === avatarWardenId) || db.wardens[0];
+
   const tabs = [
-    ['dominance', '👑 Господство'],
-    ['conclave', '🏛 Конклав и Сад'],
-    ['levels', '🩸 Уровни и Кровь'],
-    ['talents', '📜 Таланты и Опыт'],
-    ['auras', '✨ Вдохновения и Веяния'],
-    ['bonds', '🔗 Кровные узы'],
-    ['skins', '🎭 Облики'],
-    ['summon', '➕ Призыв'],
-    ['bag', '🎒 Сумка и Очки'],
+    ['dominance', `👑 ${tUi('title_dominance')}`],
+    ['conclave', `🏛 ${tUi('conclave')} & ${tUi('courtyard')}`],
+    ['levels', `🩸 ${tUi('levels')}`],
+    ['talents', `📜 ${tUi('talents_title')}`],
+    ['auras', `✨ ${tUi('auras_title')} & ${tUi('presences_title')}`],
+    ['bonds', `🔗 ${tUi('bonds_title')}`],
+    ['skins', `🎭 ${tUi('skins_title')}`],
+    ['summon', `➕ ${tUi('summon_title')}`],
+    ['bag', `🎒 ${tUi('bag_inventory')}`],
   ];
 
   root.innerHTML = `
@@ -338,20 +358,20 @@ function render() {
         <img class="hero-art" src="./assets/brand-hero.png" alt="Наследие вампиров — готический замок, вампиры и полная луна" />
         <div class="hero-ribbon"><span>VAMPIRE DOMINION</span><i></i><span>BLOOD MOON EDITION</span></div>
       </section>
-      <header class="top-bar">
-        <div class="brand-block">
-          <div class="brand-crest">VD</div>
-          <div>
-            <div class="brand-title">Vampire Dominion</div>
-            <div class="brand-sub">Blood Moon Edition · Локальный калькулятор</div>
-          </div>
+      <header class="lord-header">
+        <button class="lord-avatar-button" id="btn-open-settings" type="button" aria-label="${tUi('settings')}" title="${tUi('settings')}">
+          <img class="lord-avatar" src="${getIconUrl(wardenObj.icon_path)}" alt="${escapeHtml(tName('warden', wardenObj.name))}" />
+          <span class="lord-avatar-crown" aria-hidden="true">✦</span>
+        </button>
+        <div class="lord-profile-copy">
+          <div class="lord-overline"><span class="lord-overline-mark">✦</span> VAMPIRE DOMINION · BLOOD MOON</div>
+          <div class="lord-greeting">${tUi('greeting')}</div>
+          <div class="lord-name-line"><strong class="lord-name">${escapeHtml(lordName)}</strong><span class="lord-server"><span aria-hidden="true">🌐</span> ${escapeHtml(serverId)}</span></div>
+          <div class="lord-profile-note">${tUi('local_profile')}</div>
         </div>
-        <div class="top-actions">
-          <button class="btn btn-gold btn-sm" id="btn-auto-all">⚡ Быстрый подсчёт (Авто)</button>
-          <button class="btn btn-sm" id="btn-lang">${state.lang.toUpperCase()}</button>
-          <button class="btn btn-sm" id="btn-theme" aria-label="Переключить тему">${state.theme === 'dark' ? '🌙 Dark Fantasy' : '☀️ Light Theme'}</button>
-          <button class="btn btn-sm" id="btn-export">💾 Экспорт</button>
-          <button class="btn btn-sm" id="btn-import">📂 Импорт</button>
+        <div class="lord-header-actions">
+          <button class="btn btn-gold lord-auto-button" id="btn-auto-all" type="button"><span aria-hidden="true">⚡</span> ${tUi('auto_all')}</button>
+          <button class="lord-settings-button" id="btn-open-settings-secondary" type="button" aria-label="${tUi('settings')}" title="${tUi('settings')}">⚙</button>
         </div>
       </header>
 
@@ -372,6 +392,37 @@ function render() {
           <div class="credit-support">«Девочки моих фантазий» <span>♥ ♥ ♥</span></div>
         </div>
       </footer>
+      <div class="settings-overlay" id="settings-overlay" hidden>
+        <section class="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-modal-title">
+          <div class="settings-modal-head">
+            <div><div class="settings-kicker">✦ BLOOD MOON EDITION</div><h2 id="settings-modal-title">${tUi('settings')}</h2><p>${tUi('settings_subtitle')}</p></div>
+            <button class="settings-close" id="btn-close-settings" type="button" aria-label="${tUi('close')}">×</button>
+          </div>
+          <div class="settings-grid">
+            <section class="settings-section">
+              <h3>♛ ${tUi('profile_settings')}</h3>
+              <label class="settings-field"><span>${tUi('profile_name')}</span><input class="input" id="setting-lord-name" type="text" maxlength="30" value="${escapeHtml(lordName)}" autocomplete="nickname" /></label>
+              <label class="settings-field"><span>${tUi('server')}</span><input class="input" id="setting-server-id" type="text" maxlength="24" value="${escapeHtml(serverId)}" placeholder="EU S-629" /></label>
+              <label class="settings-field"><span>${tUi('avatar')}</span><select class="select" id="setting-avatar-warden">${db.wardens.map(w => `<option value="${w.id}" ${w.id === wardenObj.id ? 'selected' : ''}>${escapeHtml(tName('warden', w.name))}</option>`).join('')}</select></label>
+              <div class="settings-avatar-preview"><img id="setting-avatar-preview" src="${getIconUrl(wardenObj.icon_path)}" alt="" /><span>${escapeHtml(tName('warden', wardenObj.name))}</span></div>
+            </section>
+            <section class="settings-section">
+              <h3>☾ ${tUi('appearance')}</h3>
+              <label class="settings-field"><span>${tUi('language')}</span><select class="select" id="setting-language"><option value="ru" ${state.lang === 'ru' ? 'selected' : ''}>Русский · RU</option><option value="en" ${state.lang === 'en' ? 'selected' : ''}>English · EN</option></select></label>
+              <label class="settings-field"><span>${tUi('theme')}</span><select class="select" id="setting-theme"><option value="dark" ${state.theme !== 'light' ? 'selected' : ''}>${tUi('dark_theme')}</option><option value="light" ${state.theme === 'light' ? 'selected' : ''}>${tUi('light_theme')}</option></select></label>
+              <label class="settings-field"><span>${tUi('partner_gender')}</span><select class="select" id="setting-partner-sex"><option value="female" ${(state.account.partnerDefaultSex || 'female') === 'female' ? 'selected' : ''}>${tUi('female')}</option><option value="male" ${state.account.partnerDefaultSex === 'male' ? 'selected' : ''}>${tUi('male')}</option></select></label>
+              <div class="settings-local-note"><span aria-hidden="true">🔒</span><div><strong>${tUi('account_linking')}</strong><p>${tUi('local_profile_note')}</p></div></div>
+            </section>
+          </div>
+          <div class="settings-modal-actions">
+            <button class="btn btn-primary" id="btn-save-settings" type="button">✦ ${tUi('save_settings')}</button>
+            <button class="btn" id="btn-reset-plan-top" type="button">↺ ${tUi('reset_plan')}</button>
+            <button class="btn" id="btn-export" type="button">📤 ${tUi('export')}</button>
+            <button class="btn" id="btn-import" type="button">📂 ${tUi('import')}</button>
+            <button class="btn btn-danger-soft" id="btn-reset-account" type="button">⟲ ${tUi('reset_account')}</button>
+          </div>
+        </section>
+      </div>
     </div>
   `;
 
@@ -842,17 +893,41 @@ function bindEvents(db) {
     });
   });
 
-  document.getElementById('btn-lang')?.addEventListener('click', () => {
-    state.lang = state.lang === 'ru' ? 'en' : 'ru';
-    saveState();
-    render();
+  const settingsOverlay = document.getElementById('settings-overlay');
+  const closeSettings = () => {
+    if (settingsOverlay) settingsOverlay.hidden = true;
+    document.body?.classList.remove('settings-open');
+  };
+  const openSettings = () => {
+    if (settingsOverlay) settingsOverlay.hidden = false;
+    document.body?.classList.add('settings-open');
+  };
+  document.getElementById('btn-open-settings')?.addEventListener('click', openSettings);
+  document.getElementById('btn-open-settings-secondary')?.addEventListener('click', openSettings);
+  document.getElementById('btn-close-settings')?.addEventListener('click', closeSettings);
+  settingsOverlay?.addEventListener('click', event => { if (event.target === settingsOverlay) closeSettings(); });
+  document.getElementById('setting-avatar-warden')?.addEventListener('change', event => {
+    const selected = db.wardens.find(w => w.id === Number(event.target.value));
+    const preview = document.getElementById('setting-avatar-preview');
+    if (selected && preview) { preview.src = getIconUrl(selected.icon_path); preview.alt = tName('warden', selected.name); }
   });
-
-  document.getElementById('btn-theme')?.addEventListener('click', () => {
-    state.theme = state.theme === 'dark' ? 'light' : 'dark';
-    applyTheme();
-    saveState();
-    render();
+  document.getElementById('btn-save-settings')?.addEventListener('click', () => {
+    state.account.lordName = (document.getElementById('setting-lord-name')?.value || '').trim().slice(0, 30) || 'Оптимист';
+    state.account.serverId = (document.getElementById('setting-server-id')?.value || '').trim().slice(0, 24) || 'EU S-629';
+    state.account.avatarWardenId = Number(document.getElementById('setting-avatar-warden')?.value) || 10230;
+    state.lang = document.getElementById('setting-language')?.value === 'en' ? 'en' : 'ru';
+    state.theme = document.getElementById('setting-theme')?.value === 'light' ? 'light' : 'dark';
+    state.account.partnerDefaultSex = document.getElementById('setting-partner-sex')?.value === 'male' ? 'male' : 'female';
+    saveState(); closeSettings(); render();
+  });
+  document.getElementById('btn-reset-plan-top')?.addEventListener('click', () => {
+    state.plan = { conclave: { ...state.account.conclave }, courtyardToLvl: state.account.courtyardLvl, levels: {}, bonds: {}, skins: {}, summons: { wardens: [], lovers: [] } };
+    saveState(); closeSettings(); render();
+  });
+  document.getElementById('btn-reset-account')?.addEventListener('click', () => {
+    const message = state.lang === 'en' ? 'Reset the entire account, progress, and plan? Export a backup first if you may need it.' : 'Сбросить весь аккаунт, прогресс и план? Если данные могут понадобиться, сначала экспортируйте копию.';
+    if (!confirm(message)) return;
+    localStorage.removeItem(STORAGE_KEY); state = createDefaultState(); saveState(); closeSettings(); render();
   });
 
   document.getElementById('btn-auto-all')?.addEventListener('click', runFullAutoDistribute);
@@ -965,7 +1040,7 @@ function bindEvents(db) {
         delete state.account.ownedLovers[lid];
         delete state.plan.bonds[lid];
       } else {
-        state.account.ownedLovers[lid] = { affinity: 0, closeness: 0, sex: lover.fixed_sex || 'female', presences: {}, bonds: {} };
+        state.account.ownedLovers[lid] = { affinity: 0, closeness: 0, sex: lover.fixed_sex || state.account.partnerDefaultSex || 'female', presences: {}, bonds: {} };
       }
       saveState();
       render();

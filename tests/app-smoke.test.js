@@ -14,6 +14,11 @@ const root = {
   },
 };
 let readyHandler = null;
+let isLightTheme = false;
+const themeButton = {
+  handlers: {},
+  addEventListener(event, handler) { this.handlers[event] = handler; },
+};
 const localStore = new Map();
 
 globalThis.localStorage = {
@@ -23,11 +28,21 @@ globalThis.localStorage = {
 };
 
 globalThis.document = {
+  documentElement: {
+    lang: 'ru',
+    classList: {
+      toggle(name, enabled) {
+        if (name === 'light-theme') isLightTheme = Boolean(enabled);
+      },
+    },
+  },
   addEventListener(event, handler) {
     if (event === 'DOMContentLoaded') readyHandler = handler;
   },
   getElementById(id) {
-    return id === 'app' ? root : null;
+    if (id === 'app') return root;
+    if (id === 'btn-theme') return themeButton;
+    return null;
   },
   querySelectorAll(selector) {
     if (selector !== '[data-tab]') return [];
@@ -52,4 +67,12 @@ for (const expected of expectedTabs) {
 }
 
 assert.ok(root.innerHTML.includes('Инвентарь Сумки'), 'bag tab content rendered');
-console.log(`PASS app render smoke: ${expectedTabs.length} tabs`);
+assert.ok(root.innerHTML.includes('id="btn-theme"'), 'theme toggle is rendered');
+assert.equal(isLightTheme, false, 'dark theme is applied on startup');
+assert.equal(typeof themeButton.handlers.click, 'function', 'theme toggle has a click handler');
+themeButton.handlers.click();
+assert.equal(isLightTheme, true, 'light theme activates on click');
+assert.equal(JSON.parse(localStore.get('vampire_dominion_v3_state')).theme, 'light', 'theme choice is saved');
+themeButton.handlers.click();
+assert.equal(isLightTheme, false, 'dark theme can be restored');
+console.log(`PASS app render smoke: ${expectedTabs.length} tabs + theme toggle`);

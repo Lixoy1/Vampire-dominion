@@ -1,0 +1,10 @@
+{
+  "name": "vampire-dominion",
+  "version": "3.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node tests/engine.test.js && node tests/app-smoke.test.js",
+    "check": "node --check scripts/app.js && node --check scripts/engine.js && node --check scripts/data.js"
+  }
+}

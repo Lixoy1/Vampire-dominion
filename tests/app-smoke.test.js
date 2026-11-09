@@ -91,4 +91,23 @@ assert.equal(bodyLocked, true, 'background scrolling locks while settings are op
 mockElements.get('btn-close-settings').handlers.click();
 assert.equal(mockElements.get('settings-overlay').hidden, true, 'settings modal closes');
 assert.equal(bodyLocked, false, 'background scrolling unlocks after close');
-console.log(`PASS app render smoke: ${expectedTabs.length} tabs + theme toggle`);
+
+mockElements.get('btn-open-settings').handlers.click();
+mockElements.get('setting-lord-name').value = 'Optimist Lord';
+mockElements.get('setting-server-id').value = 'EU S-629';
+mockElements.get('setting-avatar-warden').value = '10230';
+mockElements.get('setting-language').value = 'en';
+mockElements.get('setting-theme').value = 'light';
+mockElements.get('setting-partner-sex').value = 'male';
+mockElements.get('btn-save-settings').handlers.click();
+const savedState = JSON.parse(localStore.get('vampire_dominion_v3_state'));
+assert.equal(savedState.account.lordName, 'Optimist Lord', 'Lord name is saved');
+assert.equal(savedState.account.serverId, 'EU S-629', 'server is saved');
+assert.equal(savedState.account.avatarWardenId, 10230, 'selected portrait is saved');
+assert.equal(savedState.account.partnerDefaultSex, 'male', 'default partner gender is saved');
+assert.equal(savedState.lang, 'en', 'language is saved');
+assert.equal(savedState.theme, 'light', 'theme is saved');
+assert.equal(isLightTheme, true, 'light theme applies immediately after save');
+assert.ok(root.innerHTML.includes('Welcome, Lord Protector'), 'English greeting is rendered after language change');
+assert.equal(bodyLocked, false, 'settings close after saving');
+console.log(`PASS app render smoke: ${expectedTabs.length} tabs + Lord profile settings`);

@@ -359,7 +359,7 @@ function render() {
       <section class="hero-panel" aria-label="Наследие вампиров">
         <div class="hero-quick-controls">
           <button class="hero-control hero-language-control" id="btn-lang" type="button" aria-label="${state.lang === 'ru' ? 'Switch language to English' : 'Переключить язык на русский'}">${state.lang.toUpperCase()}</button>
-          <button class="hero-control hero-theme-control" id="btn-theme" type="button" aria-label="${state.lang === 'ru' ? 'Переключить тему' : 'Switch theme'}">${state.theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная'}</button>
+          <button class="hero-control hero-theme-control" id="btn-theme" type="button" aria-label="${state.lang === 'ru' ? 'Переключить тему' : 'Switch theme'}">${state.theme === 'dark' ? (state.lang === 'en' ? '☀️ Light' : '☀️ Светлая') : (state.lang === 'en' ? '🌙 Dark' : '🌙 Тёмная')}</button>
         </div>
         <img class="hero-art" src="./assets/brand-hero.png" alt="Наследие вампиров — готический замок, вампиры и полная луна" />
         <div class="hero-ribbon"><span>VAMPIRE DOMINION</span><i></i><span>BLOOD MOON EDITION</span></div>

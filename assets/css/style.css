@@ -579,7 +579,7 @@ html.light-theme .settings-modal{color:var(--text);background:radial-gradient(el
 /* Blood Moon v3.1.2 — top corner controls and touch navigation */
 .hero-panel { position: relative; }
 .hero-quick-controls { position:absolute; z-index:3; top:10px; left:10px; right:10px; display:flex; align-items:flex-start; justify-content:space-between; gap:8px; pointer-events:none; }
-.hero-control { pointer-events:auto; display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:7px 12px; border:1px solid rgba(231,195,126,.72); border-radius:999px; color:#f8e9ce; background:rgba(22,8,15,.82); box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.10); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); font:700 12px/1.1 inherit; cursor:pointer; touch-action:manipulation; }
+.hero-control { pointer-events:auto; display:inline-flex; align-items:center; justify-content:center; min-height:36px; padding:7px 12px; border:1px solid rgba(231,195,126,.72); border-radius:999px; color:#f8e9ce; background:rgba(22,8,15,.82); box-shadow:0 4px 16px rgba(0,0,0,.35),inset 0 1px rgba(255,255,255,.10); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); font:inherit; font-size:12px; font-weight:700; line-height:1.1; cursor:pointer; touch-action:manipulation; }
 .hero-control:active { transform:scale(.97); }
 .hero-language-control { min-width:48px; letter-spacing:.08em; }
 .hero-theme-control { min-width:104px; }

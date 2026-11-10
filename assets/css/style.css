@@ -482,3 +482,95 @@ html.light-theme .lord-header{background:radial-gradient(ellipse at 0 0,rgba(201
 html.light-theme .settings-modal{color:var(--text);background:radial-gradient(ellipse at 0 0,rgba(201,42,66,.07),transparent 44%),linear-gradient(145deg,#fffdf9,#f1e8de 74%);box-shadow:0 25px 70px rgba(70,45,25,.24)}html.light-theme .settings-modal-head h2{color:#33202a}html.light-theme .settings-section{background:rgba(255,255,255,.55)}html.light-theme .settings-local-note{background:rgba(168,126,51,.07)}html.light-theme .btn-danger-soft{color:#9b2437}
 @media(max-width:560px){.lord-header{gap:10px;padding:12px;border-radius:15px}.lord-avatar-button{flex-basis:58px;width:58px;height:58px}.lord-overline{font-size:8px;letter-spacing:.12em}.lord-greeting{font-size:11px}.lord-name{font-size:20px}.lord-server{padding:3px 7px;font-size:10px}.lord-profile-note{font-size:9px}.lord-header-actions{gap:6px}.lord-auto-button{min-height:36px;padding:7px 9px;font-size:11px}.lord-settings-button{width:36px;height:36px}.settings-modal{padding:15px;border-radius:17px}.settings-grid{grid-template-columns:1fr}}
 @media(max-width:390px){.lord-header{flex-wrap:wrap}.lord-profile-copy{flex:1 1 calc(100% - 76px)}.lord-header-actions{width:100%;justify-content:flex-end}}
+
+
+/* FIX v3.1.1 — reliable touch navigation and visible calculation actions */
+.nav-tabs-shell {
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) 30px;
+  align-items: center;
+  gap: 5px;
+  width: 100%;
+  min-width: 0;
+  margin: 0 0 12px;
+}
+.nav-tabs-shell .nav-tabs {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  padding: 5px 2px 9px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  touch-action: pan-x;
+  scroll-behavior: smooth;
+  scroll-snap-type: x proximity;
+  scrollbar-width: thin;
+  scrollbar-color: var(--gold) transparent;
+}
+.nav-tabs-shell .tab-btn {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  scroll-snap-align: start;
+  min-height: 42px;
+}
+.nav-tabs-shell .nav-tabs::-webkit-scrollbar { display: block; height: 3px; }
+.nav-tabs-shell .nav-tabs::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 99px; }
+.nav-scroll-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 34px;
+  padding: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 10px;
+  color: var(--gold);
+  background: var(--bg-card);
+  font-size: 25px;
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.nav-scroll-btn:active { transform: scale(.95); background: var(--bg-card-hover); }
+
+.profile-actions {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+  align-items: center;
+  margin: -2px 0 12px;
+  padding: 10px;
+  border: 1px solid var(--line-strong);
+  border-radius: 14px;
+  background: linear-gradient(120deg, rgba(201,42,66,.10), rgba(214,176,109,.07), var(--bg-card));
+  box-shadow: 0 7px 20px rgba(0,0,0,.12);
+}
+.profile-actions .btn {
+  min-width: 0;
+  min-height: 40px;
+  padding: 8px 7px;
+  white-space: normal;
+  line-height: 1.2;
+}
+.profile-save-status {
+  grid-column: 1 / -1;
+  min-height: 0;
+  color: var(--ok);
+  font-size: 11px;
+  text-align: center;
+  opacity: 0;
+  transition: opacity .2s ease;
+}
+.profile-save-status.is-visible { min-height: 16px; opacity: 1; }
+
+@media (max-width: 560px) {
+  .profile-actions {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7px;
+    padding: 9px;
+  }
+  .profile-actions .btn { min-height: 42px; font-size: 12px; }
+  .nav-tabs-shell { grid-template-columns: 27px minmax(0, 1fr) 27px; gap: 4px; }
+  .nav-scroll-btn { width: 27px; height: 32px; }
+}

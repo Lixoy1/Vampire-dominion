@@ -340,6 +340,7 @@ function render() {
   const serverId = String(state.account.serverId || 'EU S-629').trim() || 'EU S-629';
   const avatarWardenId = Number(state.account.avatarWardenId || 10230);
   const wardenObj = db.wardens.find(w => w.id === avatarWardenId) || db.wardens[0];
+  const navScrollLeft = document.getElementById('main-nav-tabs')?.scrollLeft ?? 0;
 
   const tabs = [
     ['dominance', `👑 ${tUi('title_dominance')}`],
@@ -376,11 +377,11 @@ function render() {
         </div>
       </header>
 
-      <section class="profile-actions" aria-label="Действия с расчётом">
-        <button class="btn btn-gold" id="btn-reset-plan-toolbar" type="button">↺ Сбросить план</button>
-        <button class="btn btn-primary" id="btn-save-calculation" type="button">✓ Сохранить расчёт</button>
-        <button class="btn" id="btn-export" type="button">📤 Экспорт</button>
-        <button class="btn" id="btn-import" type="button">📂 Импорт</button>
+      <section class="profile-actions" aria-label="${state.lang === 'en' ? 'Calculation actions' : 'Действия с расчётом'}">
+        <button class="btn btn-gold" id="btn-reset-plan-toolbar" type="button">↺ ${state.lang === 'en' ? 'Reset plan' : 'Сбросить план'}</button>
+        <button class="btn btn-primary" id="btn-save-calculation" type="button">✓ ${state.lang === 'en' ? 'Save calculation' : 'Сохранить расчёт'}</button>
+        <button class="btn" id="btn-export" type="button">📤 ${state.lang === 'en' ? 'Export' : 'Экспорт'}</button>
+        <button class="btn" id="btn-import" type="button">📂 ${state.lang === 'en' ? 'Import' : 'Импорт'}</button>
         <span class="profile-save-status" id="profile-save-status" role="status" aria-live="polite"></span>
       </section>
 
@@ -438,6 +439,8 @@ function render() {
   `;
 
   bindEvents(db);
+  const nav = document.getElementById('main-nav-tabs');
+  if (nav) nav.scrollLeft = navScrollLeft;
 }
 
 function renderActiveTab(db, report) {

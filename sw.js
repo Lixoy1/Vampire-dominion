@@ -1,9 +1,9 @@
-const CACHE_NAME = 'vd-blood-moon-v312';
+const CACHE_NAME = 'vd-blood-moon-v313';
 const CORE_ASSETS = [
   './',
   './index.html',
-  './assets/css/style.css?v=311',
-  './scripts/app.js?v=311',
+  './assets/css/style.css?v=313',
+  './scripts/app.js?v=313',
   './scripts/data.js',
   './scripts/engine.js',
   './assets/crest.svg',

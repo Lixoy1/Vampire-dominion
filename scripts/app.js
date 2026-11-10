@@ -376,11 +376,23 @@ function render() {
         </div>
       </header>
 
-      <nav class="nav-tabs">
-        ${tabs.map(([id, label]) => `
-          <button class="tab-btn ${state.activeTab === id ? 'active' : ''}" data-tab="${id}">${label}</button>
-        `).join('')}
-      </nav>
+      <section class="profile-actions" aria-label="Действия с расчётом">
+        <button class="btn btn-gold" id="btn-reset-plan-toolbar" type="button">↺ Сбросить план</button>
+        <button class="btn btn-primary" id="btn-save-calculation" type="button">✓ Сохранить расчёт</button>
+        <button class="btn" id="btn-export" type="button">📤 Экспорт</button>
+        <button class="btn" id="btn-import" type="button">📂 Импорт</button>
+        <span class="profile-save-status" id="profile-save-status" role="status" aria-live="polite"></span>
+      </section>
+
+      <div class="nav-tabs-shell" aria-label="Разделы калькулятора">
+        <button class="nav-scroll-btn" type="button" data-nav-scroll="-1" aria-label="Прокрутить вкладки влево">‹</button>
+        <nav class="nav-tabs" id="main-nav-tabs">
+          ${tabs.map(([id, label]) => `
+            <button class="tab-btn ${state.activeTab === id ? 'active' : ''}" data-tab="${id}" type="button">${label}</button>
+          `).join('')}
+        </nav>
+        <button class="nav-scroll-btn" type="button" data-nav-scroll="1" aria-label="Прокрутить вкладки вправо">›</button>
+      </div>
 
       <main id="tab-view">
         ${renderActiveTab(db, report)}
@@ -418,8 +430,6 @@ function render() {
           <div class="settings-modal-actions">
             <button class="btn btn-primary" id="btn-save-settings" type="button">✦ ${tUi('save_settings')}</button>
             <button class="btn" id="btn-reset-plan-top" type="button">↺ ${tUi('reset_plan')}</button>
-            <button class="btn" id="btn-export" type="button">📤 ${tUi('export')}</button>
-            <button class="btn" id="btn-import" type="button">📂 ${tUi('import')}</button>
             <button class="btn btn-danger-soft" id="btn-reset-account" type="button">⟲ ${tUi('reset_account')}</button>
           </div>
         </section>
@@ -892,6 +902,39 @@ function bindEvents(db) {
       saveState();
       render();
     });
+  });
+
+  document.querySelectorAll('[data-nav-scroll]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const nav = document.getElementById('main-nav-tabs');
+      if (!nav) return;
+      nav.scrollBy({ left: Number(btn.dataset.navScroll) * Math.max(180, nav.clientWidth * 0.72), behavior: 'smooth' });
+    });
+  });
+
+  document.getElementById('btn-save-calculation')?.addEventListener('click', () => {
+    saveState();
+    const status = document.getElementById('profile-save-status');
+    if (status) {
+      status.textContent = state.lang === 'en' ? 'Calculation saved locally' : 'Расчёт сохранён на этом устройстве';
+      status.classList.add('is-visible');
+      window.setTimeout(() => status.classList.remove('is-visible'), 2200);
+    }
+  });
+
+  document.getElementById('btn-reset-plan-toolbar')?.addEventListener('click', () => {
+    const message = state.lang === 'en' ? 'Reset the current calculation plan?' : 'Сбросить текущий расчёт? Данные аккаунта и ресурсы останутся без изменений.';
+    if (!confirm(message)) return;
+    state.plan = {
+      conclave: { ...state.account.conclave },
+      courtyardToLvl: state.account.courtyardLvl,
+      levels: {},
+      bonds: {},
+      skins: {},
+      summons: { wardens: [], lovers: [] },
+    };
+    saveState();
+    render();
   });
 
   const settingsOverlay = document.getElementById('settings-overlay');

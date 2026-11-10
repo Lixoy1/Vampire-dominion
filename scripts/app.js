@@ -357,6 +357,10 @@ function render() {
   root.innerHTML = `
     <div class="app-shell">
       <section class="hero-panel" aria-label="Наследие вампиров">
+        <div class="hero-quick-controls">
+          <button class="hero-control hero-language-control" id="btn-lang" type="button" aria-label="${state.lang === 'ru' ? 'Switch language to English' : 'Переключить язык на русский'}">${state.lang.toUpperCase()}</button>
+          <button class="hero-control hero-theme-control" id="btn-theme" type="button" aria-label="${state.lang === 'ru' ? 'Переключить тему' : 'Switch theme'}">${state.theme === 'dark' ? '☀️ Светлая' : '🌙 Тёмная'}</button>
+        </div>
         <img class="hero-art" src="./assets/brand-hero.png" alt="Наследие вампиров — готический замок, вампиры и полная луна" />
         <div class="hero-ribbon"><span>VAMPIRE DOMINION</span><i></i><span>BLOOD MOON EDITION</span></div>
       </section>
@@ -371,10 +375,7 @@ function render() {
           <div class="lord-name-line"><strong class="lord-name">${escapeHtml(lordName)}</strong><span class="lord-server"><span aria-hidden="true">🌐</span> ${escapeHtml(serverId)}</span></div>
           <div class="lord-profile-note">${tUi('local_profile')}</div>
         </div>
-        <div class="lord-header-actions">
-          <button class="btn btn-gold lord-auto-button" id="btn-auto-all" type="button"><span aria-hidden="true">⚡</span> ${tUi('auto_all')}</button>
-          <button class="lord-settings-button" id="btn-open-settings-secondary" type="button" aria-label="${tUi('settings')}" title="${tUi('settings')}">⚙</button>
-        </div>
+
       </header>
 
       <section class="profile-actions" aria-label="${state.lang === 'en' ? 'Calculation actions' : 'Действия с расчётом'}">
@@ -899,6 +900,19 @@ function renderBagTab(db, report) {
 }
 
 function bindEvents(db) {
+  document.getElementById('btn-lang')?.addEventListener('click', () => {
+    state.lang = state.lang === 'ru' ? 'en' : 'ru';
+    saveState();
+    render();
+  });
+
+  document.getElementById('btn-theme')?.addEventListener('click', () => {
+    state.theme = state.theme === 'dark' ? 'light' : 'dark';
+    applyTheme();
+    saveState();
+    render();
+  });
+
   document.querySelectorAll('[data-tab]').forEach(btn => {
     btn.addEventListener('click', () => {
       state.activeTab = btn.dataset.tab;
@@ -950,7 +964,6 @@ function bindEvents(db) {
     document.body?.classList.add('settings-open');
   };
   document.getElementById('btn-open-settings')?.addEventListener('click', openSettings);
-  document.getElementById('btn-open-settings-secondary')?.addEventListener('click', openSettings);
   document.getElementById('btn-close-settings')?.addEventListener('click', closeSettings);
   settingsOverlay?.addEventListener('click', event => { if (event.target === settingsOverlay) closeSettings(); });
   document.getElementById('setting-avatar-warden')?.addEventListener('change', event => {
@@ -977,7 +990,6 @@ function bindEvents(db) {
     localStorage.removeItem(STORAGE_KEY); state = createDefaultState(); saveState(); closeSettings(); render();
   });
 
-  document.getElementById('btn-auto-all')?.addEventListener('click', runFullAutoDistribute);
   document.getElementById('btn-quick-run')?.addEventListener('click', runFullAutoDistribute);
   document.getElementById('btn-commit-plan')?.addEventListener('click', commitPlanToAccount);
 
